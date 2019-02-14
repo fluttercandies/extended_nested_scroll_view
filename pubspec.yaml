@@ -1,8 +1,8 @@
 name: extended_nested_scroll_view
 description: extended nested scroll view to fix pinned header and inner scrollables sync issues.
-version: 0.3.0
+version: 0.3.1
 author: zmtzapxh <zmtzapxhlp@live.com>
-homepage: https://github.com/zmtzawqlp/Flutter/tree/master/extended_nested_scroll_view
+homepage: https://github.com/fluttercandies/extended_nested_scroll_view
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
