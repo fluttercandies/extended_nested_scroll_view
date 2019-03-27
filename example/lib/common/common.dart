@@ -83,6 +83,7 @@ class _TabViewItemState extends State<TabViewItem>
     var child = GlowNotificationWidget(
       //margin: EdgeInsets.only(left: 190.0),
       ListView.builder(
+          physics: ClampingScrollPhysics(),
           itemBuilder: (c, i) {
             return Container(
               //decoration: BoxDecoration(border: Border.all(color: Colors.orange,width: 1.0)),

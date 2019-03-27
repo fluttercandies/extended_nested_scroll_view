@@ -118,6 +118,7 @@ class _ExtendedNestedScrollViewDemoState
                       ListView.builder(
                         //store Page state
                         key: PageStorageKey("Tab2"),
+                        physics: ClampingScrollPhysics(),
                         itemBuilder: (c, i) {
                           return Container(
                             alignment: Alignment.center,
