@@ -1,4 +1,4 @@
-## [0.3.1]
+## [0.3.2]
 
 * fix issue that Caught error: type 'Future<void>' is not a subtype of type 'Future<Null>'
  for old extended_nested_scroll_view

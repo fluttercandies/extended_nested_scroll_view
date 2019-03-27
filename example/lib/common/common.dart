@@ -2,12 +2,13 @@ import 'dart:async';
 
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_more_list/loading_more_list.dart';
 
 class SecondaryTabView extends StatefulWidget {
   final String tabKey;
   final TabController tc;
   final bool oldDemo;
-  SecondaryTabView(this.tabKey,this.tc, this.oldDemo);
+  SecondaryTabView(this.tabKey, this.tc, this.oldDemo);
   @override
   _SecondaryTabViewState createState() => _SecondaryTabViewState();
 }
@@ -32,10 +33,10 @@ class _SecondaryTabViewState extends State<SecondaryTabView>
       isScrollable: false,
       unselectedLabelColor: Colors.grey,
       tabs: [
-        Tab(text: widget.tabKey+"0"),
-        Tab(text: widget.tabKey+"1"),
-        Tab(text: widget.tabKey+"2"),
-        Tab(text: widget.tabKey+"3"),
+        Tab(text: widget.tabKey + "0"),
+        Tab(text: widget.tabKey + "1"),
+        Tab(text: widget.tabKey + "2"),
+        Tab(text: widget.tabKey + "3"),
       ],
     );
     return Column(
@@ -45,10 +46,10 @@ class _SecondaryTabViewState extends State<SecondaryTabView>
           child: TabBarView(
             controller: widget.tc,
             children: <Widget>[
-              TabViewItem(Key(widget.tabKey+"0"), widget.oldDemo),
-              TabViewItem(Key(widget.tabKey+"1"), widget.oldDemo),
-              TabViewItem(Key(widget.tabKey+"2"), widget.oldDemo),
-              TabViewItem(Key(widget.tabKey+"3"), widget.oldDemo),
+              TabViewItem(Key(widget.tabKey + "0"), widget.oldDemo),
+              TabViewItem(Key(widget.tabKey + "1"), widget.oldDemo),
+              TabViewItem(Key(widget.tabKey + "2"), widget.oldDemo),
+              TabViewItem(Key(widget.tabKey + "3"), widget.oldDemo),
             ],
           ),
         )
@@ -79,9 +80,9 @@ class _TabViewItemState extends State<TabViewItem>
 
   @override
   Widget build(BuildContext context) {
-    var child = Container(
+    var child = GlowNotificationWidget(
       //margin: EdgeInsets.only(left: 190.0),
-      child: ListView.builder(
+      ListView.builder(
           itemBuilder: (c, i) {
             return Container(
               //decoration: BoxDecoration(border: Border.all(color: Colors.orange,width: 1.0)),
@@ -94,6 +95,7 @@ class _TabViewItemState extends State<TabViewItem>
           },
           itemCount: 100,
           padding: EdgeInsets.all(0.0)),
+      showGlowLeading: false,
     );
 
     if (widget.oldDemo) {

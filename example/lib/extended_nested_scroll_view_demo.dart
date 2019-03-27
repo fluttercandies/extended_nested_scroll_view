@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:example/common/common.dart';
+import 'package:loading_more_list/loading_more_list.dart';
 
 ///new ExtendedNestedScrollView
 class ExtendedNestedScrollViewDemo extends StatefulWidget {
@@ -113,18 +114,22 @@ class _ExtendedNestedScrollViewDemoState
                     SecondaryTabView("Tab1", secondaryTC1, false),
 //                    NestedScrollViewInnerScrollPositionKeyWidget(
 //                        Key("Tab2"),
-                    ListView.builder(
-                      //store Page state
-                      key: PageStorageKey("Tab2"),
-                      itemBuilder: (c, i) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: 60.0,
-                          child: Text(Key("Tab2").toString() + ": ListView$i"),
-                        );
-                      },
-                      itemCount: 50,
-                      // )
+                    GlowNotificationWidget(
+                      ListView.builder(
+                        //store Page state
+                        key: PageStorageKey("Tab2"),
+                        itemBuilder: (c, i) {
+                          return Container(
+                            alignment: Alignment.center,
+                            height: 60.0,
+                            child:
+                                Text(Key("Tab2").toString() + ": ListView$i"),
+                          );
+                        },
+                        itemCount: 50,
+                        // )
+                      ),
+                      showGlowLeading: false,
                     )
                   ],
                 ),
