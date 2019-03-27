@@ -1,6 +1,7 @@
 import 'package:example/common/common.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:loading_more_list/loading_more_list.dart';
 
 ///old demo
 class OldExtendedNestedScrollViewDemo extends StatefulWidget {
@@ -100,7 +101,8 @@ class _OldExtendedNestedScrollViewDemoState
                   children: <Widget>[
                     SecondaryTabView("Tab0", secondaryTC, true),
                     NestedScrollViewInnerScrollPositionKeyWidget(
-                        Key("Tab1"),
+                      Key("Tab1"),
+                      GlowNotificationWidget(
                         ListView.builder(
                           //store Page state
                           key: PageStorageKey("Tab1"),
@@ -113,7 +115,10 @@ class _OldExtendedNestedScrollViewDemoState
                             );
                           },
                           itemCount: 50,
-                        ))
+                        ),
+                        showGlowLeading: false,
+                      ),
+                    )
                   ],
                 ),
               )
