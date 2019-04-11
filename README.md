@@ -10,7 +10,7 @@ NestedScrollView: extended nested scroll view to fix following issues.
 
 3.pull to refresh is not work.
 
-[Chinese bolg](https://juejin.im/post/5bea43ade51d45544844010a)
+[Chinese blog](https://juejin.im/post/5bea43ade51d45544844010a)
 
 new ExtendedNestedScrollView
 # Example for issue 1 and Example for issue 2
