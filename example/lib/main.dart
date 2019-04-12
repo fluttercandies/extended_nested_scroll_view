@@ -39,8 +39,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     // TODO: implement initState
     pages.add(Page(PageType.Old,
         "extended nested scroll view to fix pinned header and inner scrollables sync issues."));
-    pages.add(Page(PageType.New,
-        "new one to solve inner scrollables sync issues more smartly"));
+//    pages.add(Page(PageType.New,
+//        "new one to solve inner scrollables sync issues more smartly"));
     super.initState();
   }
 
@@ -76,9 +76,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 case PageType.Old:
                   pageWidget = new OldExtendedNestedScrollViewDemo();
                   break;
-                case PageType.New:
-                  pageWidget = new ExtendedNestedScrollViewDemo();
-                  break;
+//                case PageType.New:
+//                  pageWidget = new ExtendedNestedScrollViewDemo();
+//                  break;
               }
               Navigator.push(context,
                   new MaterialPageRoute(builder: (BuildContext context) {
@@ -101,5 +101,5 @@ class Page {
 
 enum PageType {
   Old,
-  New,
+  // New,
 }
