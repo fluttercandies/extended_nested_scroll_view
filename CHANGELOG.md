@@ -1,3 +1,7 @@
+## [0.3.4]
+
+* New ExtendedNestedScrollView still has some issues in special layout, make it as obsolete for now till find a better solution
+
 ## [0.3.3]
 
 * fix issue that Caught error: type 'Future<void>' is not a subtype of type 'Future<Null>'
