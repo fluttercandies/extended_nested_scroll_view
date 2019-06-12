@@ -1,4 +1,4 @@
-## [0.3.4]
+## [0.3.5]
 
 * New ExtendedNestedScrollView still has some issues in special layout, make it as obsolete for now till find a better solution
 
