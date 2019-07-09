@@ -188,6 +188,7 @@ class NestedScrollView extends StatefulWidget {
     this.pinnedHeaderSliverHeightBuilder,
     @required this.headerSliverBuilder,
     @required this.body,
+    this.dragStartBehavior = DragStartBehavior.start,
   })  : assert(scrollDirection != null),
         assert(reverse != null),
         assert(headerSliverBuilder != null),
@@ -260,6 +261,8 @@ class NestedScrollView extends StatefulWidget {
   /// the [PrimaryScrollController] provided by the [NestedScrollView].
   final Widget body;
 
+  /// {@macro flutter.widgets.scrollable.dragStartBehavior}
+  final DragStartBehavior dragStartBehavior;
   /// Returns the [SliverOverlapAbsorberHandle] of the nearest ancestor
   /// [NestedScrollView].
   ///
@@ -281,8 +284,7 @@ class NestedScrollView extends StatefulWidget {
       ScrollController innerController, bool bodyIsScrolled) {
     final List<Widget> slivers = <Widget>[];
 
-    var headers = headerSliverBuilder(context, bodyIsScrolled);
-    slivers.addAll(headers);
+    slivers.addAll(headerSliverBuilder(context, bodyIsScrolled));
     slivers.add(SliverFillRemaining(
       child: PrimaryScrollController(
         controller: innerController,
@@ -357,6 +359,7 @@ class _NestedScrollViewState extends State<NestedScrollView> {
         builder: (BuildContext context) {
           _lastHasScrolledBody = _coordinator.hasScrolledBody;
           return _NestedScrollViewCustomScrollView(
+            dragStartBehavior: widget.dragStartBehavior,
             scrollDirection: widget.scrollDirection,
             reverse: widget.reverse,
             physics: widget.physics != null
@@ -377,19 +380,21 @@ class _NestedScrollViewState extends State<NestedScrollView> {
 }
 
 class _NestedScrollViewCustomScrollView extends CustomScrollView {
-  _NestedScrollViewCustomScrollView({
+  const _NestedScrollViewCustomScrollView({
     @required Axis scrollDirection,
     @required bool reverse,
     @required ScrollPhysics physics,
     @required ScrollController controller,
     @required List<Widget> slivers,
     @required this.handle,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
   }) : super(
           scrollDirection: scrollDirection,
           reverse: reverse,
           physics: physics,
           controller: controller,
           slivers: slivers,
+         dragStartBehavior: dragStartBehavior,
         );
 
   final SliverOverlapAbsorberHandle handle;

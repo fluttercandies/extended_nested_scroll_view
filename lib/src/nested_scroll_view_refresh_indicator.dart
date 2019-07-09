@@ -91,6 +91,8 @@ class NestedScrollViewRefreshIndicator extends StatefulWidget {
     this.color,
     this.backgroundColor,
     this.notificationPredicate = nestedScrollViewScrollNotificationPredicate,
+    this.semanticsLabel,
+    this.semanticsValue,
   })  : assert(child != null),
         assert(onRefresh != null),
         assert(notificationPredicate != null),
@@ -129,6 +131,14 @@ class NestedScrollViewRefreshIndicator extends StatefulWidget {
   /// else for more complicated layouts.
   final ScrollNotificationPredicate notificationPredicate;
 
+  /// {@macro flutter.material.progressIndicator.semanticsLabel}
+  ///
+  /// This will be defaulted to [MaterialLocalizations.refreshIndicatorSemanticLabel]
+  /// if it is null.
+  final String semanticsLabel;
+
+  /// {@macro flutter.material.progressIndicator.semanticsValue}
+  final String semanticsValue;
   @override
   NestedScrollViewRefreshIndicatorState createState() =>
       NestedScrollViewRefreshIndicatorState();
@@ -360,7 +370,7 @@ class NestedScrollViewRefreshIndicatorState
             FlutterError.reportError(FlutterErrorDetails(
               exception: FlutterError('The onRefresh callback returned null.\n'
                   'The RefreshIndicator onRefresh callback must return a Future.'),
-              context: 'when calling onRefresh',
+              context: ErrorDescription('when calling onRefresh'),
               library: 'material library',
             ));
           return true;
@@ -405,6 +415,7 @@ class NestedScrollViewRefreshIndicatorState
 
   @override
   Widget build(BuildContext context) {
+    assert(debugCheckHasMaterialLocalizations(context));
     final Widget child = NotificationListener<ScrollNotification>(
       key: _key,
       onNotification: _handleScrollNotification,
@@ -449,6 +460,8 @@ class NestedScrollViewRefreshIndicatorState
                   animation: _positionController,
                   builder: (BuildContext context, Widget child) {
                     return RefreshProgressIndicator(
+                      semanticsLabel: widget.semanticsLabel ?? MaterialLocalizations.of(context).refreshIndicatorSemanticLabel,
+                      semanticsValue: widget.semanticsValue,
                       value: showIndeterminateIndicator ? null : _value.value,
                       valueColor: _valueColor,
                       backgroundColor: widget.backgroundColor,

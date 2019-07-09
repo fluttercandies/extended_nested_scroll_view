@@ -1,3 +1,7 @@
+## [0.3.6]
+
+* Fix api error base on Flutter SDK v1.7.8+hotfix.2
+
 ## [0.3.5]
 
 * New ExtendedNestedScrollView still has some issues in special layout, make it as obsolete for now till find a better solution

@@ -24,6 +24,7 @@ class _SecondaryTabViewState extends State<SecondaryTabView>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var secondaryTabBar = new TabBar(
       controller: widget.tc,
       labelColor: Colors.blue,
@@ -80,6 +81,7 @@ class _TabViewItemState extends State<TabViewItem>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var child = GlowNotificationWidget(
       //margin: EdgeInsets.only(left: 190.0),
       ListView.builder(

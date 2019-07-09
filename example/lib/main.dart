@@ -1,6 +1,6 @@
-import 'package:example/extended_nested_scroll_view_demo.dart';
-import 'package:example/old_extened_nested_scroll_view_demo.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
+
+import 'old_extened_nested_scroll_view_demo.dart';
 
 void main() => runApp(MyApp());
 
