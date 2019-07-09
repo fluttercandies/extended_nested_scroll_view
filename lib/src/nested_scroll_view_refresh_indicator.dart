@@ -360,7 +360,7 @@ class NestedScrollViewRefreshIndicatorState
             FlutterError.reportError(FlutterErrorDetails(
               exception: FlutterError('The onRefresh callback returned null.\n'
                   'The RefreshIndicator onRefresh callback must return a Future.'),
-              context: 'when calling onRefresh',
+              context: ErrorDescription('when calling onRefresh'),
               library: 'material library',
             ));
           return true;
