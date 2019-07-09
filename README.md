@@ -12,31 +12,12 @@ NestedScrollView: extended nested scroll view to fix following issues.
 
 [Chinese blog](https://juejin.im/post/5bea43ade51d45544844010a)
 
-new ExtendedNestedScrollView
-# Example for issue 1 and Example for issue 2
-[Chinese bolg](https://juejin.im/post/5c42d91c518825261f73683b)
-
-you only need to care about pinnedHeaderHeight.
-issue 2 will be handled with keepOnlyOneInnerNestedScrollPositionActive is true.
-
-``` dart
-    var pinnedHeaderHeight =
-        //statusBar height
-        statusBarHeight +
-            //pinned SliverAppBar height in header
-            kToolbarHeight;
-
-  child: ExtendedNestedScrollView(
-           headerSliverBuilder: (c, f) {
-             return buildSliverHeader(false);
-           },
-           //
-           pinnedHeaderSliverHeight: pinnedHeaderHeight,
-           keepOnlyOneInnerNestedScrollPositionActive: true,
-```
-
-
-old ExtendedNestedScrollView
+- [extended_nested_scroll_view](#extendednestedscrollview)
+- [Example for issue 1](#Example-for-issue-1)
+- [Example for issue 2](#Example-for-issue-2)
+  - [Step1](#Step1)
+  - [Step2](#Step2)
+- [Example for NestedScrollView pull to refresh](#Example-for-NestedScrollView-pull-to-refresh)
 # Example for issue 1
 
 give total height of pinned sliver headers in pinnedHeaderSliverHeightBuilder callback
@@ -56,7 +37,7 @@ give total height of pinned sliver headers in pinnedHeaderSliverHeightBuilder ca
 ```
 # Example for issue 2
 
-### Step1.
+## Step1
 
 Put your list which in tabview into NestedScrollViewInnerScrollPositionKeyWidget,and get unique a key
 ``` dart
@@ -79,7 +60,7 @@ Put your list which in tabview into NestedScrollViewInnerScrollPositionKeyWidget
         // )
         );
 ```
-### Step 2
+## Step2
 
 get current tab key in innerScrollPositionKeyBuilder callback. this key should as same as in step 1 given.
 ``` dart
