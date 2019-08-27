@@ -2,8 +2,14 @@ import 'package:example/common/common.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
+import 'package:ff_annotation_route/ff_annotation_route.dart';
 
 ///old demo
+@FFRoute(
+    name: "fluttercandies://Old",
+    routeName: "Old",
+    description:
+        "extended nested scroll view to fix pinned header and inner scrollables sync issues.")
 class OldExtendedNestedScrollViewDemo extends StatefulWidget {
   @override
   _OldExtendedNestedScrollViewDemoState createState() =>

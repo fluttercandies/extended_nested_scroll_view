@@ -21,12 +21,12 @@ dependencies:
   cupertino_icons: ^0.1.2
   extended_nested_scroll_view:
       path: ../
-  loading_more_list: ^0.3.7
+  loading_more_list: ^0.3.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  ff_annotation_route: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
