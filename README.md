@@ -1,6 +1,6 @@
 # extended_nested_scroll_view
 
-[![pub package](https://img.shields.io/pub/v/extended_nested_scroll_view.svg)](https://pub.dartlang.org/packages/extended_nested_scroll_view)
+[![pub package](https://img.shields.io/pub/v/extended_nested_scroll_view.svg)](https://pub.dartlang.org/packages/extended_nested_scroll_view) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/extended_nested_scroll_view)](https://github.com/fluttercandies/extended_nested_scroll_view/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/extended_nested_scroll_view)](https://github.com/fluttercandies/extended_nested_scroll_view/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/extended_nested_scroll_view)](https://github.com/fluttercandies/extended_nested_scroll_view/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/extended_nested_scroll_view)](https://github.com/fluttercandies/extended_nested_scroll_view/issues) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5bcc0gy"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="flutter-candies" title="flutter-candies"></a>
 
 NestedScrollView: extended nested scroll view to fix following issues.
 
@@ -87,4 +87,7 @@ NestedScrollViewRefreshIndicator is as the same as Flutter RefreshIndicator.
            return _buildSliverHeader(primaryTabBar);
          },
 ```
+
+[Better one to pull to refresh](https://github.com/fluttercandies/loading_more_list/blob/master/example/lib/demo/nested_scroll_view_demo.dart)
+
 Please see the example app of this for a full example.
