@@ -21,18 +21,6 @@ class NestedScrollViewInnerScrollPositionKeyWidget extends StatefulWidget {
 
 class _NestedScrollViewInnerScrollPositionKeyWidgetState
     extends State<NestedScrollViewInnerScrollPositionKeyWidget> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    //WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

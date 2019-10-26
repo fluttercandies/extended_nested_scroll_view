@@ -4,12 +4,12 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
 
-///old demo
+
 @FFRoute(
-    name: "fluttercandies://Old",
-    routeName: "Old",
+    name: "fluttercandies://nestedscrollview",
+    routeName: "NestedScrollview",
     description:
-        "extended nested scroll view to fix pinned header and inner scrollables sync issues.")
+        "fix pinned header and inner scrollables sync issues.")
 class OldExtendedNestedScrollViewDemo extends StatefulWidget {
   @override
   _OldExtendedNestedScrollViewDemoState createState() =>
@@ -21,58 +21,43 @@ class _OldExtendedNestedScrollViewDemoState
     with TickerProviderStateMixin {
   TabController primaryTC;
   TabController secondaryTC;
+
   @override
   void initState() {
     primaryTC = new TabController(length: 2, vsync: this);
     primaryTC.addListener(tabControlerListener);
     secondaryTC = new TabController(length: 4, vsync: this);
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   void dispose() {
     primaryTC.removeListener(tabControlerListener);
-    // TODO: implement dispose
+    primaryTC.dispose();
+    secondaryTC.dispose();
     super.dispose();
   }
 
   //when primary tabcontroller tab,rebuild headerSliverBuilder
-  //click fire twice ,gesture fire onetime
+  //click fire twice (due to animation),gesture fire onetime
   int index;
   void tabControlerListener() {
-//    if (index != primaryTC.index)
-//    //if(primaryTC.indexIsChanging)
-//    //if(primaryTC.previousIndex!=primaryTC.index)
-//    {
-//      setState(() {});
-//    }
-//    index = primaryTC.index;
+    if (index != primaryTC.index) {
+      //your code
+      index = primaryTC.index;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildScaffoldBody(),
+     
     );
   }
 
   Widget _buildScaffoldBody() {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
-    var primaryTabBar = new TabBar(
-      controller: primaryTC,
-      labelColor: Colors.blue,
-      indicatorColor: Colors.blue,
-      indicatorSize: TabBarIndicatorSize.label,
-      indicatorWeight: 2.0,
-      isScrollable: false,
-      unselectedLabelColor: Colors.grey,
-      tabs: [
-        Tab(text: "Tab0"),
-        Tab(text: "Tab1"),
-      ],
-    );
-    //var tabBarHeight = primaryTabBar.preferredSize.height;
     var pinnedHeaderHeight =
         //statusBar height
         statusBarHeight +
@@ -82,12 +67,13 @@ class _OldExtendedNestedScrollViewDemoState
       onRefresh: onRefresh,
       child: NestedScrollView(
           headerSliverBuilder: (c, f) {
-            return buildSliverHeader(true);
+            return buildSliverHeader();
           },
-          //
+          //1.[pinned sliver header issue](https://github.com/flutter/flutter/issues/22393)
           pinnedHeaderSliverHeightBuilder: () {
             return pinnedHeaderHeight;
           },
+          //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
           innerScrollPositionKeyBuilder: () {
             var index = "Tab";
             if (primaryTC.index == 0) {
@@ -100,7 +86,19 @@ class _OldExtendedNestedScrollViewDemoState
           },
           body: Column(
             children: <Widget>[
-              primaryTabBar,
+              TabBar(
+                controller: primaryTC,
+                labelColor: Colors.blue,
+                indicatorColor: Colors.blue,
+                indicatorSize: TabBarIndicatorSize.label,
+                indicatorWeight: 2.0,
+                isScrollable: false,
+                unselectedLabelColor: Colors.grey,
+                tabs: [
+                  Tab(text: "Tab0"),
+                  Tab(text: "Tab1"),
+                ],
+              ),
               Expanded(
                 child: TabBarView(
                   controller: primaryTC,
