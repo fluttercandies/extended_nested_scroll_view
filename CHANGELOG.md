@@ -1,6 +1,11 @@
+## [0.3.7]
+
+* add NestedScrollViewState key to get currentInnerPosition instead of ScrollController 
+* due to we can't set ScrollController for list in NestedScrollView's body(it will breaking behaviours of InnerScrollController in NestedScrollView), provide demos('PullToRefresh','LoadMore' and 'ScrollToTop') to show how to do it without ScrollController
+  
 ## [0.3.6]
 
-* Fix api error base on Flutter SDK v1.7.8+hotfix.2
+* fix api error base on Flutter SDK v1.7.8+hotfix.2
 
 ## [0.3.5]
 

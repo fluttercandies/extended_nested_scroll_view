@@ -21,7 +21,10 @@ dependencies:
   cupertino_icons: ^0.1.2
   extended_nested_scroll_view:
       path: ../
-  loading_more_list: ^0.3.1
+  loading_more_list: any
+  pull_to_refresh_notification: any
+  extended_image: any
+  intl: ^0.15.7  
 
 dev_dependencies:
   flutter_test:
@@ -39,7 +42,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-      - assets/467141054.jpg
+      - assets/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

@@ -263,6 +263,7 @@ class NestedScrollView extends StatefulWidget {
 
   /// {@macro flutter.widgets.scrollable.dragStartBehavior}
   final DragStartBehavior dragStartBehavior;
+
   /// Returns the [SliverOverlapAbsorberHandle] of the nearest ancestor
   /// [NestedScrollView].
   ///
@@ -295,14 +296,20 @@ class NestedScrollView extends StatefulWidget {
   }
 
   @override
-  _NestedScrollViewState createState() => _NestedScrollViewState();
+  NestedScrollViewState createState() => NestedScrollViewState();
 }
 
-class _NestedScrollViewState extends State<NestedScrollView> {
+class NestedScrollViewState extends State<NestedScrollView> {
   final SliverOverlapAbsorberHandle _absorberHandle =
       SliverOverlapAbsorberHandle();
 
   _NestedScrollCoordinator _coordinator;
+
+  Iterable<_NestedScrollPosition> get innerScrollPositions =>
+      _coordinator.innerScrollPositions;
+
+  _NestedScrollPosition get currentInnerPosition =>
+      _coordinator.currentInnerPositions.first;
 
   @override
   void initState() {
@@ -394,7 +401,7 @@ class _NestedScrollViewCustomScrollView extends CustomScrollView {
           physics: physics,
           controller: controller,
           slivers: slivers,
-         dragStartBehavior: dragStartBehavior,
+          dragStartBehavior: dragStartBehavior,
         );
 
   final SliverOverlapAbsorberHandle handle;
@@ -425,7 +432,7 @@ class _InheritedNestedScrollView extends InheritedWidget {
         assert(child != null),
         super(key: key, child: child);
 
-  final _NestedScrollViewState state;
+  final NestedScrollViewState state;
 
   @override
   bool updateShouldNotify(_InheritedNestedScrollView old) => state != old.state;
@@ -499,7 +506,8 @@ class _NestedScrollCoordinator
       debugLabel: 'inner',
     );
   }
-  final _NestedScrollViewState _state;
+
+  final NestedScrollViewState _state;
   final NestedScrollViewPinnedHeaderSliverHeightBuilder
       pinnedHeaderSliverHeightBuilder;
   //get the current active key.
@@ -517,11 +525,14 @@ class _NestedScrollCoordinator
     return _outerController.nestedPositions.single;
   }
 
+  Iterable<ScrollPosition> get innerScrollPositions => _innerPositions;
   Iterable<_NestedScrollPosition> get _innerPositions {
     //return _currentPositions;
     return _innerController.nestedPositions;
   }
 
+  Iterable<_NestedScrollPosition> get currentInnerPositions =>
+      _currentInnerPositions;
   Iterable<_NestedScrollPosition> get _currentInnerPositions {
     return _innerController
         .getCurrentNestedPositions(innerScrollPositionKeyBuilder);

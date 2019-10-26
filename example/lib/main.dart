@@ -9,7 +9,7 @@ import 'example_route.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  MyApp() {}
+  MyApp();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

@@ -17,13 +17,12 @@ class _SecondaryTabViewState extends State<SecondaryTabView>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var secondaryTabBar = new TabBar(
       controller: widget.tc,
       labelColor: Colors.blue,
@@ -57,7 +56,6 @@ class _SecondaryTabViewState extends State<SecondaryTabView>
     );
   }
 
-  // TODO: implement wantKeepAlive
   @override
   bool get wantKeepAlive => true;
 }
@@ -73,13 +71,8 @@ class TabViewItem extends StatefulWidget {
 class _TabViewItemState extends State<TabViewItem>
     with AutomaticKeepAliveClientMixin {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    super.build(context);
     var child = GlowNotificationWidget(
       //margin: EdgeInsets.only(left: 190.0),
       ListView.builder(
@@ -109,7 +102,6 @@ class _TabViewItemState extends State<TabViewItem>
     }
   }
 
-  // TODO: implement wantKeepAlive
   @override
   bool get wantKeepAlive => true;
 }
@@ -140,21 +132,17 @@ class CommonSliverPersistentHeaderDelegate
   }
 }
 
-Future<Null> onRefresh() {
-  final Completer<Null> completer = new Completer<Null>();
-  new Timer(const Duration(seconds: 1), () {
-    completer.complete(null);
-  });
-  return completer.future.then((_) {});
+Future onRefresh() {
+  return Future.delayed(const Duration(seconds: 1));
 }
 
-List<Widget> buildSliverHeader(bool old) {
+List<Widget> buildSliverHeader() {
   var widgets = <Widget>[];
 
   widgets.add(SliverAppBar(
       pinned: true,
       expandedHeight: 200.0,
-      title: Text(old ? "old demo" : "new demo"),
+      //title: Text(old ? "old demo" : "new demo"),
       flexibleSpace: FlexibleSpaceBar(
           //centerTitle: true,
           collapseMode: CollapseMode.pin,
@@ -179,7 +167,7 @@ List<Widget> buildSliverHeader(bool old) {
               border: Border.all(color: Colors.orange, width: 1.0)),
         );
       },
-      childCount: 11,
+      childCount: 7,
     ),
   ));
 
@@ -190,7 +178,7 @@ List<Widget> buildSliverHeader(bool old) {
       height: 60.0,
       child: Text("SliverList$i"),
     );
-  }, childCount: 4)));
+  }, childCount: 3)));
 
 //  widgets.add(SliverPersistentHeader(
 //      pinned: true,
