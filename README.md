@@ -12,6 +12,8 @@ NestedScrollView: extended nested scroll view to fix following issues.
 
 3.pull to refresh is not work.
 
+4.do without ScrollController in NestedScrollView's body
+
 [Chinese blog](https://juejin.im/post/5bea43ade51d45544844010a)
 
 - [extended_nested_scroll_view](#extendednestedscrollview)
@@ -20,7 +22,7 @@ NestedScrollView: extended nested scroll view to fix following issues.
   - [Step1](#step1)
   - [Step2](#step2)
 - [Example for NestedScrollView pull to refresh](#example-for-nestedscrollview-pull-to-refresh)
-- [Without ScrollController in NestedScrollView's body](#without-scrollcontroller-in-nestedscrollviews-body)
+- [Do without ScrollController in NestedScrollView's body](#do-without-scrollcontroller-in-nestedscrollviews-body)
 # Example for issue 1
 
 give total height of pinned sliver headers in pinnedHeaderSliverHeightBuilder callback
@@ -89,7 +91,7 @@ NestedScrollViewRefreshIndicator is as the same as Flutter RefreshIndicator.
 
 Please see the example app of this for a full example.
 
-# Without ScrollController in NestedScrollView's body
+# Do without ScrollController in NestedScrollView's body
 
 * due to we can't set ScrollController for list in NestedScrollView's body(it will breaking behaviours of InnerScrollController in NestedScrollView),provide Demos
   

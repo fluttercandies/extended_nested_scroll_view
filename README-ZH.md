@@ -12,6 +12,8 @@
 
 3.下拉刷新不能工作
 
+4.在NestedScrollView中不通过设置ScrollController来完成下拉刷新，增量加载，滚动到顶部
+
 [掘金](https://juejin.im/post/5bea43ade51d45544844010a)
 
 - [extended_nested_scroll_view](#extendednestedscrollview)
@@ -20,7 +22,7 @@
   - [步骤1](#%e6%ad%a5%e9%aa%a41)
   - [步骤2](#%e6%ad%a5%e9%aa%a42)
 - [Example for NestedScrollView pull to refresh](#example-for-nestedscrollview-pull-to-refresh)
-- [Without ScrollController in NestedScrollView's body](#without-scrollcontroller-in-nestedscrollviews-body)
+- [Do without ScrollController in NestedScrollView's body](#do-without-scrollcontroller-in-nestedscrollviews-body)
 # Example for issue 1
 
  在pinnedHeaderSliverHeightBuilder回调中设置全部pinned的header的高度，
@@ -91,7 +93,7 @@ NestedScrollViewRefreshIndicator is as the same as Flutter RefreshIndicator.
 
 Please see the example app of this for a full example.
 
-# Without ScrollController in NestedScrollView's body
+# Do without ScrollController in NestedScrollView's body
 
 因为无法给NestedScrollView的body中的列表设置ScrollController(这样会破坏NestedScrollView内部的InnerScrollController的行为)，所以我这里给大家提供了Demos来展示怎么不通过ScrollController来完成
 
