@@ -12,7 +12,7 @@
 
 3.下拉刷新不能工作
 
-4.在NestedScrollView中不通过设置ScrollController来完成下拉刷新，增量加载，滚动到顶部
+4.在NestedScrollView的body中不通过设置ScrollController(设置了会跟内部Controller冲突)来完成下拉刷新，增量加载，滚动到顶部
 
 [掘金](https://juejin.im/post/5bea43ade51d45544844010a)
 
