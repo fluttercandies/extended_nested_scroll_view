@@ -1,6 +1,6 @@
-## [0.3.7]
+## [0.3.8]
 
-* add NestedScrollViewState key to get currentInnerPosition instead of ScrollController 
+* add NestedScrollViewState key to get currentInnerPosition/innerScrollPositions instead of ScrollController 
 * due to we can't set ScrollController for list in NestedScrollView's body(it will breaking behaviours of InnerScrollController in NestedScrollView), provide demos('PullToRefresh','LoadMore' and 'ScrollToTop') to show how to do it without ScrollController
   
 ## [0.3.6]

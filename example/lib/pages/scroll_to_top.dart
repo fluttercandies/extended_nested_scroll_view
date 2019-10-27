@@ -37,8 +37,15 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.file_upload),
         onPressed: () {
+          ///scroll current tab list
           _key.currentState.currentInnerPosition.animateTo(0.0,
               duration: Duration(seconds: 1), curve: Curves.easeIn);
+
+          ///scroll all tab list
+          // _key.currentState.innerScrollPositions.forEach((position) {
+          //   position.animateTo(0.0,
+          //       duration: Duration(seconds: 1), curve: Curves.easeIn);
+          // });
         },
       ),
     );
