@@ -25,7 +25,8 @@ dependencies:
   pull_to_refresh_notification: any
   extended_image: any
   intl: ^0.15.7  
-
+  url_launcher: 5.3.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -10,8 +10,8 @@ class NestedScrollViewInnerScrollPositionKeyWidget extends StatefulWidget {
       this.scrollPositionKey, this.child);
 
   static State of(BuildContext context) {
-    return context.ancestorStateOfType(
-        TypeMatcher<_NestedScrollViewInnerScrollPositionKeyWidgetState>());
+    return context.findAncestorStateOfType<
+        _NestedScrollViewInnerScrollPositionKeyWidgetState>();
   }
 
   @override
@@ -21,7 +21,6 @@ class NestedScrollViewInnerScrollPositionKeyWidget extends StatefulWidget {
 
 class _NestedScrollViewInnerScrollPositionKeyWidgetState
     extends State<NestedScrollViewInnerScrollPositionKeyWidget> {
-
   @override
   Widget build(BuildContext context) {
     //print(widget.scrollPositionKey);

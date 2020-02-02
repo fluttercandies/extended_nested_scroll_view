@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:extended_nested_scroll_view/src/nested_scroll_view_inner_scroll_position_key_widget.dart';
-import 'package:extended_nested_scroll_view/src/util.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/physics.dart';
@@ -274,8 +273,8 @@ class NestedScrollView extends StatefulWidget {
   /// documentation.
   static SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(
       BuildContext context) {
-    final _InheritedNestedScrollView target =
-        context.inheritFromWidgetOfExactType(_InheritedNestedScrollView);
+    final _InheritedNestedScrollView target = context
+        .dependOnInheritedWidgetOfExactType<_InheritedNestedScrollView>();
     assert(target != null,
         'NestedScrollView.sliverOverlapAbsorberHandleFor must be called with a context that contains a NestedScrollView.');
     return target.state._absorberHandle;
@@ -1132,12 +1131,12 @@ class _NestedScrollPosition extends ScrollPosition
 
   Key setScrollPositionKey() {
     //if (haveDimensions) {
-    final type = typeOf<NestedScrollViewInnerScrollPositionKeyWidget>();
 
     NestedScrollViewInnerScrollPositionKeyWidget keyWidget =
         (this.context as ScrollableState)
             ?.context
-            ?.ancestorWidgetOfExactType(type);
+            ?.findAncestorWidgetOfExactType<
+                NestedScrollViewInnerScrollPositionKeyWidget>();
     _key = keyWidget?.scrollPositionKey;
 //
 //    var b= a.widget.viewportBuilder(a.context,this);

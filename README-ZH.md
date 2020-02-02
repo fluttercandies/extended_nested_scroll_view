@@ -16,6 +16,8 @@
 
 [掘金](https://juejin.im/post/5bea43ade51d45544844010a)
 
+[Web demo for ExtendedNestedScrollView](https://fluttercandies.github.io/extended_nested_scroll_view/)
+
 - [extended_nested_scroll_view](#extendednestedscrollview)
 - [Example for issue 1](#example-for-issue-1)
 - [Example for issue 2](#example-for-issue-2)
