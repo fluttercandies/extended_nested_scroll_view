@@ -1,7 +1,6 @@
-import 'dart:io';
 
-import 'package:example/pages/no_route.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
 
 import 'example_route.dart';
@@ -19,6 +18,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         builder: (c, w) {
+          if (kIsWeb) return w;
           var data = MediaQuery.of(c);
           return MediaQuery(
             data: data.copyWith(textScaleFactor: 1.0),
@@ -27,12 +27,29 @@ class MyApp extends StatelessWidget {
         },
         initialRoute: "fluttercandies://mainpage",
         onGenerateRoute: (RouteSettings settings) {
-          var routeResult = getRouteResult(
-              name: settings.name, arguments: settings.arguments);
+          var routeName = settings.name;
+          //when refresh web, route will as following
+          //   /
+          //   /fluttercandies:
+          //   /fluttercandies:/
+          //   /fluttercandies://mainpage
 
-          var page = routeResult.widget ?? NoRoute();
+          if (kIsWeb && routeName.startsWith('/')) {
+            routeName = routeName.replaceFirst('/', '');
+          }
 
-          return Platform.isIOS
+          var routeResult =
+              getRouteResult(name: routeName, arguments: settings.arguments);
+
+          var page = routeResult.widget ??
+              getRouteResult(
+                      name: 'fluttercandies://mainpage',
+                      arguments: settings.arguments)
+                  .widget;
+
+          final platform = Theme.of(context).platform;
+
+          return platform == TargetPlatform.iOS
               ? CupertinoPageRoute(settings: settings, builder: (c) => page)
               : MaterialPageRoute(settings: settings, builder: (c) => page);
         });

@@ -1,3 +1,7 @@
+## [0.3.9]
+
+* web support
+
 ## [0.3.8]
 
 * add NestedScrollViewState key to get currentInnerPosition/innerScrollPositions instead of ScrollController 

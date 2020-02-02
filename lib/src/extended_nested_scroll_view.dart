@@ -283,8 +283,8 @@ class ExtendedNestedScrollView extends StatefulWidget {
   /// documentation.
   static SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(
       BuildContext context) {
-    final _InheritedNestedScrollView target =
-        context.inheritFromWidgetOfExactType(_InheritedNestedScrollView);
+    final _InheritedNestedScrollView target = context
+        .dependOnInheritedWidgetOfExactType<_InheritedNestedScrollView>();
     assert(target != null,
         'NestedScrollView.sliverOverlapAbsorberHandleFor must be called with a context that contains a NestedScrollView.');
     return target.state._absorberHandle;
@@ -1227,8 +1227,7 @@ class _NestedScrollPosition extends ScrollPosition
 
   ///the nearest pageview/tabbarview
   RenderBox _getParentPageViewRenderBox(BuildContext context) {
-    ScrollableState parent =
-        context.ancestorStateOfType(TypeMatcher<ScrollableState>());
+    ScrollableState parent = context.findAncestorStateOfType<ScrollableState>();
     if (parent == null) {
       return null;
     }
