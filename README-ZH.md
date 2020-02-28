@@ -105,3 +105,4 @@ Please see the example app of this for a full example.
   
 * [滚动到顶部](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/scroll_to_top.dart) 
 
+* [动态改变PinnedHeaderHeight](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/dynamic_pinned_header_height.dart) 
