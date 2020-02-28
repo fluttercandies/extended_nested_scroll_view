@@ -1,4 +1,8 @@
-## [0.3.9]
+## [0.4.1]
+
+* add demo to show how to change pinned header height dynamically.
+  
+## [0.4.0]
 
 * web support
 
