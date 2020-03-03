@@ -5,6 +5,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import 'pages/dou_yin_ping_lun.dart';
 import 'pages/dynamic_pinned_header_height.dart';
 import 'pages/extened_nested_scroll_view_demo.dart';
 import 'pages/load_more.dart';
@@ -14,6 +15,28 @@ import 'pages/scroll_to_top.dart';
 
 RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
   switch (name) {
+    case "fluttercandies://PingLunDemo":
+      return RouteResult(
+        widget: PingLunDemo(),
+        routeName: "pingLundemo",
+        pageRouteType: PageRouteType.transparent,
+        description: "Tik Tok Comment",
+      );
+    case "fluttercandies://TextFieldPage":
+      return RouteResult(
+        widget: TextFieldPage(
+          text: arguments['text'],
+        ),
+        routeName: "TextFieldPage",
+        pageRouteType: PageRouteType.transparent,
+        description: "Tik Tok Comment",
+      );
+    case "fluttercandies://Tik Tok Comment":
+      return RouteResult(
+        widget: DouYinPingLunDemo(),
+        routeName: "tiktokcomment",
+        description: "Demo for Tik Tok Comment",
+      );
     case "fluttercandies://loadmore":
       return RouteResult(
         widget: LoadMoreDemo(),
@@ -36,7 +59,7 @@ RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
       return RouteResult(
         widget: DynamicPinnedHeaderHeightDemo(),
         routeName: "pinned header height",
-        description: "how to change pinned header height",
+        description: "how to change pinned header height dynamically",
       );
     case "fluttercandies://pulltorefresh":
       return RouteResult(
@@ -85,6 +108,9 @@ class RouteResult {
 enum PageRouteType { material, cupertino, transparent }
 
 List<String> routeNames = [
+  "fluttercandies://PingLunDemo",
+  "fluttercandies://TextFieldPage",
+  "fluttercandies://Tik Tok Comment",
   "fluttercandies://loadmore",
   "fluttercandies://mainpage",
   "fluttercandies://nestedscrollview",

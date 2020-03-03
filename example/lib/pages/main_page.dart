@@ -12,6 +12,8 @@ class MainPage extends StatelessWidget {
   final List<RouteResult> routes = List<RouteResult>();
   MainPage() {
     routeNames.remove("fluttercandies://mainpage");
+    routeNames.remove('fluttercandies://PingLunDemo');
+    routeNames.remove('fluttercandies://TextFieldPage');
     routes.addAll(
         routeNames.map<RouteResult>((name) => getRouteResult(name: name)));
   }

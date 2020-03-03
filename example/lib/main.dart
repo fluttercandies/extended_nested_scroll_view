@@ -1,9 +1,9 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
 
 import 'example_route.dart';
+import 'example_route_helper.dart';
 
 void main() => runApp(MyApp());
 
@@ -49,9 +49,23 @@ class MyApp extends StatelessWidget {
 
           final platform = Theme.of(context).platform;
 
-          return platform == TargetPlatform.iOS
-              ? CupertinoPageRoute(settings: settings, builder: (c) => page)
-              : MaterialPageRoute(settings: settings, builder: (c) => page);
+          switch (routeResult.pageRouteType) {
+            case PageRouteType.material:
+              return MaterialPageRoute(
+                  settings: settings, builder: (_) => page);
+            case PageRouteType.cupertino:
+              return CupertinoPageRoute(
+                  settings: settings, builder: (_) => page);
+            case PageRouteType.transparent:
+              return FFTransparentPageRoute(
+                settings: settings,
+                pageBuilder: (_, __, ___) => page,
+              );
+            default:
+              return platform == TargetPlatform.iOS
+                  ? CupertinoPageRoute(settings: settings, builder: (_) => page)
+                  : MaterialPageRoute(settings: settings, builder: (_) => page);
+          }
         });
   }
 }
