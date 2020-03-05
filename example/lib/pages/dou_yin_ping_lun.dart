@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
 
+
 @FFRoute(
     name: "fluttercandies://Tik Tok Comment",
     routeName: "tiktokcomment",
@@ -50,16 +51,28 @@ class _PingLunDemoState extends State<PingLunDemo>
   TabController primaryTC;
   ScrollController sc = ScrollController();
   TextEditingController tc = TextEditingController();
+  FocusNode _focusNode = FocusNode()..canRequestFocus = false;
   Timer _timer;
+  bool _isAnimating = false;
+  bool _isTapped = false;
   @override
   void initState() {
     primaryTC = new TabController(length: 2, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      sc.animateTo(200.0,
-          duration: Duration(
-            milliseconds: 300,
-          ),
-          curve: Curves.easeIn);
+      _isAnimating = true;
+      sc
+          .animateTo(200.0,
+              duration: Duration(
+                milliseconds: 300,
+              ),
+              curve: Curves.easeIn)
+          .whenComplete(() => _isAnimating = false);
+    });
+    sc.addListener(() {
+      if (!_isAnimating && !_isTapped && sc.position.pixels < 200.0) {
+        // remove inertia scroll
+        sc.jumpTo(200.0);
+      }
     });
     super.initState();
   }
@@ -84,11 +97,13 @@ class _PingLunDemoState extends State<PingLunDemo>
     _timer = Timer.periodic(Duration(milliseconds: 50), (Timer timer) {
       timer.cancel();
       if (sc.position.pixels != 200.0) {
-        sc.animateTo(200.0,
-            duration: Duration(
-              milliseconds: 50,
-            ),
-            curve: Curves.easeIn);
+        sc
+            .animateTo(200.0,
+                duration: Duration(
+                  milliseconds: 50,
+                ),
+                curve: Curves.easeIn)
+            .whenComplete(() => _isAnimating = false);
       }
     });
   }
@@ -96,18 +111,21 @@ class _PingLunDemoState extends State<PingLunDemo>
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (value) {
-          if (value.depth == 0) {
-            if (value is ScrollEndNotification ||
-                value is OverscrollNotification) {
-              onNotification();
+      child: Listener(
+        onPointerDown: (_) => _isTapped = true,
+        onPointerUp: (_) => _isTapped = false,
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (value) {
+            if (value.depth == 0) {
+              if (value is ScrollEndNotification ||
+                  value is OverscrollNotification) {
+                onNotification();
+              }
             }
-          }
-
-          return false;
-        },
-        child: _buildScaffoldBody(),
+            return false;
+          },
+          child: _buildScaffoldBody(),
+        ),
       ),
       color: Colors.transparent,
     );
@@ -116,7 +134,6 @@ class _PingLunDemoState extends State<PingLunDemo>
   Widget _buildScaffoldBody() {
     return NestedScrollView(
       controller: sc,
-      physics: BouncingScrollPhysics(),
       headerSliverBuilder: (c, f) {
         return [
           SliverToBoxAdapter(
@@ -168,7 +185,6 @@ class _PingLunDemoState extends State<PingLunDemo>
                       ListView.builder(
                         //store Page state
                         key: PageStorageKey("Tab0"),
-                        physics: ClampingScrollPhysics(),
                         itemBuilder: (c, i) {
                           return Container(
                             alignment: Alignment.center,
@@ -188,7 +204,6 @@ class _PingLunDemoState extends State<PingLunDemo>
                       ListView.builder(
                         //store Page state
                         key: PageStorageKey("Tab1"),
-                        physics: ClampingScrollPhysics(),
                         itemBuilder: (c, i) {
                           return Container(
                             alignment: Alignment.center,
@@ -210,15 +225,32 @@ class _PingLunDemoState extends State<PingLunDemo>
               readOnly: false,
               showCursor: false,
               controller: tc,
+              autofocus: false,
+              focusNode: _focusNode,
               onTap: () {
                 Navigator.pushNamed(context, 'fluttercandies://TextFieldPage',
                     arguments: {'text': tc.text}).then((value) {
                   tc.text = value;
+
                   ///make sure TextInput is hide
-                  SystemChannels.textInput.invokeMethod('TextInput.hide');
+                  Future.delayed(Duration(milliseconds: 200), () {
+                    SystemChannels.textInput.invokeMethod('TextInput.hide');
+                  });
                 });
               },
-              decoration: InputDecoration(hintText: 'say something'),
+              decoration: InputDecoration(
+                hintText: 'say something',
+                contentPadding: EdgeInsets.all(
+                  10.0,
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                    width: 1.0,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                ),
+              ),
             ),
           ],
         ),
@@ -248,11 +280,6 @@ class _TextFieldPageState extends State<TextFieldPage> {
   void initState() {
     tc.text = widget.text;
     tc.selection = TextSelection.collapsed(offset: widget.text.length);
-    _focusNode.addListener(() {
-      if (!_focusNode.hasFocus) {
-        Navigator.pop(context, tc.text);
-      }
-    });
     super.initState();
   }
 
@@ -267,6 +294,7 @@ class _TextFieldPageState extends State<TextFieldPage> {
             child: GestureDetector(
               onTap: () {
                 _focusNode.unfocus();
+                Navigator.pop(context, tc.text);
               },
               child: Container(
                 color: Colors.transparent,
@@ -279,7 +307,19 @@ class _TextFieldPageState extends State<TextFieldPage> {
               autofocus: true,
               controller: tc,
               focusNode: _focusNode,
-              decoration: InputDecoration(hintText: 'say something'),
+              decoration: InputDecoration(
+                hintText: 'say something',
+                contentPadding: EdgeInsets.all(
+                  10.0,
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                    width: 1.0,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                ),
+              ),
             ),
           ),
           Container(
