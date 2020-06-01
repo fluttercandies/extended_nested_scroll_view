@@ -13,74 +13,99 @@ import 'pages/main_page.dart';
 import 'pages/pull_to_refresh.dart';
 import 'pages/scroll_to_top.dart';
 
+// ignore_for_file: argument_type_not_assignable
 RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
   switch (name) {
-    case "fluttercandies://PingLunDemo":
+    case 'fluttercandies://PingLunDemo':
       return RouteResult(
+        name: name,
         widget: PingLunDemo(),
-        routeName: "pingLundemo",
+        routeName: 'pingLundemo',
         pageRouteType: PageRouteType.transparent,
-        description: "Tik Tok Comment",
+        description: 'Tik Tok Comment',
       );
-    case "fluttercandies://TextFieldPage":
+    case 'fluttercandies://TextFieldPage':
       return RouteResult(
+        name: name,
         widget: TextFieldPage(
           text: arguments['text'],
         ),
-        routeName: "TextFieldPage",
+        routeName: 'TextFieldPage',
         pageRouteType: PageRouteType.transparent,
-        description: "Tik Tok Comment",
+        description: 'Tik Tok Comment',
       );
-    case "fluttercandies://Tik Tok Comment":
+    case 'fluttercandies://Tik Tok Comment':
       return RouteResult(
+        name: name,
         widget: DouYinPingLunDemo(),
-        routeName: "tiktokcomment",
-        description: "Demo for Tik Tok Comment",
+        routeName: 'tiktokcomment',
+        description: 'Demo for Tik Tok Comment',
       );
-    case "fluttercandies://loadmore":
+    case 'fluttercandies://loadmore':
       return RouteResult(
+        name: name,
         widget: LoadMoreDemo(),
-        routeName: "load more demo",
+        routeName: 'load more demo',
         description:
             "show how to support load more list in NestedScrollView's body without ScrollController",
       );
-    case "fluttercandies://mainpage":
+    case 'fluttercandies://mainpage':
       return RouteResult(
+        name: name,
         widget: MainPage(),
-        routeName: "MainPage",
+        routeName: 'MainPage',
       );
-    case "fluttercandies://nestedscrollview":
+    case 'fluttercandies://nestedscrollview':
       return RouteResult(
+        name: name,
         widget: OldExtendedNestedScrollViewDemo(),
-        routeName: "NestedScrollview",
-        description: "fix pinned header and inner scrollables sync issues.",
+        routeName: 'NestedScrollview',
+        description: 'fix pinned header and inner scrollables sync issues.',
       );
-    case "fluttercandies://pinned header height":
+    case 'fluttercandies://pinned header height':
       return RouteResult(
+        name: name,
         widget: DynamicPinnedHeaderHeightDemo(),
-        routeName: "pinned header height",
-        description: "how to change pinned header height dynamically",
+        routeName: 'pinned header height',
+        description: 'how to change pinned header height dynamically',
       );
-    case "fluttercandies://pulltorefresh":
+    case 'fluttercandies://pulltorefresh':
       return RouteResult(
+        name: name,
         widget: PullToRefreshDemo(),
-        routeName: "pull to refresh",
+        routeName: 'pull to refresh',
         description:
             "how to pull to refresh for list in NestedScrollView's body without ScrollController",
       );
-    case "fluttercandies://scroll to top":
+    case 'fluttercandies://scroll to top':
       return RouteResult(
+        name: name,
         widget: ScrollToTopDemo(),
-        routeName: "scroll to top",
+        routeName: 'scroll to top',
         description:
             "how to scroll list to top in NestedScrollView's body without ScrollController",
       );
     default:
-      return RouteResult();
+      return const RouteResult(name: 'flutterCandies://notfound');
   }
 }
 
 class RouteResult {
+  const RouteResult({
+    @required this.name,
+    this.widget,
+    this.showStatusBar = true,
+    this.routeName = '',
+    this.pageRouteType,
+    this.description = '',
+    this.exts,
+  });
+
+  /// The name of the route (e.g., "/settings").
+  ///
+  /// If null, the route is anonymous.
+  final String name;
+
   /// The Widget return base on route
   final Widget widget;
 
@@ -96,25 +121,12 @@ class RouteResult {
   /// The description of route
   final String description;
 
-  const RouteResult({
-    this.widget,
-    this.showStatusBar = true,
-    this.routeName = '',
-    this.pageRouteType,
-    this.description = '',
-  });
+  /// The extend arguments
+  final Map<String, dynamic> exts;
 }
 
-enum PageRouteType { material, cupertino, transparent }
-
-List<String> routeNames = [
-  "fluttercandies://PingLunDemo",
-  "fluttercandies://TextFieldPage",
-  "fluttercandies://Tik Tok Comment",
-  "fluttercandies://loadmore",
-  "fluttercandies://mainpage",
-  "fluttercandies://nestedscrollview",
-  "fluttercandies://pinned header height",
-  "fluttercandies://pulltorefresh",
-  "fluttercandies://scroll to top"
-];
+enum PageRouteType {
+  material,
+  cupertino,
+  transparent,
+}

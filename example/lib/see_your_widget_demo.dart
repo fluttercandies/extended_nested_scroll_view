@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new MyAppState();
+  State<StatefulWidget> createState() => MyAppState();
 }
 
 const double itemHeight = 100.0;
 
 class MyAppState extends State<MyApp> {
-  GlobalKey<State> key = new GlobalKey();
+  GlobalKey<State> key = GlobalKey();
 
   bool widgetIn = false;
 
   @override
   Widget build(BuildContext context) {
 
-    return new MaterialApp(
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Check whether I'm in"),
+    return  MaterialApp(
+      home:  Scaffold(
+        appBar:  AppBar(
+          title:  const Text('Check whether I\'m in'),
         ),
         body: NotificationListener<ScrollNotification>(
-          child: new ListView(
+          child:  ListView(
             itemExtent: itemHeight,
-            children: [
+            children: <Widget>[
               YourWidget(),
               YourWidget(),
               YourWidget(),
@@ -46,11 +46,13 @@ class MyAppState extends State<MyApp> {
             ],
           ),
           onNotification: (ScrollNotification scroll) {
-            var currentContext = key.currentContext;
-            if (currentContext == null) return false;
+            final BuildContext currentContext = key.currentContext;
+            if (currentContext == null) {
+              return false;
+            }
             //final double screenHeight = MediaQuery.of(currentContext).size.height;
-            var renderObject = currentContext.findRenderObject();
-            RenderAbstractViewport viewport =
+            final RenderObject renderObject = currentContext.findRenderObject();
+            final RenderAbstractViewport viewport =
             RenderAbstractViewport.of(renderObject);
 
             /// The `alignment` argument describes where the target should be positioned
@@ -61,17 +63,17 @@ class MyAppState extends State<MyApp> {
             /// positioned as close to the center of the viewport as possible.
 
             /// Distance between top edge of screen and MyWidget bottom edge
-            var offsetToRevealLeading =
+            final RevealedOffset offsetToRevealLeading =
             viewport.getOffsetToReveal(renderObject, 0.0);
 
             /// Distance between bottom edge of screen and MyWidget top edge
-            var offsetToRevealTrailingEdge =
+            final RevealedOffset offsetToRevealTrailingEdge =
             viewport.getOffsetToReveal(renderObject, 1.0);
 
             print(
-                " ${scroll.metrics.pixels}  ${offsetToRevealLeading.offset} ${offsetToRevealTrailingEdge.offset}");
+                ' ${scroll.metrics.pixels}  ${offsetToRevealLeading.offset} ${offsetToRevealTrailingEdge.offset}');
 
-            var offset = scroll.metrics.pixels;
+            final double offset = scroll.metrics.pixels;
             //in
             //
             if (offsetToRevealTrailingEdge.offset <= offset + itemHeight &&
@@ -95,9 +97,9 @@ class MyAppState extends State<MyApp> {
             return false;
           },
         ),
-        floatingActionButton: new FloatingActionButton(
+        floatingActionButton:  FloatingActionButton(
           child: Container(
-            child: Text(widgetIn ? "I see you " : "bye bye"),
+            child: Text(widgetIn ? 'I see you ' : 'bye bye'),
             height: 200.0,
             width: 200.0,
             alignment: Alignment.center,
@@ -113,22 +115,22 @@ class MyWidget extends StatefulWidget {
   const MyWidget({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new MyWidgetState();
+  State<StatefulWidget> createState() =>  MyWidgetState();
 }
 
 class MyWidgetState extends State<MyWidget> {
   @override
   Widget build(BuildContext context) {
-    return new Container(height: itemHeight, color: Colors.red);
+    return  Container(height: itemHeight, color: Colors.red);
   }
 }
 
 class YourWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return  Container(
       decoration:
-      new BoxDecoration(border: new Border.all(), color: Colors.grey),
+       BoxDecoration(border:  Border.all(), color: Colors.grey),
     );
   }
 }

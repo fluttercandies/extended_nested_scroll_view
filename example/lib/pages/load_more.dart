@@ -1,14 +1,15 @@
-import 'package:flutter/material.dart' hide NestedScrollView;
+import 'dart:async';
+import 'package:flutter/material.dart'
+    hide NestedScrollView, NestedScrollViewState;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
-import 'dart:async';
 
 @FFRoute(
-    name: "fluttercandies://loadmore",
-    routeName: "load more demo",
+    name: 'fluttercandies://loadmore',
+    routeName: 'load more demo',
     description:
-        "show how to support load more list in NestedScrollView's body without ScrollController")
+        'show how to support load more list in NestedScrollView\'s body without ScrollController')
 class LoadMoreDemo extends StatefulWidget {
   @override
   _LoadMoreDemoState createState() => _LoadMoreDemoState();
@@ -17,10 +18,11 @@ class LoadMoreDemo extends StatefulWidget {
 class _LoadMoreDemoState extends State<LoadMoreDemo>
     with TickerProviderStateMixin {
   TabController primaryTC;
-  GlobalKey<NestedScrollViewState> _key = GlobalKey<NestedScrollViewState>();
+  final GlobalKey<NestedScrollViewState> _key =
+      GlobalKey<NestedScrollViewState>();
   @override
   void initState() {
-    primaryTC = new TabController(length: 2, vsync: this);
+    primaryTC = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -39,24 +41,24 @@ class _LoadMoreDemoState extends State<LoadMoreDemo>
 
   Widget _buildScaffoldBody() {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
-    var pinnedHeaderHeight =
+    final double pinnedHeaderHeight =
         //statusBar height
         statusBarHeight +
             //pinned SliverAppBar height in header
             kToolbarHeight;
     return NestedScrollView(
       key: _key,
-      headerSliverBuilder: (c, f) {
-        return [
+      headerSliverBuilder: (BuildContext c, bool f) {
+        return <Widget>[
           SliverAppBar(
               pinned: true,
               expandedHeight: 200.0,
-              title: Text("load more list"),
+              title: const Text('load more list'),
               flexibleSpace: FlexibleSpaceBar(
                   //centerTitle: true,
                   collapseMode: CollapseMode.pin,
                   background: Image.asset(
-                    "assets/467141054.jpg",
+                    'assets/467141054.jpg',
                     fit: BoxFit.fill,
                   )))
         ];
@@ -67,7 +69,7 @@ class _LoadMoreDemoState extends State<LoadMoreDemo>
       },
       //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
       innerScrollPositionKeyBuilder: () {
-        var index = "Tab";
+        String index = 'Tab';
 
         index += primaryTC.index.toString();
 
@@ -83,17 +85,17 @@ class _LoadMoreDemoState extends State<LoadMoreDemo>
             indicatorWeight: 2.0,
             isScrollable: false,
             unselectedLabelColor: Colors.grey,
-            tabs: [
-              Tab(text: "Tab0"),
-              Tab(text: "Tab1"),
+            tabs: const <Tab>[
+              Tab(text: 'Tab0'),
+              Tab(text: 'Tab1'),
             ],
           ),
           Expanded(
             child: TabBarView(
               controller: primaryTC,
-              children: <Widget>[
-                TabViewItem(Key("Tab0")),
-                TabViewItem(Key("Tab1")),
+              children: const <Widget>[
+                TabViewItem(Key('Tab0')),
+                TabViewItem(Key('Tab1')),
               ],
             ),
           )
@@ -106,9 +108,9 @@ class _LoadMoreDemoState extends State<LoadMoreDemo>
 class LoadMoreListSource extends LoadingMoreBase<int> {
   @override
   Future<bool> loadData([bool isloadMoreAction = false]) {
-    return Future.delayed(Duration(seconds: 1), () {
-      for (var i = 0; i < 10; i++) {
-        this.add(0);
+    return Future<bool>.delayed(const Duration(seconds: 1), () {
+      for (int i = 0; i < 10; i++) {
+        add(0);
       }
 
       return true;
@@ -117,8 +119,8 @@ class LoadMoreListSource extends LoadingMoreBase<int> {
 }
 
 class TabViewItem extends StatefulWidget {
+  const TabViewItem(this.tabKey);
   final Key tabKey;
-  TabViewItem(this.tabKey);
   @override
   _TabViewItemState createState() => _TabViewItemState();
 }
@@ -141,12 +143,12 @@ class _TabViewItemState extends State<TabViewItem>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var child = LoadingMoreList<int>(ListConfig<int>(
-        itemBuilder: (c, item, index) {
+    final LoadingMoreList<int> child = LoadingMoreList<int>(ListConfig<int>(
+        itemBuilder: (BuildContext c, int item, int index) {
           return Container(
             alignment: Alignment.center,
             height: 60.0,
-            child: Text(widget.tabKey.toString() + ": ListView$index"),
+            child: Text(widget.tabKey.toString() + ': ListView$index'),
           );
         },
         sourceList: source));

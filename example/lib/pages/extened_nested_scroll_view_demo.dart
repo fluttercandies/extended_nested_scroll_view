@@ -6,10 +6,10 @@ import 'package:ff_annotation_route/ff_annotation_route.dart';
 
 
 @FFRoute(
-    name: "fluttercandies://nestedscrollview",
-    routeName: "NestedScrollview",
+    name: 'fluttercandies://nestedscrollview',
+    routeName: 'NestedScrollview',
     description:
-        "fix pinned header and inner scrollables sync issues.")
+        'fix pinned header and inner scrollables sync issues.')
 class OldExtendedNestedScrollViewDemo extends StatefulWidget {
   @override
   _OldExtendedNestedScrollViewDemoState createState() =>
@@ -24,9 +24,9 @@ class _OldExtendedNestedScrollViewDemoState
 
   @override
   void initState() {
-    primaryTC = new TabController(length: 2, vsync: this);
+    primaryTC = TabController(length: 2, vsync: this);
     primaryTC.addListener(tabControlerListener);
-    secondaryTC = new TabController(length: 4, vsync: this);
+    secondaryTC = TabController(length: 4, vsync: this);
     super.initState();
   }
 
@@ -58,7 +58,7 @@ class _OldExtendedNestedScrollViewDemoState
 
   Widget _buildScaffoldBody() {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
-    var pinnedHeaderHeight =
+    final double pinnedHeaderHeight =
         //statusBar height
         statusBarHeight +
             //pinned SliverAppBar height in header
@@ -66,7 +66,7 @@ class _OldExtendedNestedScrollViewDemoState
     return NestedScrollViewRefreshIndicator(
       onRefresh: onRefresh,
       child: NestedScrollView(
-          headerSliverBuilder: (c, f) {
+          headerSliverBuilder: (BuildContext c, bool f) {
             return buildSliverHeader();
           },
           //1.[pinned sliver header issue](https://github.com/flutter/flutter/issues/22393)
@@ -75,10 +75,10 @@ class _OldExtendedNestedScrollViewDemoState
           },
           //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
           innerScrollPositionKeyBuilder: () {
-            var index = "Tab";
+            String index = 'Tab';
             if (primaryTC.index == 0) {
               index +=
-                  (primaryTC.index.toString() + secondaryTC.index.toString());
+                  primaryTC.index.toString() + secondaryTC.index.toString();
             } else {
               index += primaryTC.index.toString();
             }
@@ -94,29 +94,29 @@ class _OldExtendedNestedScrollViewDemoState
                 indicatorWeight: 2.0,
                 isScrollable: false,
                 unselectedLabelColor: Colors.grey,
-                tabs: [
-                  Tab(text: "Tab0"),
-                  Tab(text: "Tab1"),
+                tabs: const <Tab>[
+                  Tab(text: 'Tab0'),
+                  Tab(text: 'Tab1'),
                 ],
               ),
               Expanded(
                 child: TabBarView(
                   controller: primaryTC,
                   children: <Widget>[
-                    SecondaryTabView("Tab0", secondaryTC, true),
+                    SecondaryTabView('Tab0', secondaryTC, true),
                     NestedScrollViewInnerScrollPositionKeyWidget(
-                      Key("Tab1"),
+                      const Key('Tab1'),
                       GlowNotificationWidget(
                         ListView.builder(
                           //store Page state
-                          key: PageStorageKey("Tab1"),
-                          physics: ClampingScrollPhysics(),
-                          itemBuilder: (c, i) {
+                          key: const PageStorageKey<String>('Tab1'),
+                          physics: const ClampingScrollPhysics(),
+                          itemBuilder: (BuildContext c, int i) {
                             return Container(
                               alignment: Alignment.center,
                               height: 60.0,
                               child:
-                                  Text(Key("Tab1").toString() + ": ListView$i"),
+                                  Text(const Key('Tab1').toString() + ': ListView$i'),
                             );
                           },
                           itemCount: 50,
