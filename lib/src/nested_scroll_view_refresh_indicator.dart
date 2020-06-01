@@ -202,9 +202,11 @@ class NestedScrollViewRefreshIndicatorState
 
   double maxContainerExtent = 0.0;
   bool _handleScrollNotification(ScrollNotification notification) {
-    if (!widget.notificationPredicate(notification)) return false;
+    if (!widget.notificationPredicate(notification)) {
+      return false;
+    }
     maxContainerExtent = math.max(
-        notification.metrics.viewportDimension, this.maxContainerExtent);
+        notification.metrics.viewportDimension, maxContainerExtent);
     if (notification is ScrollStartNotification &&
         notification.metrics.extentBefore == 0.0 &&
         _mode == null &&
@@ -271,7 +273,9 @@ class NestedScrollViewRefreshIndicatorState
   }
 
   bool _handleGlowNotification(OverscrollIndicatorNotification notification) {
-    if (notification.depth != 0 || !notification.leading) return false;
+    if (notification.depth != 0 || !notification.leading) {
+      return false;
+    }
     if (_mode == _RefreshIndicatorMode.drag) {
       notification.disallowGlow();
       return true;
@@ -310,7 +314,7 @@ class NestedScrollViewRefreshIndicatorState
     if (_mode == _RefreshIndicatorMode.armed)
       newValue = math.max(newValue, 1.0 / _kDragSizeFactorLimit);
     _positionController.value =
-        newValue.clamp(0.0, 1.0); // this triggers various rebuilds
+        newValue.clamp(0.0, 1.0) as double; // this triggers various rebuilds
     if (_mode == _RefreshIndicatorMode.drag && _valueColor.value.alpha == 0xFF)
       _mode = _RefreshIndicatorMode.armed;
   }
@@ -375,7 +379,9 @@ class NestedScrollViewRefreshIndicatorState
             ));
           return true;
         }());
-        if (refreshResult == null) return;
+        if (refreshResult == null) {
+          return;
+        }
         refreshResult.whenComplete(() {
           if (mounted && _mode == _RefreshIndicatorMode.refresh) {
             completer.complete();
@@ -405,7 +411,9 @@ class NestedScrollViewRefreshIndicatorState
   Future<void> show({bool atTop = true}) {
     if (_mode != _RefreshIndicatorMode.refresh &&
         _mode != _RefreshIndicatorMode.snap) {
-      if (_mode == null) _start(atTop ? AxisDirection.down : AxisDirection.up);
+      if (_mode == null) {
+        _start(atTop ? AxisDirection.down : AxisDirection.up);
+      }
       _show();
     }
     return _pendingRefreshFuture;

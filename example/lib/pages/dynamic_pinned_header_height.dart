@@ -5,10 +5,9 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
 
 @FFRoute(
-    name: "fluttercandies://pinned header height",
-    routeName: "pinned header height",
-    description:
-        "how to change pinned header height dynamically")
+    name: 'fluttercandies://pinned header height',
+    routeName: 'pinned header height',
+    description: 'how to change pinned header height dynamically')
 class DynamicPinnedHeaderHeightDemo extends StatefulWidget {
   @override
   _DynamicPinnedHeaderHeightDemoState createState() =>
@@ -21,7 +20,7 @@ class _DynamicPinnedHeaderHeightDemoState
   ScrollController sc = ScrollController();
   @override
   void initState() {
-    primaryTC = new TabController(length: 2, vsync: this);
+    primaryTC = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -40,7 +39,7 @@ class _DynamicPinnedHeaderHeightDemoState
         child: Icon(Icons.update),
         onPressed: () {
           //change pinnedHeaderHeight here
-          final before = pinnedHeaderHeight;
+          final double before = pinnedHeaderHeight;
           pinnedHeaderHeight += 10.0;
           sc.position.applyContentDimensions(sc.position.minScrollExtent,
               sc.position.maxScrollExtent + before);
@@ -61,17 +60,17 @@ class _DynamicPinnedHeaderHeightDemoState
       onRefresh: onRefresh,
       child: NestedScrollView(
           controller: sc,
-          headerSliverBuilder: (c, f) {
-            return [
+          headerSliverBuilder: (BuildContext c, bool f) {
+            return <Widget>[
               SliverAppBar(
                   pinned: true,
                   expandedHeight: 200.0,
-                  title: Text("pinned header height"),
+                  title: const Text('pinned header height'),
                   flexibleSpace: FlexibleSpaceBar(
                       //centerTitle: true,
                       collapseMode: CollapseMode.pin,
                       background: Image.asset(
-                        "assets/467141054.jpg",
+                        'assets/467141054.jpg',
                         fit: BoxFit.fill,
                       )))
             ];
@@ -82,7 +81,7 @@ class _DynamicPinnedHeaderHeightDemoState
           },
           //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
           innerScrollPositionKeyBuilder: () {
-            var index = "Tab";
+            String index = 'Tab';
 
             index += primaryTC.index.toString();
 
@@ -98,9 +97,9 @@ class _DynamicPinnedHeaderHeightDemoState
                 indicatorWeight: 2.0,
                 isScrollable: false,
                 unselectedLabelColor: Colors.grey,
-                tabs: [
-                  Tab(text: "Tab0"),
-                  Tab(text: "Tab1"),
+                tabs: const <Tab>[
+                  Tab(text: 'Tab0'),
+                  Tab(text: 'Tab1'),
                 ],
               ),
               Expanded(
@@ -108,18 +107,18 @@ class _DynamicPinnedHeaderHeightDemoState
                   controller: primaryTC,
                   children: <Widget>[
                     NestedScrollViewInnerScrollPositionKeyWidget(
-                      Key("Tab0"),
+                      const Key('Tab0'),
                       GlowNotificationWidget(
                         ListView.builder(
                           //store Page state
-                          key: PageStorageKey("Tab0"),
-                          physics: ClampingScrollPhysics(),
-                          itemBuilder: (c, i) {
+                          key: const PageStorageKey<String>('Tab0'),
+                          physics: const ClampingScrollPhysics(),
+                          itemBuilder: (BuildContext c, int i) {
                             return Container(
                               alignment: Alignment.center,
                               height: 60.0,
                               child:
-                                  Text(Key("Tab0").toString() + ": ListView$i"),
+                                  Text(const Key('Tab0').toString() + ': ListView$i'),
                             );
                           },
                           itemCount: 50,
@@ -128,18 +127,18 @@ class _DynamicPinnedHeaderHeightDemoState
                       ),
                     ),
                     NestedScrollViewInnerScrollPositionKeyWidget(
-                      Key("Tab1"),
+                      const Key('Tab1'),
                       GlowNotificationWidget(
                         ListView.builder(
                           //store Page state
-                          key: PageStorageKey("Tab1"),
-                          physics: ClampingScrollPhysics(),
-                          itemBuilder: (c, i) {
+                          key: const PageStorageKey<String>('Tab1'),
+                          physics: const ClampingScrollPhysics(),
+                          itemBuilder: (BuildContext c, int i) {
                             return Container(
                               alignment: Alignment.center,
                               height: 60.0,
                               child:
-                                  Text(Key("Tab1").toString() + ": ListView$i"),
+                                  Text(const Key('Tab1').toString() + ': ListView$i'),
                             );
                           },
                           itemCount: 50,
