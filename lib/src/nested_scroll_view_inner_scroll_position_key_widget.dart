@@ -4,14 +4,13 @@
 import 'package:flutter/material.dart';
 
 class NestedScrollViewInnerScrollPositionKeyWidget extends StatefulWidget {
+  const NestedScrollViewInnerScrollPositionKeyWidget(
+      this.scrollPositionKey, this.child);
   final Key scrollPositionKey;
   final Widget child;
-  NestedScrollViewInnerScrollPositionKeyWidget(
-      this.scrollPositionKey, this.child);
-
   static State of(BuildContext context) {
-    return context.ancestorStateOfType(
-        TypeMatcher<_NestedScrollViewInnerScrollPositionKeyWidgetState>());
+    return context.findAncestorStateOfType<
+        _NestedScrollViewInnerScrollPositionKeyWidgetState>();
   }
 
   @override
@@ -21,30 +20,8 @@ class NestedScrollViewInnerScrollPositionKeyWidget extends StatefulWidget {
 
 class _NestedScrollViewInnerScrollPositionKeyWidgetState
     extends State<NestedScrollViewInnerScrollPositionKeyWidget> {
-
   @override
   Widget build(BuildContext context) {
-    //print(widget.scrollPositionKey);
     return widget.child;
   }
-
-//  @override
-//  void didChangeDependencies() {
-//    // TODO: implement didChangeDependencies
-//    //print("didChangeDependencies"+widget.scrollPositionKey.toString());
-//    super.didChangeDependencies();
-//  }
-//
-//  @override
-//  void didUpdateWidget(NestedScrollViewInnerScrollPositionKeyWidget oldWidget) {
-//    // TODO: implement didUpdateWidget
-//    //print("didUpdateWidget"+widget.scrollPositionKey.toString()+oldWidget.scrollPositionKey.toString());
-//    super.didUpdateWidget(oldWidget);
-//  }
-
-//  void _afterLayout(Duration timeStamp) {
-//    final RenderBox renderBox = this.context.findRenderObject();
-//    final position = renderBox.localToGlobal(Offset.zero);
-//    print("${widget.scrollPositionKey} POSITION : $position ");
-//  }
 }

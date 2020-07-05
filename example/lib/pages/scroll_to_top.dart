@@ -1,14 +1,14 @@
 import 'package:example/common/common.dart';
-import 'package:flutter/material.dart' hide NestedScrollView;
+import 'package:flutter/material.dart' hide NestedScrollView,NestedScrollViewState;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
 
 @FFRoute(
-    name: "fluttercandies://scroll to top",
-    routeName: "scroll to top",
+    name: 'fluttercandies://scroll to top',
+    routeName: 'scroll to top',
     description:
-        "how to scroll list to top in NestedScrollView's body without ScrollController")
+        'how to scroll list to top in NestedScrollView\'s body without ScrollController')
 class ScrollToTopDemo extends StatefulWidget {
   @override
   _ScrollToTopDemoState createState() => _ScrollToTopDemoState();
@@ -17,10 +17,10 @@ class ScrollToTopDemo extends StatefulWidget {
 class _ScrollToTopDemoState extends State<ScrollToTopDemo>
     with TickerProviderStateMixin {
   TabController primaryTC;
-  GlobalKey<NestedScrollViewState> _key = GlobalKey<NestedScrollViewState>();
+  final GlobalKey<NestedScrollViewState> _key = GlobalKey<NestedScrollViewState>();
   @override
   void initState() {
-    primaryTC = new TabController(length: 2, vsync: this);
+    primaryTC = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -39,7 +39,7 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
         onPressed: () {
           ///scroll current tab list
           _key.currentState.currentInnerPosition.animateTo(0.0,
-              duration: Duration(seconds: 1), curve: Curves.easeIn);
+              duration: const Duration(seconds: 1), curve: Curves.easeIn);
 
           ///scroll all tab list
           // _key.currentState.innerScrollPositions.forEach((position) {
@@ -53,7 +53,7 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
 
   Widget _buildScaffoldBody() {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
-    var pinnedHeaderHeight =
+    final double pinnedHeaderHeight =
         //statusBar height
         statusBarHeight +
             //pinned SliverAppBar height in header
@@ -62,17 +62,17 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
       onRefresh: onRefresh,
       child: NestedScrollView(
           key: _key,
-          headerSliverBuilder: (c, f) {
-            return [
+          headerSliverBuilder: (BuildContext c, bool f) {
+            return <Widget>[
               SliverAppBar(
                   pinned: true,
                   expandedHeight: 200.0,
-                  title: Text("scroll to top"),
+                  title: const Text('scroll to top'),
                   flexibleSpace: FlexibleSpaceBar(
                       //centerTitle: true,
                       collapseMode: CollapseMode.pin,
                       background: Image.asset(
-                        "assets/467141054.jpg",
+                        'assets/467141054.jpg',
                         fit: BoxFit.fill,
                       )))
             ];
@@ -83,7 +83,7 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
           },
           //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
           innerScrollPositionKeyBuilder: () {
-            var index = "Tab";
+            String index = 'Tab';
 
             index += primaryTC.index.toString();
 
@@ -99,9 +99,9 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
                 indicatorWeight: 2.0,
                 isScrollable: false,
                 unselectedLabelColor: Colors.grey,
-                tabs: [
-                  Tab(text: "Tab0"),
-                  Tab(text: "Tab1"),
+                tabs:const <Tab> [
+                  Tab(text: 'Tab0'),
+                  Tab(text: 'Tab1'),
                 ],
               ),
               Expanded(
@@ -109,18 +109,18 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
                   controller: primaryTC,
                   children: <Widget>[
                     NestedScrollViewInnerScrollPositionKeyWidget(
-                      Key("Tab0"),
+                      const Key('Tab0'),
                       GlowNotificationWidget(
                         ListView.builder(
                           //store Page state
-                          key: PageStorageKey("Tab0"),
-                          physics: ClampingScrollPhysics(),
-                          itemBuilder: (c, i) {
+                          key: const PageStorageKey<String>('Tab0'),
+                          physics: const ClampingScrollPhysics(),
+                          itemBuilder: (BuildContext c, int i) {
                             return Container(
                               alignment: Alignment.center,
                               height: 60.0,
                               child:
-                                  Text(Key("Tab0").toString() + ": ListView$i"),
+                                  Text(const Key('Tab0').toString() + ': ListView$i'),
                             );
                           },
                           itemCount: 50,
@@ -129,18 +129,18 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
                       ),
                     ),
                     NestedScrollViewInnerScrollPositionKeyWidget(
-                      Key("Tab1"),
+                      const Key('Tab1'),
                       GlowNotificationWidget(
                         ListView.builder(
                           //store Page state
-                          key: PageStorageKey("Tab1"),
-                          physics: ClampingScrollPhysics(),
-                          itemBuilder: (c, i) {
+                          key: const PageStorageKey<String>('Tab1'),
+                          physics: const ClampingScrollPhysics(),
+                          itemBuilder: (BuildContext c, int i) {
                             return Container(
                               alignment: Alignment.center,
                               height: 60.0,
                               child:
-                                  Text(Key("Tab1").toString() + ": ListView$i"),
+                                  Text(const Key('Tab1').toString() + ': ListView$i'),
                             );
                           },
                           itemCount: 50,
