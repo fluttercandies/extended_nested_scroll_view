@@ -1,21 +1,25 @@
+## [1.0.1]
+
+* Merge flutter/flutter#59187(Support floating the header slivers of a NestedScrollView)
+
 ## [1.0.0]
 
 * Merge code from 1.17.0
 * Fix analysis_options
-  
+
 ## [0.4.1]
 
 * add demo to show how to change pinned header height dynamically.
-  
+
 ## [0.4.0]
 
 * web support
 
 ## [0.3.8]
 
-* add NestedScrollViewState key to get currentInnerPosition/innerScrollPositions instead of ScrollController 
+* add NestedScrollViewState key to get currentInnerPosition/innerScrollPositions instead of ScrollController
 * due to we can't set ScrollController for list in NestedScrollView's body(it will breaking behaviours of InnerScrollController in NestedScrollView), provide demos('PullToRefresh','LoadMore' and 'ScrollToTop') to show how to do it without ScrollController
-  
+
 ## [0.3.6]
 
 * fix api error base on Flutter SDK v1.7.8+hotfix.2
