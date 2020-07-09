@@ -107,3 +107,7 @@ Please see the example app of this for a full example.
 * [pinned header height](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/dynamic_pinned_header_height.dart) 
 
   to show how to change pinned header height dynamically.
+  
+# ☕️Buy me a coffee
+
+![img](http://zmtzawqlp.gitee.io/my_images/images/qrcode.png)
