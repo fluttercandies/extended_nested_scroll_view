@@ -190,11 +190,19 @@ class NestedScrollView extends StatefulWidget {
     @required this.headerSliverBuilder,
     @required this.body,
     this.dragStartBehavior = DragStartBehavior.start,
+    this.floatHeaderSlivers = false,
   })  : assert(scrollDirection != null),
         assert(reverse != null),
         assert(headerSliverBuilder != null),
         assert(body != null),
         super(key: key);
+
+  /// Whether or not the [NestedScrollView]'s coordinator should prioritize the
+  /// outer scrollable over the inner when scrolling back.
+  ///
+  /// This is useful for an outer scrollable containing a [SliverAppBar] that
+  /// is expected to float. This cannot be null.
+  final bool floatHeaderSlivers;
 
   /// An object that can be used to control the position to which the outer
   /// scroll view is scrolled.
@@ -345,11 +353,13 @@ class NestedScrollViewState extends State<NestedScrollView> {
   void initState() {
     super.initState();
     _coordinator = _NestedScrollCoordinator(
-        this,
-        widget.controller,
-        _handleHasScrolledBodyChanged,
-        widget.pinnedHeaderSliverHeightBuilder,
-        widget.innerScrollPositionKeyBuilder);
+      this,
+      widget.controller,
+      _handleHasScrolledBodyChanged,
+      widget.pinnedHeaderSliverHeightBuilder,
+      widget.innerScrollPositionKeyBuilder,
+      widget.floatHeaderSlivers,
+    );
   }
 
   @override
@@ -524,11 +534,13 @@ typedef _NestedScrollActivityGetter = ScrollActivity Function(
 class _NestedScrollCoordinator
     implements ScrollActivityDelegate, ScrollHoldController {
   _NestedScrollCoordinator(
-      this._state,
-      this._parent,
-      this._onHasScrolledBodyChanged,
-      this.pinnedHeaderSliverHeightBuilder,
-      this.innerScrollPositionKeyBuilder) {
+    this._state,
+    this._parent,
+    this._onHasScrolledBodyChanged,
+    this.pinnedHeaderSliverHeightBuilder,
+    this.innerScrollPositionKeyBuilder,
+    this._floatHeaderSlivers,
+  ) {
     final double initialScrollOffset = _parent?.initialScrollOffset ?? 0.0;
     _outerController = _NestedScrollController(this,
         initialScrollOffset: initialScrollOffset, debugLabel: 'outer');
@@ -538,7 +550,7 @@ class _NestedScrollCoordinator
       debugLabel: 'inner',
     );
   }
-
+  final bool _floatHeaderSlivers;
   final NestedScrollViewState _state;
   final NestedScrollViewPinnedHeaderSliverHeightBuilder
       pinnedHeaderSliverHeightBuilder;
@@ -938,24 +950,36 @@ class _NestedScrollCoordinator
       }
     } else {
       // dragging "down" - delta is positive
-      // prioritize the inner views, so that the inner content will move before the app bar grows
-      double outerDelta = 0.0; // it will go positive if it changes
-      final List<double> overscrolls = <double>[];
-
-      final List<_NestedScrollPosition> innerPositions =
-          _currentInnerPositions.toList();
-      for (final _NestedScrollPosition position in innerPositions) {
-        final double overscroll = position.applyClampedDragUpdate(delta);
-        outerDelta = math.max(outerDelta, overscroll);
-        overscrolls.add(overscroll);
+      double innerDelta = delta;
+      // Apply delta to the outer header first if it is configured to float.
+      if (_floatHeaderSlivers) {
+        innerDelta = _outerPosition.applyClampedDragUpdate(delta);
       }
-      if (outerDelta != 0.0)
-        outerDelta -= _outerPosition.applyClampedDragUpdate(outerDelta);
-      // now deal with any overscroll
-      for (int i = 0; i < innerPositions.length; ++i) {
-        final double remainingDelta = overscrolls[i] - outerDelta;
-        if (remainingDelta > 0.0)
-          innerPositions[i].applyFullDragUpdate(remainingDelta);
+
+      if (innerDelta != 0.0) {
+        // Apply the innerDelta, if we have not floated in the outer scrollable,
+        // any leftover delta after this will be passed on to the outer
+        // scrollable by the outerDelta.
+
+        // prioritize the inner views, so that the inner content will move before the app bar grows
+        double outerDelta = 0.0; // it will go positive if it changes
+        final List<double> overscrolls = <double>[];
+
+        final List<_NestedScrollPosition> innerPositions =
+            _currentInnerPositions.toList();
+        for (final _NestedScrollPosition position in innerPositions) {
+          final double overscroll = position.applyClampedDragUpdate(delta);
+          outerDelta = math.max(outerDelta, overscroll);
+          overscrolls.add(overscroll);
+        }
+        if (outerDelta != 0.0)
+          outerDelta -= _outerPosition.applyClampedDragUpdate(outerDelta);
+        // now deal with any overscroll
+        for (int i = 0; i < innerPositions.length; ++i) {
+          final double remainingDelta = overscrolls[i] - outerDelta;
+          if (remainingDelta > 0.0)
+            innerPositions[i].applyFullDragUpdate(remainingDelta);
+        }
       }
     }
   }
