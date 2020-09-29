@@ -924,28 +924,27 @@ class _NestedScrollCoordinator
     if (_innerPositions.isEmpty) {
       _outerPosition.applyFullDragUpdate(delta);
     } else if (delta < 0.0) {
-      // dragging "up"
-      // TODO(ianh): prioritize first getting rid of overscroll, and then the
-      // outer view, so that the app bar will scroll out of the way asap.
-      // Right now we ignore overscroll. This works fine on Android but looks
-      // weird on iOS if you fling down then up. The problem is it's not at all
-      // clear what this should do when you have multiple inner positions at
-      // different levels of overscroll.
-      final double innerDelta = _outerPosition.applyClampedDragUpdate(delta);
-
-      ///this is a bug that the out postion is not overscroll actually and it get minimal value
-      ///do under code will scroll inner positions
-      ///so i igore  minimal value here(value like following data)
-      ///  I/flutter (14963): 5.684341886080802e-14
-      /// I/flutter (14963): -5.684341886080802e-14
-      /// I/flutter (14963): -5.684341886080802e-14
-      /// I/flutter (14963): 5.684341886080802e-14
-      /// I/flutter (14963): -5.684341886080802e-14
-      /// I/flutter (14963): -5.684341886080802e-14
-      /// I/flutter (14963): -5.684341886080802e-14
-      if (innerDelta != 0.0 && innerDelta.abs() > 0.0001) {
-        for (final _NestedScrollPosition position in _currentInnerPositions) {
-          position.applyFullDragUpdate(innerDelta);
+      // Dragging "up"
+      // Prioritize getting rid of any inner overscroll, and then the outer
+      // view, so that the app bar will scroll out of the way asap.
+      double outerDelta = delta;
+      for (final _NestedScrollPosition position in _innerPositions) {
+        if (position.pixels < 0.0) {
+          // This inner position is in overscroll.
+          final double potentialOuterDelta =
+              position.applyClampedDragUpdate(delta);
+          // In case there are multiple positions in varying states of
+          // overscroll, the first to 'reach' the outer view above takes
+          // precedence.
+          outerDelta = math.max(outerDelta, potentialOuterDelta);
+        }
+      }
+      if (outerDelta != 0.0) {
+        final double innerDelta =
+            _outerPosition.applyClampedDragUpdate(outerDelta);
+        if (innerDelta != 0.0) {
+          for (final _NestedScrollPosition position in _innerPositions)
+            position.applyFullDragUpdate(innerDelta);
         }
       }
     } else {
