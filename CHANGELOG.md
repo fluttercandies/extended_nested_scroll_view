@@ -1,3 +1,8 @@
+## [2.0.0]
+
+* Breaking change: add clipBehavior and restorationId
+* Merge flutter/issues/29264(SliverAppBar's flexibleSpace glitch on iOS when NestedScrollView's body is a ScrollView)
+
 ## [1.0.1]
 
 * Merge flutter/flutter#59187(Support floating the header slivers of a NestedScrollView)

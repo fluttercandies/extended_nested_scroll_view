@@ -11,7 +11,6 @@ double hideHeight = maxDragOffset / 2.3;
 double refreshHeight = maxDragOffset / 1.5;
 
 class PullToRefreshHeader extends StatelessWidget {
-
   const PullToRefreshHeader(this.info, this.lastRefreshTime, {this.color});
   final PullToRefreshScrollNotificationInfo info;
   final DateTime lastRefreshTime;
@@ -35,7 +34,7 @@ class PullToRefreshHeader extends StatelessWidget {
       text = 'Cancel refresh';
     }
 
-    final TextStyle ts = TextStyle(
+    final TextStyle ts = const TextStyle(
       color: Colors.grey,
     ).copyWith(fontSize: 14);
 
@@ -91,7 +90,6 @@ class PullToRefreshHeader extends StatelessWidget {
 }
 
 class RefreshImage extends StatelessWidget {
-  
   const RefreshImage(this.top);
   final double top;
   @override
@@ -105,8 +103,8 @@ class RefreshImage extends StatelessWidget {
         final double imageHeight = image.height.toDouble();
         final double imageWidth = image.width.toDouble();
         final Size size = rect.size;
-        final double y =
-            (1 - min(top / (refreshHeight - hideHeight), 1)) * imageHeight as double;
+        final double y = (1 - min(top / (refreshHeight - hideHeight), 1)) *
+            imageHeight as double;
 
         canvas.drawImageRect(
             image,
@@ -115,7 +113,7 @@ class RefreshImage extends StatelessWidget {
                 size.width, (imageHeight - y) / imageHeight * size.height),
             Paint()
               ..colorFilter =
-                 const ColorFilter.mode( Color(0xFFea5504), BlendMode.srcIn)
+                  const ColorFilter.mode(Color(0xFFea5504), BlendMode.srcIn)
               ..isAntiAlias = false
               ..filterQuality = FilterQuality.low);
 

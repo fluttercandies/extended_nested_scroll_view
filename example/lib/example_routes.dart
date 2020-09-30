@@ -6,6 +6,7 @@ const List<String> routeNames = <String>[
   'fluttercandies://PingLunDemo',
   'fluttercandies://TextFieldPage',
   'fluttercandies://Tik Tok Comment',
+  'fluttercandies://demogrouppage',
   'fluttercandies://loadmore',
   'fluttercandies://mainpage',
   'fluttercandies://nestedscrollview',
@@ -37,7 +38,9 @@ class Routes {
   ///
   /// [description] : 'Tik Tok Comment'
   ///
-  /// [arguments] : [text]
+  /// [constructors] :
+  ///
+  /// TextFieldPage : [String text]
   ///
   /// [pageRouteType] : PageRouteType.transparent
   static const String fluttercandiesTextFieldPage =
@@ -50,8 +53,22 @@ class Routes {
   /// [routeName] : 'tiktokcomment'
   ///
   /// [description] : 'Demo for Tik Tok Comment'
+  ///
+  /// [exts] : {group: Complex, order: 3}
   static const String fluttercandiesTikTokComment =
       'fluttercandies://Tik Tok Comment';
+
+  /// 'DemoGroupPage'
+  ///
+  /// [name] : 'fluttercandies://demogrouppage'
+  ///
+  /// [routeName] : 'DemoGroupPage'
+  ///
+  /// [constructors] :
+  ///
+  /// DemoGroupPage : [MapEntry<String, List<DemoRouteResult>> keyValue]
+  static const String fluttercandiesDemogrouppage =
+      'fluttercandies://demogrouppage';
 
   /// "show how to support load more list in NestedScrollView's body without ScrollController"
   ///
@@ -60,6 +77,8 @@ class Routes {
   /// [routeName] : 'load more demo'
   ///
   /// [description] : "show how to support load more list in NestedScrollView's body without ScrollController"
+  ///
+  /// [exts] : {group: Complex, order: 1}
   static const String fluttercandiesLoadmore = 'fluttercandies://loadmore';
 
   /// 'MainPage'
@@ -67,6 +86,10 @@ class Routes {
   /// [name] : 'fluttercandies://mainpage'
   ///
   /// [routeName] : 'MainPage'
+  ///
+  /// [constructors] :
+  ///
+  /// MainPage : []
   static const String fluttercandiesMainpage = 'fluttercandies://mainpage';
 
   /// 'fix pinned header and inner scrollables sync issues.'
@@ -76,6 +99,8 @@ class Routes {
   /// [routeName] : 'NestedScrollview'
   ///
   /// [description] : 'fix pinned header and inner scrollables sync issues.'
+  ///
+  /// [exts] : {group: Simple, order: 0}
   static const String fluttercandiesNestedscrollview =
       'fluttercandies://nestedscrollview';
 
@@ -86,6 +111,8 @@ class Routes {
   /// [routeName] : 'pinned header height'
   ///
   /// [description] : 'how to change pinned header height dynamically'
+  ///
+  /// [exts] : {group: Simple, order: 1}
   static const String fluttercandiesPinnedHeaderHeight =
       'fluttercandies://pinned header height';
 
@@ -96,6 +123,8 @@ class Routes {
   /// [routeName] : 'pull to refresh'
   ///
   /// [description] : "how to pull to refresh for list in NestedScrollView's body without ScrollController"
+  ///
+  /// [exts] : {group: Complex, order: 0}
   static const String fluttercandiesPulltorefresh =
       'fluttercandies://pulltorefresh';
 
@@ -106,6 +135,8 @@ class Routes {
   /// [routeName] : 'scroll to top'
   ///
   /// [description] : "how to scroll list to top in NestedScrollView's body without ScrollController"
+  ///
+  /// [exts] : {group: Complex, order: 2}
   static const String fluttercandiesScrollToTop =
       'fluttercandies://scroll to top';
 }
