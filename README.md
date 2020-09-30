@@ -16,7 +16,7 @@ NestedScrollView: extended nested scroll view to fix following issues.
 
 [Web demo for ExtendedNestedScrollView](https://fluttercandies.github.io/extended_nested_scroll_view/)
 
-- [extended_nested_scroll_view](#extendednestedscrollview)
+- [extended_nested_scroll_view](#extended_nested_scroll_view)
 - [Example for issue 1](#example-for-issue-1)
 - [Example for issue 2](#example-for-issue-2)
   - [Step1](#step1)
@@ -107,7 +107,4 @@ Please see the example app of this for a full example.
 * [pinned header height](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/dynamic_pinned_header_height.dart) 
 
   to show how to change pinned header height dynamically.
-  
-# ☕️Buy me a coffee
 
-![img](http://zmtzawqlp.gitee.io/my_images/images/qrcode.png)

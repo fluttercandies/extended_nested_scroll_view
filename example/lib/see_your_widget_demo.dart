@@ -17,14 +17,13 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
-    return  MaterialApp(
-      home:  Scaffold(
-        appBar:  AppBar(
-          title:  const Text('Check whether I\'m in'),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Check whether I\'m in'),
         ),
         body: NotificationListener<ScrollNotification>(
-          child:  ListView(
+          child: ListView(
             itemExtent: itemHeight,
             children: <Widget>[
               YourWidget(),
@@ -53,7 +52,7 @@ class MyAppState extends State<MyApp> {
             //final double screenHeight = MediaQuery.of(currentContext).size.height;
             final RenderObject renderObject = currentContext.findRenderObject();
             final RenderAbstractViewport viewport =
-            RenderAbstractViewport.of(renderObject);
+                RenderAbstractViewport.of(renderObject);
 
             /// The `alignment` argument describes where the target should be positioned
             /// after applying the returned offset. If `alignment` is 0.0, the child must
@@ -64,11 +63,11 @@ class MyAppState extends State<MyApp> {
 
             /// Distance between top edge of screen and MyWidget bottom edge
             final RevealedOffset offsetToRevealLeading =
-            viewport.getOffsetToReveal(renderObject, 0.0);
+                viewport.getOffsetToReveal(renderObject, 0.0);
 
             /// Distance between bottom edge of screen and MyWidget top edge
             final RevealedOffset offsetToRevealTrailingEdge =
-            viewport.getOffsetToReveal(renderObject, 1.0);
+                viewport.getOffsetToReveal(renderObject, 1.0);
 
             print(
                 ' ${scroll.metrics.pixels}  ${offsetToRevealLeading.offset} ${offsetToRevealTrailingEdge.offset}');
@@ -97,7 +96,7 @@ class MyAppState extends State<MyApp> {
             return false;
           },
         ),
-        floatingActionButton:  FloatingActionButton(
+        floatingActionButton: FloatingActionButton(
           child: Container(
             child: Text(widgetIn ? 'I see you ' : 'bye bye'),
             height: 200.0,
@@ -115,22 +114,21 @@ class MyWidget extends StatefulWidget {
   const MyWidget({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() =>  MyWidgetState();
+  State<StatefulWidget> createState() => MyWidgetState();
 }
 
 class MyWidgetState extends State<MyWidget> {
   @override
   Widget build(BuildContext context) {
-    return  Container(height: itemHeight, color: Colors.red);
+    return Container(height: itemHeight, color: Colors.red);
   }
 }
 
 class YourWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      decoration:
-       BoxDecoration(border:  Border.all(), color: Colors.grey),
+    return Container(
+      decoration: BoxDecoration(border: Border.all(), color: Colors.grey),
     );
   }
 }

@@ -205,8 +205,8 @@ class NestedScrollViewRefreshIndicatorState
     if (!widget.notificationPredicate(notification)) {
       return false;
     }
-    maxContainerExtent = math.max(
-        notification.metrics.viewportDimension, maxContainerExtent);
+    maxContainerExtent =
+        math.max(notification.metrics.viewportDimension, maxContainerExtent);
     if (notification is ScrollStartNotification &&
         notification.metrics.extentBefore == 0.0 &&
         _mode == null &&
@@ -468,7 +468,9 @@ class NestedScrollViewRefreshIndicatorState
                   animation: _positionController,
                   builder: (BuildContext context, Widget child) {
                     return RefreshProgressIndicator(
-                      semanticsLabel: widget.semanticsLabel ?? MaterialLocalizations.of(context).refreshIndicatorSemanticLabel,
+                      semanticsLabel: widget.semanticsLabel ??
+                          MaterialLocalizations.of(context)
+                              .refreshIndicatorSemanticLabel,
                       semanticsValue: widget.semanticsValue,
                       value: showIndeterminateIndicator ? null : _value.value,
                       valueColor: _valueColor,

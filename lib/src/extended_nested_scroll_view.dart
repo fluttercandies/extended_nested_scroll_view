@@ -719,8 +719,8 @@
 //       pixels = _outerPosition.pixels.clamp(
 //           _outerPosition.minScrollExtent,
 //           _outerPosition
-//               .maxScrollExtent); 
-  // TODO(ianh): gracefully handle out-of-range outer positions
+//               .maxScrollExtent);
+// TODO(ianh): gracefully handle out-of-range outer positions
 //       minRange = _outerPosition.minScrollExtent;
 //       maxRange = _outerPosition.maxScrollExtent;
 //       assert(minRange <= maxRange);
@@ -908,7 +908,7 @@
 //       _outerPosition.applyFullDragUpdate(delta);
 //     } else if (delta < 0.0) {
 //       // dragging "up"
-//       
+//
 // TODO(ianh): prioritize first getting rid of overscroll, and then the
 //       // outer view, so that the app bar will scroll out of the way asap.
 //       // Right now we ignore overscroll. This works fine on Android but looks
@@ -1110,7 +1110,7 @@
 //   }
 
 //   Iterable<_NestedScrollPosition> get nestedPositions sync* {
-//     
+//
 // TODO(vegorov): use instance method version of castFrom when it is available.
 //     yield* Iterable.castFrom<ScrollPosition, _NestedScrollPosition>(positions);
 //   }

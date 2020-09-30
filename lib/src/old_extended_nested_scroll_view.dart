@@ -197,9 +197,9 @@ class NestedScrollView extends StatefulWidget {
         assert(reverse != null),
         assert(headerSliverBuilder != null),
         assert(body != null),
-       assert(floatHeaderSlivers != null),
-       assert(clipBehavior != null),
-       super(key: key);
+        assert(floatHeaderSlivers != null),
+        assert(clipBehavior != null),
+        super(key: key);
 
   /// An object that can be used to control the position to which the outer
   /// scroll view is scrolled.
@@ -284,6 +284,7 @@ class NestedScrollView extends StatefulWidget {
 
   /// {@macro flutter.widgets.scrollable.restorationId}
   final String restorationId;
+
   /// Returns the [SliverOverlapAbsorberHandle] of the nearest ancestor
   /// [NestedScrollView].
   ///
@@ -453,15 +454,15 @@ class _NestedScrollViewCustomScrollView extends CustomScrollView {
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     String restorationId,
   }) : super(
-         scrollDirection: scrollDirection,
-         reverse: reverse,
-         physics: physics,
-         controller: controller,
-         slivers: slivers,
-         dragStartBehavior: dragStartBehavior,
-         restorationId: restorationId,
-         clipBehavior: clipBehavior,
-       );
+          scrollDirection: scrollDirection,
+          reverse: reverse,
+          physics: physics,
+          controller: controller,
+          slivers: slivers,
+          dragStartBehavior: dragStartBehavior,
+          restorationId: restorationId,
+          clipBehavior: clipBehavior,
+        );
 
   final SliverOverlapAbsorberHandle handle;
 
