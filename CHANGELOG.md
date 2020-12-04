@@ -1,6 +1,3 @@
-## 2.0.0-dev
-
-* Fix Null check operator used on a null value
 ## 2.0.0
 
 * Breaking change: add clipBehavior and restorationId

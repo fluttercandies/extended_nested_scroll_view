@@ -613,7 +613,7 @@ class _NestedScrollCoordinator
 
   bool get hasScrolledBody {
     for (final _NestedScrollPosition position in _currentInnerPositions) {
-      assert(position.hasContentDimensions && position.hasPixels);
+      assert(position.minScrollExtent != null && position.physics != null);
       if (position.pixels > position.minScrollExtent) {
         return true;
       }
@@ -1241,7 +1241,7 @@ class _NestedScrollPosition extends ScrollPosition
           oldPosition: oldPosition,
           debugLabel: debugLabel,
         ) {
-    if (!hasPixels && initialPixels != null) {
+    if (pixels == null && initialPixels != null) {
       correctPixels(initialPixels);
     }
     if (activity == null) {
@@ -1494,10 +1494,10 @@ class _NestedScrollPosition extends ScrollPosition
     return coordinator.jumpTo(coordinator.unnestOffset(value, this));
   }
 
-  @override
-  void pointerScroll(double delta) {
-    return coordinator.pointerScroll(delta);
-  }
+  // @override
+  // void pointerScroll(double delta) {
+  //   return coordinator.pointerScroll(delta);
+  // }
 
   @override
   void jumpToWithoutSettling(double value) {
