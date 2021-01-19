@@ -1,3 +1,7 @@
+## 2.0.1
+
+* Fix issue that list sync issue is not fixed #40
+
 ## 2.0.0
 
 * Breaking change: add clipBehavior and restorationId

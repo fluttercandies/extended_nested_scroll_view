@@ -637,7 +637,7 @@ class _NestedScrollCoordinator
     }
     _userScrollDirection = value;
     _outerPosition.didUpdateScrollDirection(value);
-    for (final _NestedScrollPosition position in _innerPositions)
+    for (final _NestedScrollPosition position in _currentInnerPositions)
       position.didUpdateScrollDirection(value);
   }
 
@@ -1020,7 +1020,7 @@ class _NestedScrollCoordinator
         final double innerDelta =
             _outerPosition.applyClampedDragUpdate(outerDelta);
         if (innerDelta != 0.0) {
-          for (final _NestedScrollPosition position in _innerPositions)
+          for (final _NestedScrollPosition position in _currentInnerPositions)
             position.applyFullDragUpdate(innerDelta);
         }
       }
