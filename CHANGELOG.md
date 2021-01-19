@@ -1,3 +1,7 @@
+
+## 2.0.1-dev
+
+* Fix issue that list sync issue is not fixed #40
 ## 2.0.0-dev
 
 * Fix Null check operator used on a null value
