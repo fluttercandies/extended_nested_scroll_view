@@ -75,7 +75,7 @@ class _PullToRefreshOuterDemoState extends State<PullToRefreshOuterDemo>
             return <Widget>[
               const SliverAppBar(
                 pinned: true,
-                title: const Text('pull to refresh in header'),
+                title: Text('pull to refresh in header'),
               ),
               PullToRefreshContainer(
                   (PullToRefreshScrollNotificationInfo info) {
@@ -87,7 +87,7 @@ class _PullToRefreshOuterDemoState extends State<PullToRefreshOuterDemo>
                   color: Colors.red,
                   alignment: Alignment.center,
                   height: 200,
-                  child: Text('other things'),
+                  child: const Text('other things'),
                 ),
               ),
             ];
