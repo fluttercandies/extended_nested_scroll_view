@@ -12,7 +12,7 @@ import 'package:loading_more_list/loading_more_list.dart';
       'show how to support load more list in NestedScrollView\'s body without ScrollController',
   exts: <String, dynamic>{
     'group': 'Complex',
-    'order': 1,
+    'order': 2,
   },
 )
 class LoadMoreDemo extends StatefulWidget {

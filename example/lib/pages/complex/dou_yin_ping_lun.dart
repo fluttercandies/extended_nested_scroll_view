@@ -12,7 +12,7 @@ import 'package:loading_more_list/loading_more_list.dart';
   description: 'Demo for Tik Tok Comment',
   exts: <String, dynamic>{
     'group': 'Complex',
-    'order': 3,
+    'order': 4,
   },
 )
 class DouYinPingLunDemo extends StatelessWidget {

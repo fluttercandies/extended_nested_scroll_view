@@ -11,7 +11,7 @@ import 'package:loading_more_list/loading_more_list.dart';
       'how to scroll list to top in NestedScrollView\'s body without ScrollController',
   exts: <String, dynamic>{
     'group': 'Complex',
-    'order': 2,
+    'order': 3,
   },
 )
 class ScrollToTopDemo extends StatefulWidget {
