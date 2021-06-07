@@ -1029,7 +1029,7 @@ class _NestedScrollCoordinator
       if (outerDelta != 0.0) {
         final double innerDelta =
             _outerPosition!.applyClampedDragUpdate(outerDelta);
-        if (innerDelta != 0.0) {
+        if (innerDelta < -1 || innerDelta > 1) {
           for (final _NestedScrollPosition position in _currentInnerPositions)
             position.applyFullDragUpdate(innerDelta);
         }
