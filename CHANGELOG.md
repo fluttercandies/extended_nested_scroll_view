@@ -1,6 +1,10 @@
+## 3.0.1-non-null-safety
+
+* Check scrollable state if mounted on finding key of ScrollPosition. #78
+* Igore inner position when inner delta is minimal value. #74
 ## 3.0.0-non-null-safety
 
-non-null-safety
+* non-null-safety
 ## 2.0.1
 
 * Fix issue that list sync issue is not fixed #40

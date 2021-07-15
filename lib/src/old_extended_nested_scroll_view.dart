@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:extended_nested_scroll_view/src/nested_scroll_view_inner_scroll_position_key_widget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/physics.dart';
@@ -928,7 +929,18 @@ class _NestedScrollCoordinator
       if (outerDelta != 0.0) {
         final double innerDelta =
             _outerPosition.applyClampedPointerSignalUpdate(outerDelta);
-        if (innerDelta != 0.0) {
+
+        // this is a bug that the out postion is not overscroll actually and it get minimal value
+        // do under code will scroll inner positions
+        // igore minimal value here(value like following data)
+        // I/flutter (14963): 5.684341886080802e-14
+        // I/flutter (14963): -5.684341886080802e-14
+        // I/flutter (14963): -5.684341886080802e-14
+        // I/flutter (14963): 5.684341886080802e-14
+        // I/flutter (14963): -5.684341886080802e-14
+        // I/flutter (14963): -5.684341886080802e-14
+        // I/flutter (14963): -5.684341886080802e-14
+        if (innerDelta.abs() > precisionErrorTolerance) {
           for (final _NestedScrollPosition position in _currentInnerPositions)
             position.applyClampedPointerSignalUpdate(innerDelta);
         }
