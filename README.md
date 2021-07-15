@@ -14,6 +14,8 @@ NestedScrollView: extended nested scroll view to fix following issues.
 
 4.do without ScrollController in NestedScrollView's body
 
+5.[Unable to stretch SliverAppBar issue](https://github.com/flutter/flutter/issues/54059)
+
 [Web demo for ExtendedNestedScrollView](https://fluttercandies.github.io/extended_nested_scroll_view/)
 
 - [extended_nested_scroll_view](#extended_nested_scroll_view)
@@ -23,6 +25,7 @@ NestedScrollView: extended nested scroll view to fix following issues.
   - [Step2](#step2)
 - [Example for NestedScrollView pull to refresh](#example-for-nestedscrollview-pull-to-refresh)
 - [Do without ScrollController in NestedScrollView's body](#do-without-scrollcontroller-in-nestedscrollviews-body)
+
 # Example for issue 1
 
 give total height of pinned sliver headers in pinnedHeaderSliverHeightBuilder callback
@@ -38,7 +41,7 @@ give total height of pinned sliver headers in pinnedHeaderSliverHeightBuilder ca
         pinnedHeaderSliverHeightBuilder: () {
           return pinnedHeaderHeight;
         },
-       
+
 ```
 # Example for issue 2
 
@@ -87,6 +90,37 @@ NestedScrollViewRefreshIndicator is as the same as Flutter RefreshIndicator.
          },
 ```
 
+# Example for NestedScrollView to stretch SliverAppBar
+
+Just set `stretchHeaderSlivers` to `true`. Be sure to set both `NestedScrollView` and the body ScrollView physics to `const BouncingScrollPhysics(parent: const AlwaysScrollableScrollPhysics())`. See [scroll to top](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/scroll_to_top.dart) for the full example.
+
+This is a quick hack, optimal effect requires extensive refactoring, thus official Flutter team is not picking up this issue. Some limitations apply:
+1. The body scroll view must have `BouncingScrollPhysics`, when the SliverAppBar background stretches, so does the body scroll view.
+2. SliverAppBar and body scroll physics does not connect seamlessly. As a result, the SliverAppBar won't stretch by carried momentum (when you quick fling down then not touching the screen), your fingertip has to be touching the screen when stretching the SliverAppBar.
+
+```dart
+NestedScrollView(
+      // [SliverAppBar.stretch not supported issue](https://github.com/flutter/flutter/issues/54059)
+      stretchHeaderSlivers: true,
+      physics: const BouncingScrollPhysics(parent: const AlwaysScrollableScrollPhysics()), // Imoprtant
+      headerSliverBuilder: (BuildContext c, bool f) {
+        return <Widget>[
+          SliverAppBar(
+              pinned: true,
+              expandedHeight: 200.0,
+              stretch: true,
+              stretchTriggerOffset: 1.0,
+              flexibleSpace: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.pin,
+                  stretchModes: [StretchMode.blurBackground, StretchMode.zoomBackground],
+                  background: Image.asset(
+                    'assets/467141054.jpg',
+                    fit: BoxFit.cover,
+                  )))
+        ];
+      },
+```
+
 [Better one to pull to refresh](https://github.com/fluttercandies/loading_more_list/blob/master/example/lib/demo/nested_scroll_view_demo.dart)
 
 Please see the example app of this for a full example.
@@ -94,17 +128,16 @@ Please see the example app of this for a full example.
 # Do without ScrollController in NestedScrollView's body
 
 * due to we can't set ScrollController for list in NestedScrollView's body(it will breaking behaviours of InnerScrollController in NestedScrollView),provide Demos
-  
+
 * [pull to refresh](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/pull_to_refresh.dart),
-  
-* [load more](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/load_more.dart) 
-  
-* [scroll to top](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/scroll_to_top.dart) 
-  
+
+* [load more](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/load_more.dart)
+
+* [scroll to top](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/scroll_to_top.dart)
+
   to show how to do it without ScrollController
 
 
-* [pinned header height](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/dynamic_pinned_header_height.dart) 
+* [pinned header height](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/dynamic_pinned_header_height.dart)
 
   to show how to change pinned header height dynamically.
-

@@ -192,6 +192,7 @@ class NestedScrollView extends StatefulWidget {
     required this.body,
     this.dragStartBehavior = DragStartBehavior.start,
     this.floatHeaderSlivers = false,
+    this.stretchHeaderSlivers = false,
     this.clipBehavior = Clip.hardEdge,
     this.restorationId,
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
@@ -278,6 +279,9 @@ class NestedScrollView extends StatefulWidget {
   /// This is useful for an outer scrollable containing a [SliverAppBar] that
   /// is expected to float. This cannot be null.
   final bool floatHeaderSlivers;
+
+  /// Whether or not the [NestedScrollView] has a [SliverAppBar] that is expected to stretch on overscroll.
+  final bool stretchHeaderSlivers;
 
   /// {@macro flutter.widgets.Clip}
   ///
@@ -373,6 +377,7 @@ class NestedScrollViewState extends State<NestedScrollView> {
       widget.pinnedHeaderSliverHeightBuilder,
       widget.innerScrollPositionKeyBuilder,
       widget.floatHeaderSlivers,
+      widget.stretchHeaderSlivers,
     );
   }
 
@@ -566,6 +571,7 @@ class _NestedScrollCoordinator
     this.pinnedHeaderSliverHeightBuilder,
     this.innerScrollPositionKeyBuilder,
     this._floatHeaderSlivers,
+      this._stretchHeaderSlivers,
   ) {
     final double initialScrollOffset = _parent?.initialScrollOffset ?? 0.0;
     _outerController = _NestedScrollController(this,
@@ -587,6 +593,7 @@ class _NestedScrollCoordinator
   ScrollController? _parent;
   final VoidCallback _onHasScrolledBodyChanged;
   final bool _floatHeaderSlivers;
+  final bool _stretchHeaderSlivers;
 
   late _NestedScrollController _outerController;
   late _NestedScrollController _innerController;
@@ -724,7 +731,8 @@ class _NestedScrollCoordinator
       }
     }
 
-    if (innerPosition == null) {
+    // Kenshin: if innser scrollview is scrolled beyond top, change _outerPosition only
+    if (innerPosition == null || (_stretchHeaderSlivers && innerPosition.pixels == 0.0)) {
       // It's either just us or a velocity=0 situation.
       return _outerPosition!.createBallisticScrollActivity(
         _outerPosition!.physics
@@ -752,6 +760,7 @@ class _NestedScrollCoordinator
       ),
       mode: _NestedBallisticScrollActivityMode.inner,
     );
+
   }
 
   _NestedScrollMetrics _getMetrics(
@@ -784,6 +793,7 @@ class _NestedScrollCoordinator
         // This handles going forward (fling up) and inner list is scrolled past
         // zero. We want to grab the extra pixels immediately to shrink.
         extra = _outerPosition!.maxScrollExtent - _outerPosition!.pixels;
+        extra = extra > 0 ? extra : 0;
         assert(extra >= 0.0);
         minRange = pixels;
         maxRange = pixels + extra;
@@ -794,6 +804,7 @@ class _NestedScrollCoordinator
         // This handles going backward (fling down) and inner list is
         // underscrolled. We want to grab the extra pixels immediately to grow.
         extra = _outerPosition!.pixels - _outerPosition!.minScrollExtent;
+        extra = extra > 0 ? extra : 0;
         assert(extra >= 0.0);
         minRange = pixels - extra;
         maxRange = pixels;
@@ -815,6 +826,7 @@ class _NestedScrollCoordinator
               (_outerPosition!.maxScrollExtent -
                   _outerPosition!.minScrollExtent);
         }
+        extra = extra < 0 ? extra : 0;
         assert(extra <= 0.0);
         minRange = _outerPosition!.minScrollExtent;
         maxRange = _outerPosition!.maxScrollExtent + extra;
@@ -1070,8 +1082,15 @@ class _NestedScrollCoordinator
           outerDelta = math.max(outerDelta, overscroll);
           overscrolls.add(overscroll);
         }
-        if (outerDelta != 0.0)
-          outerDelta -= _outerPosition!.applyClampedDragUpdate(outerDelta);
+        if (outerDelta != 0.0) {
+          if (_stretchHeaderSlivers) {
+            // Kenshin: if has stretch header, let _outerPosition consume all scroll delta;
+            // otherwise, it will ba clamped and the innerPostion will consume the remaining delta
+            _outerPosition!.applyFullDragUpdate(outerDelta);
+          } else {
+            outerDelta -= _outerPosition!.applyClampedDragUpdate(outerDelta);
+          }
+        }
 
         // Now deal with any overscroll
         // TODO(Piinks): Configure which scrollable receives overscroll to

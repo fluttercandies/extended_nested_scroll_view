@@ -66,18 +66,24 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
             kToolbarHeight;
     return NestedScrollView(
       key: _key,
+      // [SliverAppBar.stretch not supported issue](https://github.com/flutter/flutter/issues/54059)
+      stretchHeaderSlivers: true,
+      physics: const BouncingScrollPhysics(parent: const AlwaysScrollableScrollPhysics()),
       headerSliverBuilder: (BuildContext c, bool f) {
         return <Widget>[
           SliverAppBar(
               pinned: true,
               expandedHeight: 200.0,
+              stretch: true,
+              stretchTriggerOffset: 1.0,
               title: const Text('scroll to top'),
               flexibleSpace: FlexibleSpaceBar(
                   //centerTitle: true,
                   collapseMode: CollapseMode.pin,
+                  stretchModes: [StretchMode.blurBackground, StretchMode.zoomBackground],
                   background: Image.asset(
                     'assets/467141054.jpg',
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   )))
         ];
       },
@@ -116,9 +122,9 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
                   const Key('Tab0'),
                   GlowNotificationWidget(
                     ListView.builder(
+                      physics: const BouncingScrollPhysics(parent: const AlwaysScrollableScrollPhysics()),
                       //store Page state
                       key: const PageStorageKey<String>('Tab0'),
-                      physics: const ClampingScrollPhysics(),
                       itemBuilder: (BuildContext c, int i) {
                         return Container(
                           alignment: Alignment.center,
@@ -138,7 +144,7 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
                     ListView.builder(
                       //store Page state
                       key: const PageStorageKey<String>('Tab1'),
-                      physics: const ClampingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(parent: const AlwaysScrollableScrollPhysics()),
                       itemBuilder: (BuildContext c, int i) {
                         return Container(
                           alignment: Alignment.center,
