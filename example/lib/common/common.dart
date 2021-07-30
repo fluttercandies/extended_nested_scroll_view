@@ -1,14 +1,11 @@
 import 'dart:async';
-
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class SecondaryTabView extends StatefulWidget {
-  const SecondaryTabView(this.tabKey, this.tc, this.oldDemo);
+  const SecondaryTabView(this.tabKey, this.tc);
   final String tabKey;
   final TabController tc;
-  final bool oldDemo;
   @override
   _SecondaryTabViewState createState() => _SecondaryTabViewState();
 }
@@ -36,6 +33,7 @@ class _SecondaryTabViewState extends State<SecondaryTabView>
         Tab(text: widget.tabKey + '1'),
         Tab(text: widget.tabKey + '2'),
         Tab(text: widget.tabKey + '3'),
+        Tab(text: widget.tabKey + '4'),
       ],
     );
     return Column(
@@ -45,10 +43,22 @@ class _SecondaryTabViewState extends State<SecondaryTabView>
           child: TabBarView(
             controller: widget.tc,
             children: <Widget>[
-              TabViewItem(Key(widget.tabKey + '0'), widget.oldDemo),
-              TabViewItem(Key(widget.tabKey + '1'), widget.oldDemo),
-              TabViewItem(Key(widget.tabKey + '2'), widget.oldDemo),
-              TabViewItem(Key(widget.tabKey + '3'), widget.oldDemo),
+              TabViewItem(Key(widget.tabKey + '0')),
+              TabViewItem(Key(widget.tabKey + '1')),
+              TabViewItem(Key(widget.tabKey + '2')),
+              TabViewItem(Key(widget.tabKey + '3')),
+              CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: <Widget>[
+                  SliverFillRemaining(
+                    child: Container(
+                      color: Colors.blue,
+                      child: const Text('tab4'),
+                      alignment: Alignment.center,
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
         )
@@ -61,9 +71,8 @@ class _SecondaryTabViewState extends State<SecondaryTabView>
 }
 
 class TabViewItem extends StatefulWidget {
-  const TabViewItem(this.tabKey, this.oldDemo);
+  const TabViewItem(this.tabKey);
   final Key tabKey;
-  final bool oldDemo;
   @override
   _TabViewItemState createState() => _TabViewItemState();
 }
@@ -92,14 +101,7 @@ class _TabViewItemState extends State<TabViewItem>
       showGlowLeading: false,
     );
 
-    if (widget.oldDemo) {
-      return NestedScrollViewInnerScrollPositionKeyWidget(widget.tabKey, child);
-    }
-
-    /// new one doesn't need NestedScrollViewInnerScrollPositionKeyWidget any more.
-    else {
-      return child;
-    }
+    return child;
   }
 
   @override

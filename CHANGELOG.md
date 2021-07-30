@@ -1,3 +1,10 @@
+## 4.0.0
+
+* Breaking change: 
+  1. refactor [ExtendedNestedScrollView].
+  2. add [ExtendedNestedScrollView.onlyOneScrollInBody] to solve scroll sync issues(https://github.com/flutter/flutter/issues/21868).
+  3. remove [ExtendedNestedScrollView.innerScrollPositionKeyBuilder] and [NestedScrollViewInnerScrollPositionKeyWidget].
+
 ## 3.0.1
 
 * Check scrollable state if mounted on finding key of ScrollPosition. #78

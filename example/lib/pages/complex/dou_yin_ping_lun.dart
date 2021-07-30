@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' hide NestedScrollView;
+import 'package:flutter/material.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/services.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -136,7 +136,7 @@ class _PingLunDemoState extends State<PingLunDemo>
   }
 
   Widget _buildScaffoldBody() {
-    return NestedScrollView(
+    return ExtendedNestedScrollView(
       controller: sc,
       headerSliverBuilder: (BuildContext c, bool f) {
         return <Widget>[
@@ -156,13 +156,7 @@ class _PingLunDemoState extends State<PingLunDemo>
         return 200.0;
       },
       //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
-      innerScrollPositionKeyBuilder: () {
-        String index = 'Tab';
-
-        index += primaryTC.index.toString();
-
-        return Key(index);
-      },
+      onlyOneScrollInBody: true,
       body: Material(
         child: Column(
           children: <Widget>[
@@ -183,44 +177,38 @@ class _PingLunDemoState extends State<PingLunDemo>
               child: TabBarView(
                 controller: primaryTC,
                 children: <Widget>[
-                  NestedScrollViewInnerScrollPositionKeyWidget(
-                    const Key('Tab0'),
-                    GlowNotificationWidget(
-                      ListView.builder(
-                        //store Page state
-                        key: const PageStorageKey<String>('Tab0'),
-                        itemBuilder: (BuildContext c, int i) {
-                          return Container(
-                            alignment: Alignment.center,
-                            height: 60.0,
-                            child: Text(
-                                const Key('Tab0').toString() + ': ListView$i'),
-                          );
-                        },
-                        itemCount: 50,
-                      ),
-                      showGlowLeading: false,
+                  GlowNotificationWidget(
+                    ListView.builder(
+                      //store Page state
+                      key: const PageStorageKey<String>('Tab0'),
+                      itemBuilder: (BuildContext c, int i) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: 60.0,
+                          child: Text(
+                              const Key('Tab0').toString() + ': ListView$i'),
+                        );
+                      },
+                      itemCount: 50,
                     ),
+                    showGlowLeading: false,
                   ),
-                  NestedScrollViewInnerScrollPositionKeyWidget(
-                    const Key('Tab1'),
-                    GlowNotificationWidget(
-                      ListView.builder(
-                        //store Page state
-                        key: const PageStorageKey<String>('Tab1'),
-                        itemBuilder: (BuildContext c, int i) {
-                          return Container(
-                            alignment: Alignment.center,
-                            height: 60.0,
-                            child: Text(
-                                const Key('Tab1').toString() + ': ListView$i'),
-                          );
-                        },
-                        itemCount: 50,
-                      ),
-                      showGlowLeading: false,
+                  GlowNotificationWidget(
+                    ListView.builder(
+                      //store Page state
+                      key: const PageStorageKey<String>('Tab1'),
+                      itemBuilder: (BuildContext c, int i) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: 60.0,
+                          child: Text(
+                              const Key('Tab1').toString() + ': ListView$i'),
+                        );
+                      },
+                      itemCount: 50,
                     ),
-                  )
+                    showGlowLeading: false,
+                  ),
                 ],
               ),
             ),

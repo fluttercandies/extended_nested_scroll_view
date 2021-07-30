@@ -82,7 +82,7 @@ FFRouteSettings getRouteSettings({
       return FFRouteSettings(
         name: name,
         arguments: arguments,
-        widget: OldExtendedNestedScrollViewDemo(),
+        widget: ExtendedNestedScrollViewDemo(),
         routeName: 'NestedScrollview',
         description: 'fix pinned header and inner scrollables sync issues.',
         exts: <String, dynamic>{'group': 'Simple', 'order': 0},

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:example/common/push_to_refresh_header.dart';
 import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
-import 'package:flutter/material.dart' hide NestedScrollView;
+import 'package:flutter/material.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
@@ -70,7 +70,7 @@ class _PullToRefreshOuterDemoState extends State<PullToRefreshOuterDemo>
       },
       maxDragOffset: maxDragOffset,
       child: GlowNotificationWidget(
-        NestedScrollView(
+        ExtendedNestedScrollView(
           headerSliverBuilder: (BuildContext c, bool f) {
             return <Widget>[
               const SliverAppBar(
@@ -97,13 +97,7 @@ class _PullToRefreshOuterDemoState extends State<PullToRefreshOuterDemo>
             return pinnedHeaderHeight;
           },
           //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
-          innerScrollPositionKeyBuilder: () {
-            String index = 'Tab';
-
-            index += primaryTC.index.toString();
-
-            return Key(index);
-          },
+          onlyOneScrollInBody: true,
           body: Column(
             children: <Widget>[
               TabBar(
@@ -123,41 +117,35 @@ class _PullToRefreshOuterDemoState extends State<PullToRefreshOuterDemo>
                 child: TabBarView(
                   controller: primaryTC,
                   children: <Widget>[
-                    NestedScrollViewInnerScrollPositionKeyWidget(
-                      const Key('Tab0'),
-                      ListView.builder(
-                        //store Page state
-                        key: const PageStorageKey<String>('Tab0'),
-                        physics: const ClampingScrollPhysics(),
-                        itemBuilder: (BuildContext c, int i) {
-                          return Container(
-                            alignment: Alignment.center,
-                            height: 60.0,
-                            child: Text(const Key('Tab0').toString() +
-                                ': ListView$i of $_length1'),
-                          );
-                        },
-                        itemCount: _length1,
-                        padding: const EdgeInsets.all(0.0),
-                      ),
+                    ListView.builder(
+                      //store Page state
+                      key: const PageStorageKey<String>('Tab0'),
+                      physics: const ClampingScrollPhysics(),
+                      itemBuilder: (BuildContext c, int i) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: 60.0,
+                          child: Text(const Key('Tab0').toString() +
+                              ': ListView$i of $_length1'),
+                        );
+                      },
+                      itemCount: _length1,
+                      padding: const EdgeInsets.all(0.0),
                     ),
-                    NestedScrollViewInnerScrollPositionKeyWidget(
-                      const Key('Tab1'),
-                      ListView.builder(
-                        //store Page state
-                        key: const PageStorageKey<String>('Tab1'),
-                        physics: const ClampingScrollPhysics(),
-                        itemBuilder: (BuildContext c, int i) {
-                          return Container(
-                            alignment: Alignment.center,
-                            height: 60.0,
-                            child: Text(const Key('Tab1').toString() +
-                                ': ListView$i of $_length2'),
-                          );
-                        },
-                        itemCount: _length2,
-                        padding: const EdgeInsets.all(0.0),
-                      ),
+                    ListView.builder(
+                      //store Page state
+                      key: const PageStorageKey<String>('Tab1'),
+                      physics: const ClampingScrollPhysics(),
+                      itemBuilder: (BuildContext c, int i) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: 60.0,
+                          child: Text(const Key('Tab1').toString() +
+                              ': ListView$i of $_length2'),
+                        );
+                      },
+                      itemCount: _length2,
+                      padding: const EdgeInsets.all(0.0),
                     ),
                   ],
                 ),

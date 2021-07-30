@@ -10,18 +10,13 @@ NestedScrollView: extended nested scroll view to fix following issues.
 
 2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
 
-3.pull to refresh is not work.
-
-4.do without ScrollController in NestedScrollView's body
+3.do without ScrollController in NestedScrollView's body
 
 [Web demo for ExtendedNestedScrollView](https://fluttercandies.github.io/extended_nested_scroll_view/)
 
 - [extended_nested_scroll_view](#extended_nested_scroll_view)
 - [Example for issue 1](#example-for-issue-1)
 - [Example for issue 2](#example-for-issue-2)
-  - [Step1](#step1)
-  - [Step2](#step2)
-- [Example for NestedScrollView pull to refresh](#example-for-nestedscrollview-pull-to-refresh)
 - [Do without ScrollController in NestedScrollView's body](#do-without-scrollcontroller-in-nestedscrollviews-body)
 # Example for issue 1
 
@@ -34,77 +29,34 @@ give total height of pinned sliver headers in pinnedHeaderSliverHeightBuilder ca
               //pinned SliverAppBar height in header
               kToolbarHeight;
 
- return NestedScrollView(
+    ExtendedNestedScrollView(
         pinnedHeaderSliverHeightBuilder: () {
           return pinnedHeaderHeight;
-        },
+        }
+       )   ,
        
 ```
 # Example for issue 2
 
-## Step1
-
-Put your list which in tabview into NestedScrollViewInnerScrollPositionKeyWidget,and get unique a key
 ``` dart
- return extended.NestedScrollViewInnerScrollPositionKeyWidget(
-        widget.tabKey,
-        ListView.builder(
-            itemBuilder: (c, i) {
-              return Container(
-                alignment: Alignment.center,
-                height: 60.0,
-                child: Text(widget.tabKey.toString() + ": List$i"),
-              );
-            },
-            itemCount: 100)
-        );
-```
-## Step2
-
-get current tab key in innerScrollPositionKeyBuilder callback. this key should as same as in step 1 given.
-``` dart
- extended.NestedScrollView(
-        innerScrollPositionKeyBuilder: () {
-          var index = "Tab";
-          if (primaryTC.index == 0) {
-            index +=
-                (primaryTC.index.toString() + secondaryTC.index.toString());
-          } else {
-            index += primaryTC.index.toString();
-          }
-          return Key(index);
-        },
-```
-# Example for NestedScrollView pull to refresh
-
-NestedScrollViewRefreshIndicator is as the same as Flutter RefreshIndicator.
-``` dart
- NestedScrollViewRefreshIndicator(
-       onRefresh: onRefresh,
-       child: extended.NestedScrollView(
-         headerSliverBuilder: (c, f) {
-           return _buildSliverHeader(primaryTabBar);
-         },
-```
-
-[Better one to pull to refresh](https://github.com/fluttercandies/loading_more_list/blob/master/example/lib/demo/nested_scroll_view_demo.dart)
-
-Please see the example app of this for a full example.
-
+    ExtendedNestedScrollView(
+       onlyOneScrollInBody: true,
+    )
+``` 
 # Do without ScrollController in NestedScrollView's body
 
 * due to we can't set ScrollController for list in NestedScrollView's body(it will breaking behaviours of InnerScrollController in NestedScrollView),provide Demos
   
-* [pull to refresh](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/pull_to_refresh.dart),
+* [pull to refresh](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/pull_to_refresh.dart)
   
 * [load more](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/load_more.dart) 
   
 * [scroll to top](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/scroll_to_top.dart) 
   
-  to show how to do it without ScrollController
+  show how to do it without ScrollController
 
 
 * [pinned header height](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/dynamic_pinned_header_height.dart) 
 
-  to show how to change pinned header height dynamically.
+  show how to change pinned header height dynamically.
 
