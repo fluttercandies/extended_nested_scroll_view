@@ -1,6 +1,8 @@
 import 'package:example/example_routes.dart';
+import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ff_annotation_route/ff_annotation_route.dart';
+import 'package:ff_annotation_route_core/ff_annotation_route_core.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:collection/collection.dart';
 import '../example_route.dart';
@@ -16,11 +18,12 @@ class MainPage extends StatelessWidget {
     routeNames.addAll(example_routes.routeNames);
     routeNames.remove(Routes.fluttercandiesMainpage);
     routeNames.remove(Routes.fluttercandiesDemogrouppage);
+
     routesGroup.addAll(groupBy<DemoRouteResult, String>(
         routeNames
-            .map<RouteResult>((String name) => getRouteResult(name: name))
-            .where((RouteResult element) => element.exts != null)
-            .map<DemoRouteResult>((RouteResult e) => DemoRouteResult(e))
+            .map<FFRouteSettings>((String name) => getRouteSettings(name: name))
+            .where((FFRouteSettings element) => element.exts != null)
+            .map<DemoRouteResult>((FFRouteSettings e) => DemoRouteResult(e))
             .toList()
               ..sort((DemoRouteResult a, DemoRouteResult b) =>
                   b.group.compareTo(a.group)),
@@ -28,7 +31,8 @@ class MainPage extends StatelessWidget {
   }
   final Map<String, List<DemoRouteResult>> routesGroup =
       <String, List<DemoRouteResult>>{};
-
+  //final List<RouteResult> routes = <RouteResult>[];
+  //final List<String> routeNames = <String>[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +44,7 @@ class MainPage extends StatelessWidget {
           ButtonTheme(
             minWidth: 0.0,
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: FlatButton(
+            child: TextButton(
               child: const Text(
                 'Github',
                 style: TextStyle(
@@ -55,17 +59,18 @@ class MainPage extends StatelessWidget {
               },
             ),
           ),
-          ButtonTheme(
-            padding: const EdgeInsets.only(right: 10.0),
-            minWidth: 0.0,
-            child: FlatButton(
-              child:
-                  Image.network('https://pub.idqqimg.com/wpa/images/group.png'),
-              onPressed: () {
-                launch('https://jq.qq.com/?_wv=1027&k=5bcc0gy');
-              },
-            ),
-          )
+          if (!kIsWeb)
+            ButtonTheme(
+              padding: const EdgeInsets.only(right: 10.0),
+              minWidth: 0.0,
+              child: TextButton(
+                child: Image.network(
+                    'https://pub.idqqimg.com/wpa/images/group.png'),
+                onPressed: () {
+                  launch('https://jq.qq.com/?_wv=1027&k=5bcc0gy');
+                },
+              ),
+            )
         ],
       ),
       body: ListView.builder(
@@ -84,7 +89,7 @@ class MainPage extends StatelessWidget {
                       //style: TextStyle(inherit: false),
                     ),
                     Text(
-                      '$type demos of extended_nested_scroll_view',
+                      '$type demos of ExtendedImage',
                       //page.description,
                       style: const TextStyle(color: Colors.grey),
                     )
@@ -163,5 +168,5 @@ class DemoRouteResult {
 
   final int order;
   final String group;
-  final RouteResult routeResult;
+  final FFRouteSettings routeResult;
 }

@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'package:example/common/push_to_refresh_header.dart';
-import 'package:flutter/material.dart' hide NestedScrollView;
+import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
+import 'package:flutter/material.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
-import 'package:ff_annotation_route/ff_annotation_route.dart';
+
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
 @FFRoute(
@@ -53,7 +54,7 @@ class _PullToRefreshDemoState extends State<PullToRefreshDemo>
         statusBarHeight +
             //pinned SliverAppBar height in header
             kToolbarHeight;
-    return NestedScrollView(
+    return ExtendedNestedScrollView(
       headerSliverBuilder: (BuildContext c, bool f) {
         return <Widget>[
           SliverAppBar(
@@ -74,13 +75,7 @@ class _PullToRefreshDemoState extends State<PullToRefreshDemo>
         return pinnedHeaderHeight;
       },
       //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
-      innerScrollPositionKeyBuilder: () {
-        String index = 'Tab';
-
-        index += primaryTC.index.toString();
-
-        return Key(index);
-      },
+      onlyOneScrollInBody: true,
       body: Column(
         children: <Widget>[
           TabBar(
@@ -100,98 +95,92 @@ class _PullToRefreshDemoState extends State<PullToRefreshDemo>
             child: TabBarView(
               controller: primaryTC,
               children: <Widget>[
-                NestedScrollViewInnerScrollPositionKeyWidget(
-                  const Key('Tab0'),
-                  PullToRefreshNotification(
-                    color: Colors.blue,
-                    onRefresh: () {
-                      return Future<bool>.delayed(
-                          const Duration(
-                            seconds: 1,
-                          ), () {
-                        setState(() {
-                          _length1 += 10;
-                          lastRefreshTime = DateTime.now();
-                        });
-                        return true;
+                PullToRefreshNotification(
+                  color: Colors.blue,
+                  onRefresh: () {
+                    return Future<bool>.delayed(
+                        const Duration(
+                          seconds: 1,
+                        ), () {
+                      setState(() {
+                        _length1 += 10;
+                        lastRefreshTime = DateTime.now();
                       });
-                    },
-                    maxDragOffset: maxDragOffset,
-                    child: GlowNotificationWidget(
-                      Column(
-                        children: <Widget>[
-                          PullToRefreshContainer(
-                              (PullToRefreshScrollNotificationInfo info) {
-                            return PullToRefreshHeader(info, lastRefreshTime);
-                          }),
-                          Expanded(
-                            child: ListView.builder(
-                              //store Page state
-                              key: const PageStorageKey<String>('Tab0'),
-                              physics: const ClampingScrollPhysics(),
-                              itemBuilder: (BuildContext c, int i) {
-                                return Container(
-                                  alignment: Alignment.center,
-                                  height: 60.0,
-                                  child: Text(const Key('Tab0').toString() +
-                                      ': ListView$i of $_length1'),
-                                );
-                              },
-                              itemCount: _length1,
-                              padding: const EdgeInsets.all(0.0),
-                            ),
-                          )
-                        ],
-                      ),
-                      showGlowLeading: false,
+                      return true;
+                    });
+                  },
+                  maxDragOffset: maxDragOffset,
+                  child: GlowNotificationWidget(
+                    Column(
+                      children: <Widget>[
+                        PullToRefreshContainer(
+                            (PullToRefreshScrollNotificationInfo info) {
+                          return PullToRefreshHeader(info, lastRefreshTime);
+                        }),
+                        Expanded(
+                          child: ListView.builder(
+                            //store Page state
+                            key: const PageStorageKey<String>('Tab0'),
+                            physics: const ClampingScrollPhysics(),
+                            itemBuilder: (BuildContext c, int i) {
+                              return Container(
+                                alignment: Alignment.center,
+                                height: 60.0,
+                                child: Text(const Key('Tab0').toString() +
+                                    ': ListView$i of $_length1'),
+                              );
+                            },
+                            itemCount: _length1,
+                            padding: const EdgeInsets.all(0.0),
+                          ),
+                        )
+                      ],
                     ),
+                    showGlowLeading: false,
                   ),
                 ),
-                NestedScrollViewInnerScrollPositionKeyWidget(
-                  const Key('Tab1'),
-                  PullToRefreshNotification(
-                    color: Colors.blue,
-                    onRefresh: () {
-                      return Future<bool>.delayed(
-                          const Duration(
-                            seconds: 1,
-                          ), () {
-                        setState(() {
-                          _length1 += 10;
-                          lastRefreshTime = DateTime.now();
-                        });
-                        return true;
+                PullToRefreshNotification(
+                  color: Colors.blue,
+                  onRefresh: () {
+                    return Future<bool>.delayed(
+                        const Duration(
+                          seconds: 1,
+                        ), () {
+                      setState(() {
+                        _length1 += 10;
+                        lastRefreshTime = DateTime.now();
                       });
-                    },
-                    maxDragOffset: maxDragOffset,
-                    child: GlowNotificationWidget(
-                      Column(
-                        children: <Widget>[
-                          PullToRefreshContainer(
-                              (PullToRefreshScrollNotificationInfo info) {
-                            return PullToRefreshHeader(info, lastRefreshTime);
-                          }),
-                          Expanded(
-                            child: ListView.builder(
-                              //store Page state
-                              key: const PageStorageKey<String>('Tab1'),
-                              physics: const ClampingScrollPhysics(),
-                              itemBuilder: (BuildContext c, int i) {
-                                return Container(
-                                  alignment: Alignment.center,
-                                  height: 60.0,
-                                  child: Text(const Key('Tab1').toString() +
-                                      ': ListView$i of $_length2'),
-                                );
-                              },
-                              itemCount: _length2,
-                              padding: const EdgeInsets.all(0.0),
-                            ),
-                          )
-                        ],
-                      ),
-                      showGlowLeading: false,
+                      return true;
+                    });
+                  },
+                  maxDragOffset: maxDragOffset,
+                  child: GlowNotificationWidget(
+                    Column(
+                      children: <Widget>[
+                        PullToRefreshContainer(
+                            (PullToRefreshScrollNotificationInfo info) {
+                          return PullToRefreshHeader(info, lastRefreshTime);
+                        }),
+                        Expanded(
+                          child: ListView.builder(
+                            //store Page state
+                            key: const PageStorageKey<String>('Tab1'),
+                            physics: const ClampingScrollPhysics(),
+                            itemBuilder: (BuildContext c, int i) {
+                              return Container(
+                                alignment: Alignment.center,
+                                height: 60.0,
+                                child: Text(const Key('Tab1').toString() +
+                                    ': ListView$i of $_length2'),
+                              );
+                            },
+                            itemCount: _length2,
+                            padding: const EdgeInsets.all(0.0),
+                          ),
+                        )
+                      ],
                     ),
+                    showGlowLeading: false,
                   ),
                 ),
               ],

@@ -12,6 +12,7 @@ const List<String> routeNames = <String>[
   'fluttercandies://nestedscrollview',
   'fluttercandies://pinned header height',
   'fluttercandies://pulltorefresh',
+  'fluttercandies://pulltorefreshouter',
   'fluttercandies://scroll to top',
 ];
 
@@ -54,7 +55,7 @@ class Routes {
   ///
   /// [description] : 'Demo for Tik Tok Comment'
   ///
-  /// [exts] : {group: Complex, order: 3}
+  /// [exts] : {group: Complex, order: 4}
   static const String fluttercandiesTikTokComment =
       'fluttercandies://Tik Tok Comment';
 
@@ -78,7 +79,7 @@ class Routes {
   ///
   /// [description] : "show how to support load more list in NestedScrollView's body without ScrollController"
   ///
-  /// [exts] : {group: Complex, order: 1}
+  /// [exts] : {group: Complex, order: 2}
   static const String fluttercandiesLoadmore = 'fluttercandies://loadmore';
 
   /// 'MainPage'
@@ -128,6 +129,18 @@ class Routes {
   static const String fluttercandiesPulltorefresh =
       'fluttercandies://pulltorefresh';
 
+  /// 'how to pull to refresh for NestedScrollView without ScrollController'
+  ///
+  /// [name] : 'fluttercandies://pulltorefreshouter'
+  ///
+  /// [routeName] : 'pull to refresh outer'
+  ///
+  /// [description] : 'how to pull to refresh for NestedScrollView without ScrollController'
+  ///
+  /// [exts] : {group: Complex, order: 1}
+  static const String fluttercandiesPulltorefreshouter =
+      'fluttercandies://pulltorefreshouter';
+
   /// "how to scroll list to top in NestedScrollView's body without ScrollController"
   ///
   /// [name] : 'fluttercandies://scroll to top'
@@ -136,7 +149,7 @@ class Routes {
   ///
   /// [description] : "how to scroll list to top in NestedScrollView's body without ScrollController"
   ///
-  /// [exts] : {group: Complex, order: 2}
+  /// [exts] : {group: Complex, order: 3}
   static const String fluttercandiesScrollToTop =
       'fluttercandies://scroll to top';
 }

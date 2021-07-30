@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'package:flutter/material.dart'
-    hide NestedScrollView, NestedScrollViewState;
+import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
+import 'package:flutter/material.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
-import 'package:ff_annotation_route/ff_annotation_route.dart';
 
 @FFRoute(
   name: 'fluttercandies://loadmore',
@@ -12,7 +11,7 @@ import 'package:ff_annotation_route/ff_annotation_route.dart';
       'show how to support load more list in NestedScrollView\'s body without ScrollController',
   exts: <String, dynamic>{
     'group': 'Complex',
-    'order': 1,
+    'order': 2,
   },
 )
 class LoadMoreDemo extends StatefulWidget {
@@ -23,8 +22,8 @@ class LoadMoreDemo extends StatefulWidget {
 class _LoadMoreDemoState extends State<LoadMoreDemo>
     with TickerProviderStateMixin {
   TabController primaryTC;
-  final GlobalKey<NestedScrollViewState> _key =
-      GlobalKey<NestedScrollViewState>();
+  final GlobalKey<ExtendedNestedScrollViewState> _key =
+      GlobalKey<ExtendedNestedScrollViewState>();
   @override
   void initState() {
     primaryTC = TabController(length: 2, vsync: this);
@@ -51,7 +50,7 @@ class _LoadMoreDemoState extends State<LoadMoreDemo>
         statusBarHeight +
             //pinned SliverAppBar height in header
             kToolbarHeight;
-    return NestedScrollView(
+    return ExtendedNestedScrollView(
       key: _key,
       headerSliverBuilder: (BuildContext c, bool f) {
         return <Widget>[
@@ -73,13 +72,7 @@ class _LoadMoreDemoState extends State<LoadMoreDemo>
         return pinnedHeaderHeight;
       },
       //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
-      innerScrollPositionKeyBuilder: () {
-        String index = 'Tab';
-
-        index += primaryTC.index.toString();
-
-        return Key(index);
-      },
+      onlyOneScrollInBody: true,
       body: Column(
         children: <Widget>[
           TabBar(
@@ -99,8 +92,8 @@ class _LoadMoreDemoState extends State<LoadMoreDemo>
             child: TabBarView(
               controller: primaryTC,
               children: const <Widget>[
-                TabViewItem(Key('Tab0')),
-                TabViewItem(Key('Tab1')),
+                TabViewItem(),
+                TabViewItem(),
               ],
             ),
           )
@@ -124,8 +117,7 @@ class LoadMoreListSource extends LoadingMoreBase<int> {
 }
 
 class TabViewItem extends StatefulWidget {
-  const TabViewItem(this.tabKey);
-  final Key tabKey;
+  const TabViewItem();
   @override
   _TabViewItemState createState() => _TabViewItemState();
 }
@@ -153,12 +145,12 @@ class _TabViewItemState extends State<TabViewItem>
           return Container(
             alignment: Alignment.center,
             height: 60.0,
-            child: Text(widget.tabKey.toString() + ': ListView$index'),
+            child: Text(': ListView$index'),
           );
         },
         sourceList: source));
 
-    return NestedScrollViewInnerScrollPositionKeyWidget(widget.tabKey, child);
+    return child;
   }
 
   @override
