@@ -1,3 +1,9 @@
+## 5.0.0
+
+* Migrate to 2.5
+* Merge code from https://github.com/flutter/flutter/pull/87801
+* Fix exception that findRenderObject throw exception even mounted is true 
+
 ## 4.0.0
 
 * Breaking change: 

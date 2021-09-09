@@ -68,13 +68,26 @@ class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
       if (actived.isEmpty) {
         for (final _ExtendedNestedScrollPosition scrollPosition
             in _innerController.nestedPositions) {
-          final RenderObject? renderObject =
-              scrollPosition.context.storageContext.findRenderObject();
-          if (renderObject == null || !renderObject.attached) {
+          // TODO(zhoumaotuo): throw exception even mounted is true
+          // In order for an element to have a valid renderObject, it must be '
+          //  'active, which means it is part of the tree.\n'
+          //  'Instead, this element is in the $_lifecycleState state.\n'
+          //  'If you called this method from a State object, consider guarding '
+          //  'it with State.mounted.
+          try {
+            if (!(scrollPosition.context as ScrollableState).mounted) {
+              continue;
+            }
+            final RenderObject? renderObject =
+                scrollPosition.context.storageContext.findRenderObject();
+            if (renderObject == null || !renderObject.attached) {
+              continue;
+            }
+            if (renderObjectIsVisible(renderObject, bodyScrollDirection)) {
+              return <_ExtendedNestedScrollPosition>[scrollPosition];
+            }
+          } catch (e) {
             continue;
-          }
-          if (renderObjectIsVisible(renderObject, bodyScrollDirection)) {
-            return <_ExtendedNestedScrollPosition>[scrollPosition];
           }
         }
         return _innerController.nestedPositions;
@@ -306,4 +319,20 @@ class _ExtendedRenderSliverFillRemainingWithScrollable
 // I/flutter (14963): -5.684341886080802e-14
 extension DoubleEx on double {
   bool get notZero => abs() > precisionErrorTolerance;
+  bool get isZero => abs() < precisionErrorTolerance;
+}
+
+class _ExtendedNestedInnerBallisticScrollActivity
+    extends _NestedInnerBallisticScrollActivity {
+  _ExtendedNestedInnerBallisticScrollActivity(
+      _NestedScrollCoordinator coordinator,
+      _NestedScrollPosition position,
+      Simulation simulation,
+      TickerProvider vsync)
+      : super(coordinator, position, simulation, vsync);
+  @override
+  bool applyMoveTo(double value) {
+    // https://github.com/flutter/flutter/pull/87801
+    return delegate.setPixels(coordinator.nestOffset(value, delegate)).isZero;
+  }
 }
