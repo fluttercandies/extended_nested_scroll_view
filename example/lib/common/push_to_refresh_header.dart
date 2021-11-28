@@ -11,26 +11,33 @@ double hideHeight = maxDragOffset / 2.3;
 double refreshHeight = maxDragOffset / 1.5;
 
 class PullToRefreshHeader extends StatelessWidget {
-  const PullToRefreshHeader(this.info, this.lastRefreshTime, {this.color});
-  final PullToRefreshScrollNotificationInfo info;
-  final DateTime lastRefreshTime;
-  final Color color;
+  const PullToRefreshHeader(
+    this.info,
+    this.lastRefreshTime, {
+    this.color,
+  });
+
+  final PullToRefreshScrollNotificationInfo? info;
+  final DateTime? lastRefreshTime;
+  final Color? color;
+
   @override
   Widget build(BuildContext context) {
-    if (info == null) {
+    final PullToRefreshScrollNotificationInfo? _info = info;
+    if (_info == null) {
       return Container();
     }
     String text = '';
-    if (info.mode == RefreshIndicatorMode.armed) {
+    if (_info.mode == RefreshIndicatorMode.armed) {
       text = 'Release to refresh';
-    } else if (info.mode == RefreshIndicatorMode.refresh ||
-        info.mode == RefreshIndicatorMode.snap) {
+    } else if (_info.mode == RefreshIndicatorMode.refresh ||
+        _info.mode == RefreshIndicatorMode.snap) {
       text = 'Loading...';
-    } else if (info.mode == RefreshIndicatorMode.done) {
+    } else if (_info.mode == RefreshIndicatorMode.done) {
       text = 'Refresh completed.';
-    } else if (info.mode == RefreshIndicatorMode.drag) {
+    } else if (_info.mode == RefreshIndicatorMode.drag) {
       text = 'Pull to refresh';
-    } else if (info.mode == RefreshIndicatorMode.canceled) {
+    } else if (_info.mode == RefreshIndicatorMode.canceled) {
       text = 'Cancel refresh';
     }
 
@@ -45,8 +52,8 @@ class PullToRefreshHeader extends StatelessWidget {
     return Container(
       height: dragOffset,
       color: color ?? Colors.transparent,
-      //padding: EdgeInsets.only(top: dragOffset / 3),
-      //padding: EdgeInsets.only(bottom: 5.0),
+      // padding: EdgeInsets.only(top: dragOffset / 3),
+      // padding: EdgeInsets.only(bottom: 5.0),
       child: Stack(
         children: <Widget>[
           Positioned(
@@ -66,10 +73,7 @@ class PullToRefreshHeader extends StatelessWidget {
                 ),
                 Column(
                   children: <Widget>[
-                    Text(
-                      text,
-                      style: ts,
-                    ),
+                    Text(text, style: ts),
                     Text(
                       'Last updated:' +
                           DateFormat('yyyy-MM-dd hh:mm').format(time),
@@ -77,9 +81,7 @@ class PullToRefreshHeader extends StatelessWidget {
                     )
                   ],
                 ),
-                Expanded(
-                  child: Container(),
-                ),
+                const Spacer(),
               ],
             ),
           )
@@ -91,7 +93,9 @@ class PullToRefreshHeader extends StatelessWidget {
 
 class RefreshImage extends StatelessWidget {
   const RefreshImage(this.top);
+
   final double top;
+
   @override
   Widget build(BuildContext context) {
     const double imageSize = 30;
@@ -103,19 +107,20 @@ class RefreshImage extends StatelessWidget {
         final double imageHeight = image.height.toDouble();
         final double imageWidth = image.width.toDouble();
         final Size size = rect.size;
-        final double y = (1 - min(top / (refreshHeight - hideHeight), 1)) *
-            imageHeight as double;
+        final double y =
+            (1 - min(top / (refreshHeight - hideHeight), 1)) * imageHeight;
 
         canvas.drawImageRect(
-            image,
-            Rect.fromLTWH(0.0, y, imageWidth, imageHeight - y),
-            Rect.fromLTWH(rect.left, rect.top + y / imageHeight * size.height,
-                size.width, (imageHeight - y) / imageHeight * size.height),
-            Paint()
-              ..colorFilter =
-                  const ColorFilter.mode(Color(0xFFea5504), BlendMode.srcIn)
-              ..isAntiAlias = false
-              ..filterQuality = FilterQuality.low);
+          image,
+          Rect.fromLTWH(0.0, y, imageWidth, imageHeight - y),
+          Rect.fromLTWH(rect.left, rect.top + y / imageHeight * size.height,
+              size.width, (imageHeight - y) / imageHeight * size.height),
+          Paint()
+            ..colorFilter =
+                const ColorFilter.mode(Color(0xFFea5504), BlendMode.srcIn)
+            ..isAntiAlias = false
+            ..filterQuality = FilterQuality.low,
+        );
 
         //canvas.restore();
       },

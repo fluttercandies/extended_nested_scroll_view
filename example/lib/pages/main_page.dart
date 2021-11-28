@@ -19,18 +19,25 @@ class MainPage extends StatelessWidget {
     routeNames.remove(Routes.fluttercandiesMainpage);
     routeNames.remove(Routes.fluttercandiesDemogrouppage);
 
-    routesGroup.addAll(groupBy<DemoRouteResult, String>(
+    routesGroup.addAll(
+      groupBy<DemoRouteResult, String>(
         routeNames
             .map<FFRouteSettings>((String name) => getRouteSettings(name: name))
             .where((FFRouteSettings element) => element.exts != null)
             .map<DemoRouteResult>((FFRouteSettings e) => DemoRouteResult(e))
             .toList()
-          ..sort((DemoRouteResult a, DemoRouteResult b) =>
-              b.group.compareTo(a.group)),
-        (DemoRouteResult x) => x.group));
+          ..sort(
+            (DemoRouteResult a, DemoRouteResult b) =>
+                b.group.compareTo(a.group),
+          ),
+        (DemoRouteResult x) => x.group,
+      ),
+    );
   }
+
   final Map<String, List<DemoRouteResult>> routesGroup =
       <String, List<DemoRouteResult>>{};
+
   //final List<RouteResult> routes = <RouteResult>[];
   //final List<String> routeNames = <String>[];
   @override
@@ -55,7 +62,8 @@ class MainPage extends StatelessWidget {
               ),
               onPressed: () {
                 launch(
-                    'https://github.com/fluttercandies/extended_nested_scroll_view');
+                  'https://github.com/fluttercandies/extended_nested_scroll_view',
+                );
               },
             ),
           ),
@@ -65,46 +73,45 @@ class MainPage extends StatelessWidget {
               minWidth: 0.0,
               child: TextButton(
                 child: Image.network(
-                    'https://pub.idqqimg.com/wpa/images/group.png'),
+                  'https://pub.idqqimg.com/wpa/images/group.png',
+                ),
                 onPressed: () {
                   launch('https://jq.qq.com/?_wv=1027&k=5bcc0gy');
                 },
               ),
-            )
+            ),
         ],
       ),
       body: ListView.builder(
+        itemCount: routesGroup.length,
         itemBuilder: (BuildContext c, int index) {
-          // final RouteResult page = routes[index];
           final String type = routesGroup.keys.toList()[index];
           return Container(
-              margin: const EdgeInsets.all(20.0),
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      (index + 1).toString() + '.' + type,
-                      //style: TextStyle(inherit: false),
-                    ),
-                    Text(
-                      '$type demos of ExtendedImage',
-                      //page.description,
-                      style: const TextStyle(color: Colors.grey),
-                    )
-                  ],
-                ),
-                onTap: () {
-                  Navigator.pushNamed(
-                      context, Routes.fluttercandiesDemogrouppage,
-                      arguments: <String, dynamic>{
-                        'keyValue': routesGroup.entries.toList()[index],
-                      });
-                },
-              ));
+            margin: const EdgeInsets.all(20.0),
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text((index + 1).toString() + '.' + type),
+                  Text(
+                    '$type demos of ExtendedImage',
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.fluttercandiesDemogrouppage,
+                  arguments: <String, dynamic>{
+                    'keyValue': routesGroup.entries.toList()[index],
+                  },
+                );
+              },
+            ),
+          );
         },
-        itemCount: routesGroup.length,
       ),
     );
   }
@@ -115,13 +122,15 @@ class MainPage extends StatelessWidget {
   routeName: 'DemoGroupPage',
 )
 class DemoGroupPage extends StatelessWidget {
-  DemoGroupPage({MapEntry<String, List<DemoRouteResult>> keyValue})
+  DemoGroupPage({required MapEntry<String, List<DemoRouteResult>> keyValue})
       : routes = keyValue.value
           ..sort((DemoRouteResult a, DemoRouteResult b) =>
               a.order.compareTo(b.order)),
         group = keyValue.key;
+
   final List<DemoRouteResult> routes;
   final String group;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,18 +147,15 @@ class DemoGroupPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  Text('${index + 1}.${page.routeResult.routeName}'),
                   Text(
-                    (index + 1).toString() + '.' + page.routeResult.routeName,
-                    //style: TextStyle(inherit: false),
-                  ),
-                  Text(
-                    page.routeResult.description,
+                    '${page.routeResult.description}',
                     style: const TextStyle(color: Colors.grey),
-                  )
+                  ),
                 ],
               ),
               onTap: () {
-                Navigator.pushNamed(context, page.routeResult.name);
+                Navigator.pushNamed(context, page.routeResult.name!);
               },
             ),
           );
@@ -161,10 +167,9 @@ class DemoGroupPage extends StatelessWidget {
 }
 
 class DemoRouteResult {
-  DemoRouteResult(
-    this.routeResult,
-  )   : order = routeResult.exts['order'] as int,
-        group = routeResult.exts['group'] as String;
+  DemoRouteResult(this.routeResult)
+      : order = routeResult.exts!['order'] as int,
+        group = routeResult.exts!['group'] as String;
 
   final int order;
   final String group;

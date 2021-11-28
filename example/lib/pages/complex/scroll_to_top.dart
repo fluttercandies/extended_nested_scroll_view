@@ -20,13 +20,14 @@ class ScrollToTopDemo extends StatefulWidget {
 
 class _ScrollToTopDemoState extends State<ScrollToTopDemo>
     with TickerProviderStateMixin {
-  TabController primaryTC;
+  late final TabController primaryTC;
   final GlobalKey<ExtendedNestedScrollViewState> _key =
       GlobalKey<ExtendedNestedScrollViewState>();
+
   @override
   void initState() {
-    primaryTC = TabController(length: 2, vsync: this);
     super.initState();
+    primaryTC = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -43,8 +44,11 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
         child: const Icon(Icons.file_upload),
         onPressed: () {
           ///scroll current tab list
-          _key.currentState.outerController.animateTo(0.0,
-              duration: const Duration(seconds: 1), curve: Curves.easeIn);
+          _key.currentState?.outerController.animateTo(
+            0.0,
+            duration: const Duration(seconds: 1),
+            curve: Curves.easeIn,
+          );
 
           ///scroll all tab list
           // _key.currentState.innerScrollPositions.forEach((position) {
@@ -68,16 +72,15 @@ class _ScrollToTopDemoState extends State<ScrollToTopDemo>
       headerSliverBuilder: (BuildContext c, bool f) {
         return <Widget>[
           SliverAppBar(
-              pinned: true,
-              expandedHeight: 200.0,
-              title: const Text('scroll to top'),
-              flexibleSpace: FlexibleSpaceBar(
-                  //centerTitle: true,
-                  collapseMode: CollapseMode.pin,
-                  background: Image.asset(
-                    'assets/467141054.jpg',
-                    fit: BoxFit.fill,
-                  )))
+            pinned: true,
+            expandedHeight: 200.0,
+            title: const Text('scroll to top'),
+            flexibleSpace: FlexibleSpaceBar(
+              //centerTitle: true,
+              collapseMode: CollapseMode.pin,
+              background: Image.asset('assets/467141054.jpg', fit: BoxFit.fill),
+            ),
+          ),
         ];
       },
       //1.[pinned sliver header issue](https://github.com/flutter/flutter/issues/22393)

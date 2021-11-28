@@ -12,10 +12,7 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
   routeName: 'pull to refresh',
   description:
       'how to pull to refresh for list in NestedScrollView\'s body without ScrollController',
-  exts: <String, dynamic>{
-    'group': 'Complex',
-    'order': 0,
-  },
+  exts: <String, dynamic>{'group': 'Complex', 'order': 0},
 )
 class PullToRefreshDemo extends StatefulWidget {
   @override
@@ -24,14 +21,15 @@ class PullToRefreshDemo extends StatefulWidget {
 
 class _PullToRefreshDemoState extends State<PullToRefreshDemo>
     with TickerProviderStateMixin {
-  TabController primaryTC;
+  late final TabController primaryTC;
   int _length1 = 50;
   final int _length2 = 50;
   DateTime lastRefreshTime = DateTime.now();
+
   @override
   void initState() {
-    primaryTC = TabController(length: 2, vsync: this);
     super.initState();
+    primaryTC = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -114,9 +112,10 @@ class _PullToRefreshDemoState extends State<PullToRefreshDemo>
                     Column(
                       children: <Widget>[
                         PullToRefreshContainer(
-                            (PullToRefreshScrollNotificationInfo info) {
-                          return PullToRefreshHeader(info, lastRefreshTime);
-                        }),
+                          (PullToRefreshScrollNotificationInfo? info) {
+                            return PullToRefreshHeader(info, lastRefreshTime);
+                          },
+                        ),
                         Expanded(
                           child: ListView.builder(
                             //store Page state
@@ -158,9 +157,10 @@ class _PullToRefreshDemoState extends State<PullToRefreshDemo>
                     Column(
                       children: <Widget>[
                         PullToRefreshContainer(
-                            (PullToRefreshScrollNotificationInfo info) {
-                          return PullToRefreshHeader(info, lastRefreshTime);
-                        }),
+                          (PullToRefreshScrollNotificationInfo? info) {
+                            return PullToRefreshHeader(info, lastRefreshTime);
+                          },
+                        ),
                         Expanded(
                           child: ListView.builder(
                             //store Page state
