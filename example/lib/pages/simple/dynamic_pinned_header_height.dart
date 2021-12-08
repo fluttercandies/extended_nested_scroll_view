@@ -1,6 +1,6 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
 import 'package:flutter/material.dart';
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 @FFRoute(
@@ -20,12 +20,13 @@ class DynamicPinnedHeaderHeightDemo extends StatefulWidget {
 
 class _DynamicPinnedHeaderHeightDemoState
     extends State<DynamicPinnedHeaderHeightDemo> with TickerProviderStateMixin {
-  TabController primaryTC;
-  ScrollController sc = ScrollController();
+  late final TabController primaryTC;
+  final ScrollController sc = ScrollController();
+
   @override
   void initState() {
-    primaryTC = TabController(length: 2, vsync: this);
     super.initState();
+    primaryTC = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -52,7 +53,7 @@ class _DynamicPinnedHeaderHeightDemoState
     );
   }
 
-  double pinnedHeaderHeight;
+  late double pinnedHeaderHeight;
   Widget _buildScaffoldBody() {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     pinnedHeaderHeight =

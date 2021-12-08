@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:example/common/push_to_refresh_header.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
 import 'package:flutter/material.dart';
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
@@ -24,14 +24,15 @@ class PullToRefreshOuterDemo extends StatefulWidget {
 
 class _PullToRefreshOuterDemoState extends State<PullToRefreshOuterDemo>
     with TickerProviderStateMixin {
-  TabController primaryTC;
+  late final TabController primaryTC;
   int _length1 = 50;
   final int _length2 = 50;
   DateTime lastRefreshTime = DateTime.now();
+
   @override
   void initState() {
-    primaryTC = TabController(length: 2, vsync: this);
     super.initState();
+    primaryTC = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -56,18 +57,13 @@ class _PullToRefreshOuterDemoState extends State<PullToRefreshOuterDemo>
             kToolbarHeight;
     return PullToRefreshNotification(
       color: Colors.blue,
-      onRefresh: () {
-        return Future<bool>.delayed(
-            const Duration(
-              seconds: 1,
-            ), () {
-          setState(() {
-            _length1 += 10;
-            lastRefreshTime = DateTime.now();
-          });
-          return true;
+      onRefresh: () => Future<bool>.delayed(const Duration(seconds: 1), () {
+        setState(() {
+          _length1 += 10;
+          lastRefreshTime = DateTime.now();
         });
-      },
+        return true;
+      }),
       maxDragOffset: maxDragOffset,
       child: GlowNotificationWidget(
         ExtendedNestedScrollView(
@@ -78,10 +74,12 @@ class _PullToRefreshOuterDemoState extends State<PullToRefreshOuterDemo>
                 title: Text('pull to refresh in header'),
               ),
               PullToRefreshContainer(
-                  (PullToRefreshScrollNotificationInfo info) {
-                return SliverToBoxAdapter(
-                    child: PullToRefreshHeader(info, lastRefreshTime));
-              }),
+                (PullToRefreshScrollNotificationInfo? info) {
+                  return SliverToBoxAdapter(
+                    child: PullToRefreshHeader(info, lastRefreshTime),
+                  );
+                },
+              ),
               SliverToBoxAdapter(
                 child: Container(
                   color: Colors.red,
@@ -108,10 +106,7 @@ class _PullToRefreshOuterDemoState extends State<PullToRefreshOuterDemo>
                 indicatorWeight: 2.0,
                 isScrollable: false,
                 unselectedLabelColor: Colors.grey,
-                tabs: const <Tab>[
-                  Tab(text: 'Tab0'),
-                  Tab(text: 'Tab1'),
-                ],
+                tabs: const <Tab>[Tab(text: 'Tab0'), Tab(text: 'Tab1')],
               ),
               Expanded(
                 child: TabBarView(
@@ -125,8 +120,10 @@ class _PullToRefreshOuterDemoState extends State<PullToRefreshOuterDemo>
                         return Container(
                           alignment: Alignment.center,
                           height: 60.0,
-                          child: Text(const Key('Tab0').toString() +
-                              ': ListView$i of $_length1'),
+                          child: Text(
+                            const Key('Tab0').toString() +
+                                ': ListView$i of $_length1',
+                          ),
                         );
                       },
                       itemCount: _length1,
@@ -140,8 +137,10 @@ class _PullToRefreshOuterDemoState extends State<PullToRefreshOuterDemo>
                         return Container(
                           alignment: Alignment.center,
                           height: 60.0,
-                          child: Text(const Key('Tab1').toString() +
-                              ': ListView$i of $_length2'),
+                          child: Text(
+                            const Key('Tab1').toString() +
+                                ': ListView$i of $_length2',
+                          ),
                         );
                       },
                       itemCount: _length2,

@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
@@ -52,24 +51,25 @@ class PingLunDemo extends StatefulWidget {
 
 class _PingLunDemoState extends State<PingLunDemo>
     with TickerProviderStateMixin {
-  TabController primaryTC;
+  late final TabController primaryTC;
   ScrollController sc = ScrollController();
   TextEditingController tc = TextEditingController();
   final FocusNode _focusNode = FocusNode()..canRequestFocus = false;
-  Timer _timer;
+  Timer? _timer;
   bool _isAnimating = false;
   bool _isTapped = false;
+
   @override
   void initState() {
     primaryTC = TabController(length: 2, vsync: this);
-    WidgetsBinding.instance.addPostFrameCallback((Duration callback) {
+    WidgetsBinding.instance?.addPostFrameCallback((Duration callback) {
       _isAnimating = true;
       sc
-          .animateTo(200.0,
-              duration: const Duration(
-                milliseconds: 300,
-              ),
-              curve: Curves.easeIn)
+          .animateTo(
+            200.0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+          )
           .whenComplete(() => _isAnimating = false);
     });
     sc.addListener(() {
@@ -261,8 +261,10 @@ class _PingLunDemoState extends State<PingLunDemo>
   pageRouteType: PageRouteType.transparent,
 )
 class TextFieldPage extends StatefulWidget {
-  const TextFieldPage({this.text});
+  const TextFieldPage({required this.text});
+
   final String text;
+
   @override
   _TextFieldPageState createState() => _TextFieldPageState();
 }
@@ -270,11 +272,12 @@ class TextFieldPage extends StatefulWidget {
 class _TextFieldPageState extends State<TextFieldPage> {
   TextEditingController tc = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+
   @override
   void initState() {
+    super.initState();
     tc.text = widget.text;
     tc.selection = TextSelection.collapsed(offset: widget.text.length);
-    super.initState();
   }
 
   @override

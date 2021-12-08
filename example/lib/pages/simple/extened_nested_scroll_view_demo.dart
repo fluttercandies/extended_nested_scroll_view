@@ -1,8 +1,7 @@
 import 'package:example/common/common.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
 import 'package:flutter/material.dart';
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 @FFRoute(
@@ -22,14 +21,14 @@ class ExtendedNestedScrollViewDemo extends StatefulWidget {
 
 class _ExtendedNestedScrollViewDemoState
     extends State<ExtendedNestedScrollViewDemo> with TickerProviderStateMixin {
-  TabController primaryTC;
-  TabController secondaryTC;
+  late final TabController primaryTC;
+  late final TabController secondaryTC;
 
   @override
   void initState() {
+    super.initState();
     primaryTC = TabController(length: 2, vsync: this);
     secondaryTC = TabController(length: 5, vsync: this);
-    super.initState();
   }
 
   @override
@@ -41,9 +40,7 @@ class _ExtendedNestedScrollViewDemoState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildScaffoldBody(),
-    );
+    return Scaffold(body: _buildScaffoldBody());
   }
 
   Widget _buildScaffoldBody() {
@@ -65,20 +62,6 @@ class _ExtendedNestedScrollViewDemoState
       onlyOneScrollInBody: true,
       body: Column(
         children: <Widget>[
-          SizedBox(
-            height: 150,
-            child: Swiper(
-              itemBuilder: (BuildContext context, int index) {
-                return Image.network(
-                  'http://via.placeholder.com/350x150',
-                  fit: BoxFit.fill,
-                );
-              },
-              itemCount: 3,
-              pagination: const SwiperPagination(),
-              autoplay: true,
-            ),
-          ),
           TabBar(
             controller: primaryTC,
             labelColor: Colors.blue,
@@ -87,10 +70,7 @@ class _ExtendedNestedScrollViewDemoState
             indicatorWeight: 2.0,
             isScrollable: false,
             unselectedLabelColor: Colors.grey,
-            tabs: const <Tab>[
-              Tab(text: 'Tab0'),
-              Tab(text: 'Tab1'),
-            ],
+            tabs: const <Tab>[Tab(text: 'Tab0'), Tab(text: 'Tab1')],
           ),
           Expanded(
             child: TabBarView(
@@ -102,15 +82,16 @@ class _ExtendedNestedScrollViewDemoState
                     //store Page state
                     key: const PageStorageKey<String>('Tab1'),
                     physics: const ClampingScrollPhysics(),
+                    itemCount: 50,
                     itemBuilder: (BuildContext c, int i) {
                       return Container(
                         alignment: Alignment.center,
                         height: 60.0,
-                        child:
-                            Text(const Key('Tab1').toString() + ': ListView$i'),
+                        child: Text(
+                          const Key('Tab1').toString() + ': ListView$i',
+                        ),
                       );
                     },
-                    itemCount: 50,
                   ),
                   showGlowLeading: false,
                 ),

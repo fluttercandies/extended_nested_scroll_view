@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
 import 'package:flutter/material.dart';
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 @FFRoute(
@@ -21,13 +21,14 @@ class LoadMoreDemo extends StatefulWidget {
 
 class _LoadMoreDemoState extends State<LoadMoreDemo>
     with TickerProviderStateMixin {
-  TabController primaryTC;
+  late final TabController primaryTC;
   final GlobalKey<ExtendedNestedScrollViewState> _key =
       GlobalKey<ExtendedNestedScrollViewState>();
+
   @override
   void initState() {
-    primaryTC = TabController(length: 2, vsync: this);
     super.initState();
+    primaryTC = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -118,18 +119,14 @@ class LoadMoreListSource extends LoadingMoreBase<int> {
 
 class TabViewItem extends StatefulWidget {
   const TabViewItem();
+
   @override
   _TabViewItemState createState() => _TabViewItemState();
 }
 
 class _TabViewItemState extends State<TabViewItem>
     with AutomaticKeepAliveClientMixin {
-  LoadMoreListSource source;
-  @override
-  void initState() {
-    source = LoadMoreListSource();
-    super.initState();
-  }
+  late final LoadMoreListSource source = LoadMoreListSource();
 
   @override
   void dispose() {
@@ -138,9 +135,14 @@ class _TabViewItemState extends State<TabViewItem>
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
-    final LoadingMoreList<int> child = LoadingMoreList<int>(ListConfig<int>(
+    final LoadingMoreList<int> child = LoadingMoreList<int>(
+      ListConfig<int>(
+        sourceList: source,
         itemBuilder: (BuildContext c, int item, int index) {
           return Container(
             alignment: Alignment.center,
@@ -148,11 +150,8 @@ class _TabViewItemState extends State<TabViewItem>
             child: Text(': ListView$index'),
           );
         },
-        sourceList: source));
-
+      ),
+    );
     return child;
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

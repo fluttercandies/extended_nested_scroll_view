@@ -1,5 +1,4 @@
 import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'example_route.dart';
 import 'example_routes.dart';
