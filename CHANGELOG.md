@@ -1,3 +1,7 @@
+## 6.0.0-dev.1
+
+* Migrate to 2.13.0
+
 ## 5.0.0
 
 * Migrate to 2.5

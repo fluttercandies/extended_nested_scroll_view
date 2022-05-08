@@ -60,8 +60,9 @@ class MainPage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                launch(
-                  'https://github.com/fluttercandies/extended_nested_scroll_view',
+                launchUrl(
+                  Uri.parse(
+                      'https://github.com/fluttercandies/extended_nested_scroll_view'),
                 );
               },
             ),
@@ -75,7 +76,7 @@ class MainPage extends StatelessWidget {
                   'https://pub.idqqimg.com/wpa/images/group.png',
                 ),
                 onPressed: () {
-                  launch('https://jq.qq.com/?_wv=1027&k=5bcc0gy');
+                  launchUrl(Uri.parse('https://jq.qq.com/?_wv=1027&k=5bcc0gy'));
                 },
               ),
             ),

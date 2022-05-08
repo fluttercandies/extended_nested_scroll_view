@@ -62,7 +62,7 @@ class _PingLunDemoState extends State<PingLunDemo>
   @override
   void initState() {
     primaryTC = TabController(length: 2, vsync: this);
-    WidgetsBinding.instance?.addPostFrameCallback((Duration callback) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration callback) {
       _isAnimating = true;
       sc
           .animateTo(
