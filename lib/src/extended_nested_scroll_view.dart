@@ -1176,6 +1176,11 @@ class _NestedScrollCoordinator
           _outerPosition!.applyClampedPointerSignalUpdate(outerDelta);
       }
     }
+
+    _outerPosition!.didEndScroll();
+    for (final _NestedScrollPosition position in _innerPositions) {
+      position.didEndScroll();
+    }
     goBallistic(0.0);
   }
 
@@ -1364,9 +1369,9 @@ class _NestedScrollController extends ScrollController {
     );
   }
 
-  Iterable<_NestedScrollPosition> get nestedPositions sync* {
+  Iterable<_NestedScrollPosition> get nestedPositions {
     // TODO(vegorov): use instance method version of castFrom when it is available.
-    yield* Iterable.castFrom<ScrollPosition, _NestedScrollPosition>(positions);
+    return Iterable.castFrom<ScrollPosition, _NestedScrollPosition>(positions);
   }
 }
 
