@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_cast
+
 import 'dart:async';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
@@ -62,7 +64,8 @@ class _PingLunDemoState extends State<PingLunDemo>
   @override
   void initState() {
     primaryTC = TabController(length: 2, vsync: this);
-    WidgetsBinding.instance.addPostFrameCallback((Duration callback) {
+    (WidgetsBinding.instance as WidgetsBinding)
+        .addPostFrameCallback((Duration callback) {
       _isAnimating = true;
       sc
           .animateTo(
@@ -155,8 +158,6 @@ class _PingLunDemoState extends State<PingLunDemo>
       pinnedHeaderSliverHeightBuilder: () {
         return 200.0;
       },
-      //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
-      onlyOneScrollInBody: true,
       body: Material(
         child: Column(
           children: <Widget>[
@@ -179,7 +180,8 @@ class _PingLunDemoState extends State<PingLunDemo>
                 children: <Widget>[
                   GlowNotificationWidget(
                     ListView.builder(
-                      //store Page state
+                      // store Page state
+                      // and the list will be disposed
                       key: const PageStorageKey<String>('Tab0'),
                       itemBuilder: (BuildContext c, int i) {
                         return Container(
@@ -196,6 +198,7 @@ class _PingLunDemoState extends State<PingLunDemo>
                   GlowNotificationWidget(
                     ListView.builder(
                       //store Page state
+                      // and the list will be disposed
                       key: const PageStorageKey<String>('Tab1'),
                       itemBuilder: (BuildContext c, int i) {
                         return Container(

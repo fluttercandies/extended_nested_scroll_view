@@ -1,3 +1,7 @@
+## 5.1.1
+
+* Provide ExtendedVisibilityDetector to point out which list is visible
+
 ## 5.1.0
 
 * Migrate to 3.0.0

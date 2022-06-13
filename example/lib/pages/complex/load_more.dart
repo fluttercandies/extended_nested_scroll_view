@@ -93,8 +93,8 @@ class _LoadMoreDemoState extends State<LoadMoreDemo>
             child: TabBarView(
               controller: primaryTC,
               children: const <Widget>[
-                TabViewItem(),
-                TabViewItem(),
+                TabViewItem(Key('Tab0')),
+                TabViewItem(Key('Tab1')),
               ],
             ),
           )
@@ -118,8 +118,8 @@ class LoadMoreListSource extends LoadingMoreBase<int> {
 }
 
 class TabViewItem extends StatefulWidget {
-  const TabViewItem();
-
+  const TabViewItem(this.uniqueKey);
+  final Key uniqueKey;
   @override
   _TabViewItemState createState() => _TabViewItemState();
 }
@@ -140,18 +140,20 @@ class _TabViewItemState extends State<TabViewItem>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final LoadingMoreList<int> child = LoadingMoreList<int>(
-      ListConfig<int>(
-        sourceList: source,
-        itemBuilder: (BuildContext c, int item, int index) {
-          return Container(
-            alignment: Alignment.center,
-            height: 60.0,
-            child: Text(': ListView$index'),
-          );
-        },
-      ),
-    );
+    final Widget child = ExtendedVisibilityDetector(
+        child: LoadingMoreList<int>(
+          ListConfig<int>(
+            sourceList: source,
+            itemBuilder: (BuildContext c, int item, int index) {
+              return Container(
+                alignment: Alignment.center,
+                height: 60.0,
+                child: Text(': ListView$index'),
+              );
+            },
+          ),
+        ),
+        uniqueKey: widget.uniqueKey);
     return child;
   }
 }

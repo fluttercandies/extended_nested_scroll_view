@@ -84,8 +84,6 @@ class _DynamicPinnedHeaderHeightDemoState
       pinnedHeaderSliverHeightBuilder: () {
         return pinnedHeaderHeight;
       },
-      //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
-      onlyOneScrollInBody: true,
       body: Column(
         children: <Widget>[
           TabBar(

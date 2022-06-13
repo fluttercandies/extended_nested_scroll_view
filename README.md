@@ -17,6 +17,7 @@ NestedScrollView: extended nested scroll view to fix following issues.
 - [extended_nested_scroll_view](#extended_nested_scroll_view)
 - [Example for issue 1](#example-for-issue-1)
 - [Example for issue 2](#example-for-issue-2)
+  - [ExtendedVisibilityDetector](#extendedvisibilitydetector)
 - [Do without ScrollController in NestedScrollView's body](#do-without-scrollcontroller-in-nestedscrollviews-body)
 # Example for issue 1
 
@@ -38,11 +39,34 @@ give total height of pinned sliver headers in pinnedHeaderSliverHeightBuilder ca
 ```
 # Example for issue 2
 
+We usually keep list scroll position with following: 
+
+| scene                       | onlyOneScrollInBody | description                                                  |
+| ----------------------------- | ------------------- | ------------------------------------------------------------ |
+| AutomaticKeepAliveClientMixin | true                | ScrollPosition will not be disposed, set onlyOneScrollInBody to true so that we can know which list is isActived. |
+| PageStorageKey                | false               | ScrollPosition will be disposed, PageStorageKey just record the position info,the scroll positions in ExtendedNestedScrollView will always single one. |
+
+
+
+
 ``` dart
     ExtendedNestedScrollView(
        onlyOneScrollInBody: true,
     )
-``` 
+```
+
+## ExtendedVisibilityDetector
+
+Provide ExtendedVisibilityDetector to point out which list is visible
+
+``` dart
+   ExtendedVisibilityDetector(
+      uniqueKey: const Key('Tab1'),
+      child: ListView(),
+   )
+```
+
+
 # Do without ScrollController in NestedScrollView's body
 
 * due to we can't set ScrollController for list in NestedScrollView's body(it will breaking behaviours of InnerScrollController in NestedScrollView),provide Demos

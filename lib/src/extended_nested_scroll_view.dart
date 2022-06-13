@@ -1,9 +1,14 @@
+// ignore_for_file: unnecessary_cast
+
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:visibility_detector/visibility_detector.dart';
+
+import '../extended_nested_scroll_view.dart';
 part 'extended_nested_scroll_view_part.dart';
 
 // ignore_for_file: unnecessary_null_comparison, always_put_control_body_on_new_line
@@ -1362,7 +1367,7 @@ class _NestedScrollController extends ScrollController {
     // the position change notifications because those happen synchronously
     // during a frame, at a time where it's too late to call setState. Since the
     // result is usually animated, the lag incurred is no big deal.
-    SchedulerBinding.instance.addPostFrameCallback(
+    (SchedulerBinding.instance as SchedulerBinding).addPostFrameCallback(
       (Duration timeStamp) {
         coordinator.updateShadow();
       },

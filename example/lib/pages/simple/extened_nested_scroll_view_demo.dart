@@ -78,20 +78,23 @@ class _ExtendedNestedScrollViewDemoState
               children: <Widget>[
                 SecondaryTabView('Tab0', secondaryTC),
                 GlowNotificationWidget(
-                  ListView.builder(
-                    //store Page state
-                    key: const PageStorageKey<String>('Tab1'),
-                    physics: const ClampingScrollPhysics(),
-                    itemCount: 50,
-                    itemBuilder: (BuildContext c, int i) {
-                      return Container(
-                        alignment: Alignment.center,
-                        height: 60.0,
-                        child: Text(
-                          const Key('Tab1').toString() + ': ListView$i',
-                        ),
-                      );
-                    },
+                  ExtendedVisibilityDetector(
+                    uniqueKey: const Key('Tab1'),
+                    child: ListView.builder(
+                      //store Page state
+                      key: const PageStorageKey<String>('Tab1'),
+                      physics: const ClampingScrollPhysics(),
+                      itemCount: 50,
+                      itemBuilder: (BuildContext c, int i) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: 60.0,
+                          child: Text(
+                            const Key('Tab1').toString() + ': ListView$i',
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   showGlowLeading: false,
                 ),

@@ -19,6 +19,7 @@
 - [extended_nested_scroll_view](#extended_nested_scroll_view)
 - [Example for issue 1](#example-for-issue-1)
 - [Example for issue 2](#example-for-issue-2)
+  - [ExtendedVisibilityDetector](#extendedvisibilitydetector)
 - [Do without ScrollController in NestedScrollView's body](#do-without-scrollcontroller-in-nestedscrollviews-body)
 - [☕️Buy me a coffee](#️buy-me-a-coffee)
 # Example for issue 1
@@ -41,11 +42,31 @@
 ```
 # Example for issue 2
 
+我们通常使用下面的方法来保持列表的滚动状态: 
+
+| 场景                      | onlyOneScrollInBody | 描述                                                  |
+| ----------------------------- | ------------------- | ------------------------------------------------------------ |
+| AutomaticKeepAliveClientMixin | true                | ScrollPosition 不会被释放, 将 onlyOneScrollInBody 设置为 true， 这样我们才能知道哪个列表是当前活动的. |
+| PageStorageKey                | false               | ScrollPosition 会被释放, PageStorageKey 只是记录了滚动状态, ExtendedNestedScrollView 中的  scroll positions 只会有一个. |
+
+
+
 ``` dart
     ExtendedNestedScrollView(
        onlyOneScrollInBody: true,
     )
 ``` 
+## ExtendedVisibilityDetector
+
+提供 ExtendedVisibilityDetector 组件来指出当前可见的列表
+
+``` dart
+   ExtendedVisibilityDetector(
+      uniqueKey: const Key('Tab1'),
+      child: ListView(),
+   )
+```
+
 # Do without ScrollController in NestedScrollView's body
 
 因为无法给NestedScrollView的body中的列表设置ScrollController(这样会破坏NestedScrollView内部的InnerScrollController的行为)，所以我这里给大家提供了Demos来展示怎么不通过ScrollController来完成
