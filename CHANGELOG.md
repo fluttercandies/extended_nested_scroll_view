@@ -1,3 +1,7 @@
+## 5.1.2
+
+* Add keyboardDismissBehavior property #97
+
 ## 5.1.1
 
 * Provide ExtendedVisibilityDetector to point out which list is visible

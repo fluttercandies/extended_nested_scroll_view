@@ -355,6 +355,7 @@ class ExtendedNestedScrollView extends StatefulWidget {
     this.scrollBehavior,
     this.pinnedHeaderSliverHeightBuilder,
     this.onlyOneScrollInBody = false,
+    this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(scrollDirection != null),
         assert(reverse != null),
         assert(headerSliverBuilder != null),
@@ -468,6 +469,12 @@ class ExtendedNestedScrollView extends StatefulWidget {
   /// [Scrollable] widgets, particularly whether to treat them as one scrollable,
   /// or separate and desirous of unique behaviors.
   final ScrollBehavior? scrollBehavior;
+
+  /// {@template flutter.widgets.scroll_view.keyboardDismissBehavior}
+  /// [ScrollViewKeyboardDismissBehavior] the defines how this [ScrollView] will
+  /// dismiss the keyboard automatically.
+  /// {@endtemplate}
+  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
 
   /// Returns the [SliverOverlapAbsorberHandle] of the nearest ancestor
   /// [ExtendedNestedScrollView].
@@ -664,6 +671,7 @@ class ExtendedNestedScrollViewState extends State<ExtendedNestedScrollView> {
             handle: _absorberHandle,
             clipBehavior: widget.clipBehavior,
             restorationId: widget.restorationId,
+            keyboardDismissBehavior: widget.keyboardDismissBehavior,
           );
         },
       ),
@@ -683,6 +691,8 @@ class _NestedScrollViewCustomScrollView extends CustomScrollView {
     required Clip clipBehavior,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     String? restorationId,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
   }) : super(
           scrollDirection: scrollDirection,
           reverse: reverse,
@@ -693,6 +703,7 @@ class _NestedScrollViewCustomScrollView extends CustomScrollView {
           dragStartBehavior: dragStartBehavior,
           restorationId: restorationId,
           clipBehavior: clipBehavior,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   final SliverOverlapAbsorberHandle handle;
