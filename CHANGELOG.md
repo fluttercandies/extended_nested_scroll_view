@@ -1,3 +1,7 @@
+## 5.1.3
+
+* Upgrade visibility_detector to 0.33 by default.(please use `dependency_overrides: visibility_detector: 0.2.2` if your Flutter sdk is under 3.0.0)
+
 ## 5.1.2
 
 * Add keyboardDismissBehavior property #97
