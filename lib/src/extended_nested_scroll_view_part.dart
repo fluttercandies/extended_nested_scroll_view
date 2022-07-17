@@ -6,19 +6,19 @@ typedef NestedScrollViewPinnedHeaderSliverHeightBuilder = double Function();
 
 class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
   _ExtendedNestedScrollCoordinator(
-    ExtendedNestedScrollViewState state,
-    ScrollController? parent,
-    VoidCallback onHasScrolledBodyChanged,
-    bool floatHeaderSlivers,
-    this.pinnedHeaderSliverHeightBuilder,
-    this.onlyOneScrollInBody,
-    this.scrollDirection,
-  ) : super(
-          state,
-          parent,
-          onHasScrolledBodyChanged,
-          floatHeaderSlivers,
-        ) {
+      ExtendedNestedScrollViewState state,
+      ScrollController? parent,
+      VoidCallback onHasScrolledBodyChanged,
+      bool floatHeaderSlivers,
+      this.pinnedHeaderSliverHeightBuilder,
+      this.onlyOneScrollInBody,
+      this.scrollDirection,
+      ) : super(
+    state,
+    parent,
+    onHasScrolledBodyChanged,
+    floatHeaderSlivers,
+  ) {
     final double initialScrollOffset = _parent?.initialScrollOffset ?? 0.0;
     _outerController = _ExtendedNestedScrollController(
       this,
@@ -35,7 +35,7 @@ class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
   /// Get the total height of pinned header in NestedScrollView header.
 
   final NestedScrollViewPinnedHeaderSliverHeightBuilder?
-      pinnedHeaderSliverHeightBuilder;
+  pinnedHeaderSliverHeightBuilder;
 
   /// When [ExtendedNestedScrollView]'s body has [TabBarView]/[PageView] and
   /// their children have AutomaticKeepAliveClientMixin or PageStorageKey,
@@ -67,7 +67,7 @@ class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
           .where((_ExtendedNestedScrollPosition element) => element.isActived);
       if (actived.isEmpty) {
         for (final _ExtendedNestedScrollPosition scrollPosition
-            in _innerController.nestedPositions) {
+        in _innerController.nestedPositions) {
           // TODO(zmtzawqlp): throw exception even mounted is true
           // In order for an element to have a valid renderObject, it must be '
           //  'active, which means it is part of the tree.\n'
@@ -79,14 +79,14 @@ class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
               continue;
             }
             final RenderObject? renderObject =
-                scrollPosition.context.storageContext.findRenderObject();
+            scrollPosition.context.storageContext.findRenderObject();
             if (renderObject == null || !renderObject.attached) {
               continue;
             }
 
             final VisibilityInfo? visibilityInfo =
-                ExtendedVisibilityDetector.of(
-                    scrollPosition.context.storageContext);
+            ExtendedVisibilityDetector.of(
+                scrollPosition.context.storageContext);
             if (visibilityInfo != null && visibilityInfo.visibleFraction == 1) {
               if (kDebugMode) {
                 print('${visibilityInfo.key} is visible');
@@ -112,9 +112,9 @@ class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
 
   /// Return whether renderObject is visible in parent
   bool childIsVisible(
-    RenderObject parent,
-    RenderObject renderObject,
-  ) {
+      RenderObject parent,
+      RenderObject renderObject,
+      ) {
     bool visible = false;
 
     // The implementation has to return the children in paint order skipping all
@@ -134,7 +134,7 @@ class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
     final RenderViewport? parent = findParentRenderViewport(renderObject);
     if (parent != null && parent.axis == axis) {
       for (final RenderSliver childrenInPaint
-          in parent.childrenInHitTestOrder) {
+      in parent.childrenInHitTestOrder) {
         return childIsVisible(childrenInPaint, renderObject) &&
             renderObjectIsVisible(parent, axis);
       }
@@ -194,14 +194,14 @@ class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
 
 class _ExtendedNestedScrollController extends _NestedScrollController {
   _ExtendedNestedScrollController(
-    _ExtendedNestedScrollCoordinator coordinator, {
-    double initialScrollOffset = 0.0,
-    String? debugLabel,
-  }) : super(
-          coordinator,
-          initialScrollOffset: initialScrollOffset,
-          debugLabel: debugLabel,
-        );
+      _ExtendedNestedScrollCoordinator coordinator, {
+        double initialScrollOffset = 0.0,
+        String? debugLabel,
+      }) : super(
+    coordinator,
+    initialScrollOffset: initialScrollOffset,
+    debugLabel: debugLabel,
+  );
   @override
   _ExtendedNestedScrollCoordinator get coordinator =>
       super.coordinator as _ExtendedNestedScrollCoordinator;
@@ -232,10 +232,10 @@ class _ExtendedNestedScrollController extends _NestedScrollController {
 
   @override
   ScrollPosition createScrollPosition(
-    ScrollPhysics physics,
-    ScrollContext context,
-    ScrollPosition? oldPosition,
-  ) {
+      ScrollPhysics physics,
+      ScrollContext context,
+      ScrollPosition? oldPosition,
+      ) {
     return _ExtendedNestedScrollPosition(
       coordinator: coordinator,
       physics: physics,
@@ -256,13 +256,13 @@ class _ExtendedNestedScrollPosition extends _NestedScrollPosition {
     String? debugLabel,
     required _ExtendedNestedScrollCoordinator coordinator,
   }) : super(
-          physics: physics,
-          context: context,
-          oldPosition: oldPosition,
-          debugLabel: debugLabel,
-          coordinator: coordinator,
-          initialPixels: initialPixels,
-        );
+    physics: physics,
+    context: context,
+    oldPosition: oldPosition,
+    debugLabel: debugLabel,
+    coordinator: coordinator,
+    initialPixels: initialPixels,
+  );
   @override
   _ExtendedNestedScrollCoordinator get coordinator =>
       super.coordinator as _ExtendedNestedScrollCoordinator;
@@ -311,7 +311,7 @@ class _ExtendedSliverFillRemainingWithScrollable
 
   @override
   _ExtendedRenderSliverFillRemainingWithScrollable createRenderObject(
-          BuildContext context) =>
+      BuildContext context) =>
       _ExtendedRenderSliverFillRemainingWithScrollable();
 }
 
@@ -339,8 +339,19 @@ class _ExtendedNestedInnerBallisticScrollActivity
       _NestedScrollCoordinator coordinator,
       _NestedScrollPosition position,
       Simulation simulation,
-      TickerProvider vsync)
-      : super(coordinator, position, simulation, vsync);
+      TickerProvider vsync,
+      // HACK support reverse inner scroll (ex. on chat view)
+          {
+        bool reverseScrollDirection = false,
+      }
+      // HACK /
+      ) : super(
+    coordinator, position, simulation, vsync,
+    // HACK support reverse inner scroll (ex. on chat view)
+    reverseScrollDirection: reverseScrollDirection,
+    // HACK /
+  );
+
   @override
   bool applyMoveTo(double value) {
     // https://github.com/flutter/flutter/pull/87801
