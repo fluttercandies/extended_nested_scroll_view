@@ -1,3 +1,7 @@
+## 6.0.0
+
+* Migrate to 3.7.0. close #120,#115
+
 ## 5.1.3
 
 * Upgrade visibility_detector to 0.33 by default.(please use `dependency_overrides: visibility_detector: 0.2.2` if your Flutter sdk is under 3.0.0)

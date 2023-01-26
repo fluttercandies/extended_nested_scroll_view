@@ -336,11 +336,12 @@ extension DoubleEx on double {
 class _ExtendedNestedInnerBallisticScrollActivity
     extends _NestedInnerBallisticScrollActivity {
   _ExtendedNestedInnerBallisticScrollActivity(
-      _NestedScrollCoordinator coordinator,
-      _NestedScrollPosition position,
-      Simulation simulation,
-      TickerProvider vsync)
-      : super(coordinator, position, simulation, vsync);
+    super.coordinator,
+    super.position,
+    super.simulation,
+    super.vsync,
+    super.shouldIgnorePointer,
+  );
   @override
   bool applyMoveTo(double value) {
     // https://github.com/flutter/flutter/pull/87801

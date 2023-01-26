@@ -71,16 +71,16 @@ Provide ExtendedVisibilityDetector to point out which list is visible
 
 * due to we can't set ScrollController for list in NestedScrollView's body(it will breaking behaviours of InnerScrollController in NestedScrollView),provide Demos
   
-* [pull to refresh](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/pull_to_refresh.dart)
+* [pull to refresh](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/complex/pull_to_refresh.dart)
   
-* [load more](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/load_more.dart) 
+* [load more](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/complex/load_more.dart) 
   
-* [scroll to top](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/scroll_to_top.dart) 
+* [scroll to top](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/complex/scroll_to_top.dart) 
   
   show how to do it without ScrollController
 
 
-* [pinned header height](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/dynamic_pinned_header_height.dart) 
+* [pinned header height](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/simple/dynamic_pinned_header_height.dart) 
 
   show how to change pinned header height dynamically.
 

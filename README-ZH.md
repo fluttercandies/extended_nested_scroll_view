@@ -16,7 +16,7 @@
 
 [Web demo for ExtendedNestedScrollView](https://fluttercandies.github.io/extended_nested_scroll_view/)
 
-- [extended_nested_scroll_view](#extended_nested_scroll_view)
+- [extended\_nested\_scroll\_view](#extended_nested_scroll_view)
 - [Example for issue 1](#example-for-issue-1)
 - [Example for issue 2](#example-for-issue-2)
   - [ExtendedVisibilityDetector](#extendedvisibilitydetector)
@@ -71,13 +71,13 @@
 
 因为无法给NestedScrollView的body中的列表设置ScrollController(这样会破坏NestedScrollView内部的InnerScrollController的行为)，所以我这里给大家提供了Demos来展示怎么不通过ScrollController来完成
 
-* [下拉刷新](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/pull_to_refresh.dart)
+* [下拉刷新](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/complex/pull_to_refresh.dart)
   
-* [增量加载](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/load_more.dart) 
+* [增量加载](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/complex/load_more.dart) 
   
-* [滚动到顶部](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/scroll_to_top.dart) 
+* [滚动到顶部](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/complex/scroll_to_top.dart) 
 
-* [动态改变PinnedHeaderHeight](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/dynamic_pinned_header_height.dart) 
+* [动态改变PinnedHeaderHeight](https://github.com/fluttercandies/extended_nested_scroll_view/tree/master/example/lib/pages/simple/dynamic_pinned_header_height.dart) 
 
 # ☕️Buy me a coffee
 

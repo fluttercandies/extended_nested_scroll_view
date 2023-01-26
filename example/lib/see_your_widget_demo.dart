@@ -53,7 +53,7 @@ class MyAppState extends State<MyApp> {
             final RenderObject renderObject =
                 currentContext.findRenderObject()!;
             final RenderAbstractViewport viewport =
-                RenderAbstractViewport.of(renderObject)!;
+                RenderAbstractViewport.of(renderObject);
 
             /// The `alignment` argument describes where the target should be positioned
             /// after applying the returned offset. If `alignment` is 0.0, the child must
