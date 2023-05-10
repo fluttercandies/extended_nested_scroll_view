@@ -1,3 +1,7 @@
+## 6.1.0
+
+* Migrate to Flutter 3.10.0
+
 ## 6.0.0
 
 * Migrate to 3.7.0. close #120,#115
