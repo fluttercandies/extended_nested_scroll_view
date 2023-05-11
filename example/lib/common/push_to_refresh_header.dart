@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui' as ui show Image;
 
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
@@ -30,15 +31,12 @@ class PullToRefreshHeader extends StatelessWidget {
     String text = '';
     if (_info.mode == RefreshIndicatorMode.armed) {
       text = 'Release to refresh';
-    } else if (_info.mode == RefreshIndicatorMode.refresh ||
-        _info.mode == RefreshIndicatorMode.snap) {
+    } else if (_info.mode == RefreshIndicatorMode.refresh) {
       text = 'Loading...';
     } else if (_info.mode == RefreshIndicatorMode.done) {
       text = 'Refresh completed.';
     } else if (_info.mode == RefreshIndicatorMode.drag) {
       text = 'Pull to refresh';
-    } else if (_info.mode == RefreshIndicatorMode.canceled) {
-      text = 'Cancel refresh';
     }
 
     final TextStyle ts = const TextStyle(
