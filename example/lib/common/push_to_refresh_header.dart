@@ -28,18 +28,18 @@ class PullToRefreshHeader extends StatelessWidget {
       return Container();
     }
     String text = '';
-    if (_info.mode == RefreshIndicatorMode.armed) {
-      text = 'Release to refresh';
-    } else if (_info.mode == RefreshIndicatorMode.refresh ||
-        _info.mode == RefreshIndicatorMode.snap) {
-      text = 'Loading...';
-    } else if (_info.mode == RefreshIndicatorMode.done) {
-      text = 'Refresh completed.';
-    } else if (_info.mode == RefreshIndicatorMode.drag) {
-      text = 'Pull to refresh';
-    } else if (_info.mode == RefreshIndicatorMode.canceled) {
-      text = 'Cancel refresh';
-    }
+    // if (_info.mode == RefreshIndicatorMode.armed) {
+    //   text = 'Release to refresh';
+    // } else if (_info.mode == RefreshIndicatorMode.refresh ||
+    //     _info.mode == RefreshIndicatorMode.snap) {
+    //   text = 'Loading...';
+    // } else if (_info.mode == RefreshIndicatorMode.done) {
+    //   text = 'Refresh completed.';
+    // } else if (_info.mode == RefreshIndicatorMode.drag) {
+    //   text = 'Pull to refresh';
+    // } else if (_info.mode == RefreshIndicatorMode.canceled) {
+    //   text = 'Cancel refresh';
+    // }
 
     final TextStyle ts = const TextStyle(
       color: Colors.grey,
