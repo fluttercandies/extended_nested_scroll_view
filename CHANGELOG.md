@@ -1,3 +1,7 @@
+## 6.1.1
+
+* upgrade visibility_detector
+
 ## 6.1.0
 
 * Migrate to Flutter 3.10.0
