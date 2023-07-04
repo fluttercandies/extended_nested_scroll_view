@@ -600,7 +600,12 @@ class ExtendedNestedScrollViewState extends State<ExtendedNestedScrollView> {
   ///    [ScrollView] contained in [NestedScrollView.body].
   ScrollController get outerController => _coordinator!._outerController;
 
-  _NestedScrollCoordinator? _coordinator;
+  /// The positions of [innerController] which are influenced by [onlyOneScrollInBody]
+  /// [innerController.positions] are all of positions
+  /// [innerPositions] is single one when [onlyOneScrollInBody] is true.
+  Iterable<ScrollPosition> get innerPositions => _coordinator!._innerPositions;
+
+  _ExtendedNestedScrollCoordinator? _coordinator;
 
   @override
   void initState() {

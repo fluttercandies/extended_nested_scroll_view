@@ -1,3 +1,7 @@
+## 6.1.2
+
+* public innerPositions which are influenced by [onlyOneScrollInBody]
+
 ## 6.1.1
 
 * upgrade visibility_detector
