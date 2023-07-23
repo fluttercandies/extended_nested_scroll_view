@@ -613,15 +613,27 @@ class ExtendedNestedScrollViewState extends State<ExtendedNestedScrollView> {
   @override
   void initState() {
     super.initState();
-    _coordinator = _ExtendedNestedScrollCoordinator(
-      this,
-      widget.controller,
-      _handleHasScrolledBodyChanged,
-      widget.floatHeaderSlivers,
-      widget.pinnedHeaderSliverHeightBuilder,
-      widget.onlyOneScrollInBody,
-      widget.scrollDirection,
-    );
+
+    if (widget.overscrollHandler == OverscrollHandler.inner)
+      _coordinator = _ExtendedNestedScrollCoordinator(
+        this,
+        widget.controller,
+        _handleHasScrolledBodyChanged,
+        widget.floatHeaderSlivers,
+        widget.pinnedHeaderSliverHeightBuilder,
+        widget.onlyOneScrollInBody,
+        widget.scrollDirection,
+      );
+    else
+      _coordinator = _ExtendedNestedScrollCoordinatorOuter(
+        this,
+        widget.controller,
+        _handleHasScrolledBodyChanged,
+        widget.floatHeaderSlivers,
+        widget.pinnedHeaderSliverHeightBuilder,
+        widget.onlyOneScrollInBody,
+        widget.scrollDirection,
+      );
   }
 
   @override

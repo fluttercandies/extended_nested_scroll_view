@@ -195,6 +195,119 @@ class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
   }
 }
 
+class _ExtendedNestedScrollCoordinatorOuter
+    extends _ExtendedNestedScrollCoordinator {
+  _ExtendedNestedScrollCoordinatorOuter(
+    ExtendedNestedScrollViewState state,
+    ScrollController? parent,
+    VoidCallback onHasScrolledBodyChanged,
+    bool floatHeaderSlivers,
+    NestedScrollViewPinnedHeaderSliverHeightBuilder?
+        pinnedHeaderSliverHeightBuilder,
+    bool onlyOneScrollInBody,
+    Axis scrollDirection,
+  ) : super(
+          state,
+          parent,
+          onHasScrolledBodyChanged,
+          floatHeaderSlivers,
+          pinnedHeaderSliverHeightBuilder,
+          onlyOneScrollInBody,
+          scrollDirection,
+        ) {
+    final double initialScrollOffset = _parent?.initialScrollOffset ?? 0.0;
+    _outerController = _ExtendedNestedScrollController(
+      this,
+      initialScrollOffset: initialScrollOffset,
+      debugLabel: 'outer',
+    );
+    _innerController = _ExtendedNestedScrollController(
+      this,
+      initialScrollOffset: 0.0,
+      debugLabel: 'inner',
+    );
+  }
+
+  /// in/out -> coordinator
+  @override
+  double unnestOffset(double value, _NestedScrollPosition source) {
+    if (source == _outerPosition) {
+      return value;
+    } else {
+      if (_outerPosition!.maxScrollExtent - _outerPosition!.pixels >
+          precisionErrorTolerance) {
+        ///outer在滚动，以outer位置为基准
+        return _outerPosition!.pixels;
+      }
+      return _outerPosition!.maxScrollExtent + (value - source.minScrollExtent);
+    }
+  }
+
+  /// coordinator -> in/out
+  @override
+  double nestOffset(double value, _NestedScrollPosition target) {
+    if (target == _outerPosition) {
+      if (value > _outerPosition!.maxScrollExtent) {
+        //不允许outer底部overscroll
+        return _outerPosition!.maxScrollExtent;
+      }
+      return value;
+    } else {
+      if (value < _outerPosition!.maxScrollExtent) {
+        //不允许inner顶部overscroll
+        return target.minScrollExtent;
+      }
+      return target.minScrollExtent + (value - _outerPosition!.maxScrollExtent);
+    }
+  }
+
+  @override
+  void applyUserOffset(double delta) {
+    updateUserScrollDirection(
+        delta > 0.0 ? ScrollDirection.forward : ScrollDirection.reverse);
+    if (_innerPositions.isEmpty) {
+      _outerPosition!.applyFullDragUpdate(delta);
+    } else if (delta < 0.0) {
+      double outerDelta = delta;
+      for (final _NestedScrollPosition position in _innerPositions) {
+        if (position.pixels < position.minScrollExtent) {
+          final double potentialOuterDelta =
+              position.applyClampedDragUpdate(delta);
+          if (potentialOuterDelta < 0) {
+            outerDelta = math.max(outerDelta, potentialOuterDelta);
+          }
+        }
+      }
+      if (outerDelta != 0.0) {
+        final double innerDelta = _outerPosition!.applyClampedDragUpdate(
+          outerDelta,
+        );
+        if (innerDelta != 0.0) {
+          for (final _NestedScrollPosition position in _innerPositions)
+            position.applyFullDragUpdate(innerDelta);
+        }
+      }
+    } else {
+      double innerDelta = delta;
+      if (_floatHeaderSlivers) {
+        innerDelta = _outerPosition!.applyClampedDragUpdate(delta);
+      }
+      if (innerDelta != 0.0) {
+        double outerDelta = 0.0;
+        for (final _NestedScrollPosition position in _innerPositions) {
+          final double overscroll = position.applyClampedDragUpdate(innerDelta);
+          if (overscroll > 0) {
+            outerDelta = math.max(outerDelta, overscroll);
+          }
+        }
+        if (outerDelta != 0.0) {
+          _outerPosition!.applyFullDragUpdate(outerDelta);
+        }
+      }
+    }
+  }
+}
+
 class _ExtendedNestedScrollController extends _NestedScrollController {
   _ExtendedNestedScrollController(
     _ExtendedNestedScrollCoordinator coordinator, {
