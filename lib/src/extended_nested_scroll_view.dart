@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_cast
 
+import 'dart:io';
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -614,8 +615,8 @@ class ExtendedNestedScrollViewState extends State<ExtendedNestedScrollView> {
   void initState() {
     super.initState();
 
-    if (widget.overscrollHandler == OverscrollHandler.inner)
-      _coordinator = _ExtendedNestedScrollCoordinator(
+    if (Platform.isIOS && widget.overscrollHandler == OverscrollHandler.outer)
+      _coordinator = _ExtendedNestedScrollCoordinatorOuter(
         this,
         widget.controller,
         _handleHasScrolledBodyChanged,
@@ -625,7 +626,7 @@ class ExtendedNestedScrollViewState extends State<ExtendedNestedScrollView> {
         widget.scrollDirection,
       );
     else
-      _coordinator = _ExtendedNestedScrollCoordinatorOuter(
+      _coordinator = _ExtendedNestedScrollCoordinator(
         this,
         widget.controller,
         _handleHasScrolledBodyChanged,
