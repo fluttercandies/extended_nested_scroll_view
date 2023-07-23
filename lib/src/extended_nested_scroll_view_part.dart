@@ -4,6 +4,9 @@ part of 'extended_nested_scroll_view.dart';
 /// which are in NestedScrollViewHeaderSlivers
 typedef NestedScrollViewPinnedHeaderSliverHeightBuilder = double Function();
 
+// Custom Overscroll Handler
+enum OverscrollHandler { inner, outer }
+
 class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
   _ExtendedNestedScrollCoordinator(
     ExtendedNestedScrollViewState state,
