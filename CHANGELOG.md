@@ -1,3 +1,7 @@
+## 6.1.4
+
+- Fix exception that [snap] feature is enabled only for iOS
+
 ## 6.1.4-beta
 
 - Add [snap] feature
