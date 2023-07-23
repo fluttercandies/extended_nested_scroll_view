@@ -1,3 +1,7 @@
+## 6.1.4-beta
+
+- Add [snap] feature
+
 ## 6.1.3-beta
 
 - Add [overscrollHandler]
