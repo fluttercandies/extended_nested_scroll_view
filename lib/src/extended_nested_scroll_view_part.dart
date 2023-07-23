@@ -9,14 +9,15 @@ enum OverscrollHandler { inner, outer }
 
 class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
   _ExtendedNestedScrollCoordinator(
-    ExtendedNestedScrollViewState state,
-    ScrollController? parent,
-    VoidCallback onHasScrolledBodyChanged,
-    bool floatHeaderSlivers,
-    this.pinnedHeaderSliverHeightBuilder,
-    this.onlyOneScrollInBody,
-    this.scrollDirection,
-  ) : super(
+      ExtendedNestedScrollViewState state,
+      ScrollController? parent,
+      VoidCallback onHasScrolledBodyChanged,
+      bool floatHeaderSlivers,
+      this.pinnedHeaderSliverHeightBuilder,
+      this.onlyOneScrollInBody,
+      this.scrollDirection,
+      this.snap)
+      : super(
           state,
           parent,
           onHasScrolledBodyChanged,
@@ -52,6 +53,8 @@ class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
   ///
   /// Defaults to [Axis.vertical].
   final Axis scrollDirection;
+
+  final bool snap;
 
   @override
   _ExtendedNestedScrollController get _innerController =>
@@ -206,6 +209,7 @@ class _ExtendedNestedScrollCoordinatorOuter
         pinnedHeaderSliverHeightBuilder,
     bool onlyOneScrollInBody,
     Axis scrollDirection,
+    bool snap,
   ) : super(
           state,
           parent,
@@ -214,6 +218,7 @@ class _ExtendedNestedScrollCoordinatorOuter
           pinnedHeaderSliverHeightBuilder,
           onlyOneScrollInBody,
           scrollDirection,
+          snap,
         ) {
     final double initialScrollOffset = _parent?.initialScrollOffset ?? 0.0;
     _outerController = _ExtendedNestedScrollControllerOuter(
@@ -226,6 +231,59 @@ class _ExtendedNestedScrollCoordinatorOuter
       initialScrollOffset: 0.0,
       debugLabel: 'inner',
     );
+  }
+
+  @override
+  void goBallistic(double velocity) {
+    bool hasSnap = false;
+
+    if (snap) {
+      const double minVelocity = 0.001;
+
+      final double maxHeight = _outerPosition!.maxScrollExtent;
+      final double nowHeight = _outerPosition!.pixels;
+
+      void animateToTop() {
+        hasSnap = true;
+        animateTo(0,
+            curve: Curves.ease, duration: const Duration(milliseconds: 200));
+      }
+
+      void animateToBottom() {
+        hasSnap = true;
+        animateTo(_outerPosition!.maxScrollExtent,
+            curve: Curves.ease, duration: const Duration(milliseconds: 200));
+      }
+
+      for (final _ExtendedNestedScrollPosition position in _innerPositions) {
+        if (nowHeight < maxHeight) {
+          if (velocity > minVelocity &&
+              velocity < maxHeight - position.pixels) {
+            animateToBottom();
+          } else if (velocity < -minVelocity && velocity > -position.pixels) {
+            animateToTop();
+          } else if (velocity.abs() <= minVelocity) {
+            if (nowHeight <= maxHeight / 2) {
+              animateToTop();
+            } else {
+              animateToBottom();
+            }
+          }
+        }
+      }
+    }
+
+    if (!hasSnap) {
+      beginActivity(
+        createOuterBallisticScrollActivity(velocity),
+        (_NestedScrollPosition position) {
+          return createInnerBallisticScrollActivity(
+            position,
+            velocity,
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -566,8 +624,13 @@ class _ExtendedNestedScrollPosition extends _NestedScrollPosition {
     coordinator.updateCanDrag(position: this);
   }
 
+  double get originalMaxScrollExtent => _originalMaxScrollExtent;
+  double _originalMaxScrollExtent = 0.0;
+
   @override
   bool applyContentDimensions(double minScrollExtent, double maxScrollExtent) {
+    _originalMaxScrollExtent = maxScrollExtent;
+
     if (debugLabel == 'outer' &&
         coordinator.pinnedHeaderSliverHeightBuilder != null) {
       maxScrollExtent =

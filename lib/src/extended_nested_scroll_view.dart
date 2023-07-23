@@ -357,6 +357,7 @@ class ExtendedNestedScrollView extends StatefulWidget {
     this.onlyOneScrollInBody = false,
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.overscrollHandler = OverscrollHandler.outer,
+    this.snap = false,
   })  : assert(scrollDirection != null),
         assert(reverse != null),
         assert(headerSliverBuilder != null),
@@ -477,6 +478,7 @@ class ExtendedNestedScrollView extends StatefulWidget {
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
 
   final OverscrollHandler overscrollHandler;
+  final bool snap;
 
   /// Returns the [SliverOverlapAbsorberHandle] of the nearest ancestor
   /// [ExtendedNestedScrollView].
@@ -624,6 +626,7 @@ class ExtendedNestedScrollViewState extends State<ExtendedNestedScrollView> {
         widget.pinnedHeaderSliverHeightBuilder,
         widget.onlyOneScrollInBody,
         widget.scrollDirection,
+        widget.snap,
       );
     else
       _coordinator = _ExtendedNestedScrollCoordinator(
@@ -634,6 +637,7 @@ class ExtendedNestedScrollViewState extends State<ExtendedNestedScrollView> {
         widget.pinnedHeaderSliverHeightBuilder,
         widget.onlyOneScrollInBody,
         widget.scrollDirection,
+        widget.snap,
       );
   }
 
