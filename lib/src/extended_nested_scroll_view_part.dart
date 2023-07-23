@@ -57,6 +57,59 @@ class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
   final bool snap;
 
   @override
+  void goBallistic(double velocity) {
+    bool hasSnap = false;
+
+    if (snap) {
+      const double minVelocity = 0.001;
+
+      final double maxHeight = _outerPosition!.maxScrollExtent;
+      final double nowHeight = _outerPosition!.pixels;
+
+      void animateToTop() {
+        hasSnap = true;
+        animateTo(0,
+            curve: Curves.ease, duration: const Duration(milliseconds: 200));
+      }
+
+      void animateToBottom() {
+        hasSnap = true;
+        animateTo(_outerPosition!.maxScrollExtent,
+            curve: Curves.ease, duration: const Duration(milliseconds: 200));
+      }
+
+      for (final _ExtendedNestedScrollPosition position in _innerPositions) {
+        if (nowHeight < maxHeight) {
+          if (velocity > minVelocity &&
+              velocity < maxHeight - position.pixels) {
+            animateToBottom();
+          } else if (velocity < -minVelocity && velocity > -position.pixels) {
+            animateToTop();
+          } else if (velocity.abs() <= minVelocity) {
+            if (nowHeight <= maxHeight / 2) {
+              animateToTop();
+            } else {
+              animateToBottom();
+            }
+          }
+        }
+      }
+    }
+
+    if (!hasSnap) {
+      beginActivity(
+        createOuterBallisticScrollActivity(velocity),
+        (_NestedScrollPosition position) {
+          return createInnerBallisticScrollActivity(
+            position,
+            velocity,
+          );
+        },
+      );
+    }
+  }
+
+  @override
   _ExtendedNestedScrollController get _innerController =>
       super._innerController as _ExtendedNestedScrollController;
 
@@ -231,59 +284,6 @@ class _ExtendedNestedScrollCoordinatorOuter
       initialScrollOffset: 0.0,
       debugLabel: 'inner',
     );
-  }
-
-  @override
-  void goBallistic(double velocity) {
-    bool hasSnap = false;
-
-    if (snap) {
-      const double minVelocity = 0.001;
-
-      final double maxHeight = _outerPosition!.maxScrollExtent;
-      final double nowHeight = _outerPosition!.pixels;
-
-      void animateToTop() {
-        hasSnap = true;
-        animateTo(0,
-            curve: Curves.ease, duration: const Duration(milliseconds: 200));
-      }
-
-      void animateToBottom() {
-        hasSnap = true;
-        animateTo(_outerPosition!.maxScrollExtent,
-            curve: Curves.ease, duration: const Duration(milliseconds: 200));
-      }
-
-      for (final _ExtendedNestedScrollPosition position in _innerPositions) {
-        if (nowHeight < maxHeight) {
-          if (velocity > minVelocity &&
-              velocity < maxHeight - position.pixels) {
-            animateToBottom();
-          } else if (velocity < -minVelocity && velocity > -position.pixels) {
-            animateToTop();
-          } else if (velocity.abs() <= minVelocity) {
-            if (nowHeight <= maxHeight / 2) {
-              animateToTop();
-            } else {
-              animateToBottom();
-            }
-          }
-        }
-      }
-    }
-
-    if (!hasSnap) {
-      beginActivity(
-        createOuterBallisticScrollActivity(velocity),
-        (_NestedScrollPosition position) {
-          return createInnerBallisticScrollActivity(
-            position,
-            velocity,
-          );
-        },
-      );
-    }
   }
 
   @override
