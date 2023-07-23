@@ -3,13 +3,13 @@ description: extended nested scroll view to fix pinned header and inner scrollab
 version: 6.1.2
 homepage: https://github.com/fluttercandies/extended_nested_scroll_view
 
+publish_to: https://pub.insd.dev
+
 environment:
-  sdk: '>=2.17.0 <4.0.0'
+  sdk: ">=2.17.0 <4.0.0"
   flutter: ">=3.10.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  visibility_detector: ^0.4.0+2 
-
-
+  visibility_detector: ^0.4.0+2
