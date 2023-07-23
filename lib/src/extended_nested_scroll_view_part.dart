@@ -216,15 +216,32 @@ class _ExtendedNestedScrollCoordinatorOuter
           scrollDirection,
         ) {
     final double initialScrollOffset = _parent?.initialScrollOffset ?? 0.0;
-    _outerController = _ExtendedNestedScrollController(
+    _outerController = _ExtendedNestedScrollControllerOuter(
       this,
       initialScrollOffset: initialScrollOffset,
       debugLabel: 'outer',
     );
-    _innerController = _ExtendedNestedScrollController(
+    _innerController = _ExtendedNestedScrollControllerOuter(
       this,
       initialScrollOffset: 0.0,
       debugLabel: 'inner',
+    );
+  }
+
+  @override
+  _NestedScrollMetrics _getMetrics(
+      _NestedScrollPosition innerPosition, double velocity) {
+    return _NestedScrollMetrics(
+      minScrollExtent: _outerPosition!.minScrollExtent,
+      maxScrollExtent: _outerPosition!.maxScrollExtent +
+          (innerPosition.maxScrollExtent - innerPosition.minScrollExtent),
+      pixels: unnestOffset(innerPosition.pixels, innerPosition),
+      viewportDimension: _outerPosition!.viewportDimension,
+      axisDirection: _outerPosition!.axisDirection,
+      minRange: 0,
+      maxRange: 0,
+      correctionOffset: 0,
+      devicePixelRatio: _outerPosition!.devicePixelRatio,
     );
   }
 
@@ -360,6 +377,166 @@ class _ExtendedNestedScrollController extends _NestedScrollController {
       oldPosition: oldPosition,
       debugLabel: debugLabel,
     );
+  }
+}
+
+class _ExtendedNestedScrollControllerOuter
+    extends _ExtendedNestedScrollController {
+  _ExtendedNestedScrollControllerOuter(
+    _ExtendedNestedScrollCoordinator coordinator, {
+    double initialScrollOffset = 0.0,
+    String? debugLabel,
+  }) : super(
+          coordinator,
+          initialScrollOffset: initialScrollOffset,
+          debugLabel: debugLabel,
+        );
+
+  @override
+  ScrollPosition createScrollPosition(
+    ScrollPhysics physics,
+    ScrollContext context,
+    ScrollPosition? oldPosition,
+  ) {
+    return _ExtendedNestedScrollPositionOuter(
+      coordinator: coordinator,
+      physics: physics,
+      context: context,
+      initialPixels: initialScrollOffset,
+      oldPosition: oldPosition,
+      debugLabel: debugLabel,
+    );
+  }
+}
+
+class _ExtendedNestedScrollPositionOuter extends _ExtendedNestedScrollPosition {
+  _ExtendedNestedScrollPositionOuter({
+    required ScrollPhysics physics,
+    required ScrollContext context,
+    double initialPixels = 0.0,
+    ScrollPosition? oldPosition,
+    String? debugLabel,
+    required _ExtendedNestedScrollCoordinator coordinator,
+  }) : super(
+            physics: physics,
+            context: context,
+            initialPixels: initialPixels,
+            oldPosition: oldPosition,
+            debugLabel: debugLabel,
+            coordinator: coordinator);
+
+  @override
+  ScrollActivity createBallisticScrollActivity(
+    Simulation? simulation, {
+    required _NestedBallisticScrollActivityMode mode,
+    _NestedScrollMetrics? metrics,
+  }) {
+    if (simulation == null) {
+      return IdleScrollActivity(this);
+    }
+    switch (mode) {
+      case _NestedBallisticScrollActivityMode.outer:
+        return _NestedOuterBallisticScrollActivityX(
+          coordinator,
+          this,
+          simulation,
+          context.vsync,
+          activity?.shouldIgnorePointer ?? true,
+        );
+      case _NestedBallisticScrollActivityMode.inner:
+        return _NestedInnerBallisticScrollActivityX(
+          coordinator,
+          this,
+          simulation,
+          context.vsync,
+          activity?.shouldIgnorePointer ?? true,
+        );
+      case _NestedBallisticScrollActivityMode.independent:
+        return BallisticScrollActivity(this, simulation, context.vsync,
+            activity?.shouldIgnorePointer ?? true);
+    }
+  }
+}
+
+class _NestedBallisticScrollActivityX extends BallisticScrollActivity {
+  _NestedBallisticScrollActivityX(
+    this.coordinator,
+    _NestedScrollPosition position,
+    Simulation simulation,
+    TickerProvider vsync,
+    bool shouldIgnorePointer,
+  ) : super(position, simulation, vsync, shouldIgnorePointer);
+
+  final _NestedScrollCoordinator coordinator;
+
+  @override
+  _NestedScrollPosition get delegate => super.delegate as _NestedScrollPosition;
+
+  @override
+  void resetActivity() {
+    assert(false);
+  }
+
+  @override
+  void applyNewDimensions() {
+    assert(false);
+  }
+
+  @override
+  bool applyMoveTo(double value) {
+    return super.applyMoveTo(coordinator.nestOffset(value, delegate));
+  }
+}
+
+class _NestedOuterBallisticScrollActivityX
+    extends _NestedBallisticScrollActivityX {
+  _NestedOuterBallisticScrollActivityX(
+    _NestedScrollCoordinator coordinator,
+    _NestedScrollPosition position,
+    Simulation simulation,
+    TickerProvider vsync,
+    bool shouldIgnorePointer,
+  ) : super(coordinator, position, simulation, vsync, shouldIgnorePointer);
+
+  @override
+  void resetActivity() {
+    delegate.beginActivity(coordinator.createOuterBallisticScrollActivity(
+      velocity,
+    ));
+  }
+
+  @override
+  void applyNewDimensions() {
+    delegate.beginActivity(coordinator.createOuterBallisticScrollActivity(
+      velocity,
+    ));
+  }
+}
+
+class _NestedInnerBallisticScrollActivityX
+    extends _NestedBallisticScrollActivityX {
+  _NestedInnerBallisticScrollActivityX(
+    _NestedScrollCoordinator coordinator,
+    _NestedScrollPosition position,
+    Simulation simulation,
+    TickerProvider vsync,
+    bool shouldIgnorePointer,
+  ) : super(coordinator, position, simulation, vsync, shouldIgnorePointer);
+
+  @override
+  void resetActivity() {
+    delegate.beginActivity(coordinator.createInnerBallisticScrollActivity(
+      delegate,
+      velocity,
+    ));
+  }
+
+  @override
+  void applyNewDimensions() {
+    delegate.beginActivity(coordinator.createInnerBallisticScrollActivity(
+      delegate,
+      velocity,
+    ));
   }
 }
 
