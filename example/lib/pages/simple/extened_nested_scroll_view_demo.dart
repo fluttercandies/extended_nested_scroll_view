@@ -60,6 +60,7 @@ class _ExtendedNestedScrollViewDemoState
       },
       //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
       onlyOneScrollInBody: true,
+      // physics: NeverScrollableScrollPhysics(),
       body: Column(
         children: <Widget>[
           TabBar(

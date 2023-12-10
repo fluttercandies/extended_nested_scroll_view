@@ -1,3 +1,7 @@
+## 6.2.0
+
+* Merge code from https://github.com/flutter/flutter/pull/123109 (fix #148)
+
 ## 6.1.2
 
 * public innerPositions which are influenced by [onlyOneScrollInBody]

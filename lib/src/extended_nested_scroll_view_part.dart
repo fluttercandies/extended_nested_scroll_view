@@ -172,23 +172,29 @@ class _ExtendedNestedScrollCoordinator extends _NestedScrollCoordinator {
           maxInnerExtent,
           position.maxScrollExtent - position.minScrollExtent,
         );
-        position.updateCanDrag(maxInnerExtent);
+
+        position.updateCanDrag(maxInnerExtent >
+                (position.viewportDimension - position.maxScrollExtent) ||
+            position.minScrollExtent != position.maxScrollExtent);
       }
     }
     if (!_outerPosition!.haveDimensions) {
       return;
     }
 
+    bool innerCanDrag = false;
     for (final _NestedScrollPosition position in _innerPositions) {
       if (!position.haveDimensions) {
         return;
       }
-      maxInnerExtent = math.max(
-        maxInnerExtent,
-        position.maxScrollExtent - position.minScrollExtent,
-      );
+      innerCanDrag = innerCanDrag
+          // This refers to the physics of the actual inner scroll position, not
+          // the whole NestedScrollView, since it is possible to have different
+          // ScrollPhysics for the inner and outer positions.
+          ||
+          position.physics.shouldAcceptUserOffset(position);
     }
-    _outerPosition!.updateCanDrag(maxInnerExtent);
+    _outerPosition!.updateCanDrag(innerCanDrag);
   }
 }
 
