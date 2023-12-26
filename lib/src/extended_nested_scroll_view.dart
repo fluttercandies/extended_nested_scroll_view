@@ -1042,10 +1042,11 @@ class _NestedScrollCoordinator
         return;
       }
       innerCanDrag = innerCanDrag
-        // This refers to the physics of the actual inner scroll position, not
-        // the whole NestedScrollView, since it is possible to have different
-        // ScrollPhysics for the inner and outer positions.
-        || position.physics.shouldAcceptUserOffset(position);
+          // This refers to the physics of the actual inner scroll position, not
+          // the whole NestedScrollView, since it is possible to have different
+          // ScrollPhysics for the inner and outer positions.
+          ||
+          position.physics.shouldAcceptUserOffset(position);
     }
     _outerPosition!.updateCanDrag(innerCanDrag);
   }
@@ -1618,7 +1619,6 @@ class _NestedScrollPosition extends ScrollPosition
     return coordinator.pointerScroll(delta);
   }
 
-
   @override
   void jumpToWithoutSettling(double value) {
     assert(false);
@@ -1642,13 +1642,12 @@ class _NestedScrollPosition extends ScrollPosition
 
   void updateCanDrag(bool innerCanDrag) {
     // This is only called for the outer position
-    assert(coordinator._outerPosition == this);
+    // assert(coordinator._outerPosition == this);
     context.setCanDrag(
       // This refers to the physics of the actual outer scroll position, not
       // the whole NestedScrollView, since it is possible to have different
       // ScrollPhysics for the inner and outer positions.
-      physics.shouldAcceptUserOffset(this)
-        || innerCanDrag,
+      physics.shouldAcceptUserOffset(this) || innerCanDrag,
     );
   }
 

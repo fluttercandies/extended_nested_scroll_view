@@ -1,3 +1,8 @@
+## 6.2.1
+
+* Remove unnecessary assert(fix #149)
+
+
 ## 6.2.0
 
 * Merge code from https://github.com/flutter/flutter/pull/123109 (fix #148)
